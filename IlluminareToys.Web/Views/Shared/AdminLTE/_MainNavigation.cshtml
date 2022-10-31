@@ -1,0 +1,113 @@
+﻿@using IlluminareToys.Web.Helpers
+@using IlluminareToys.Domain.Entities
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="#" class="brand-link">
+        <img src="~/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">Illuminare Toys</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        @if (SignInManager.IsSignedIn(User))
+        {
+
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+
+                @if (UserManager.GetUserAsync(User).Result.ProfilePicture != null)
+                {
+                    <div class="image">
+                        <img class="img-circle elevation-0" style="width:40px;height:40px; object-fit:cover; border-radius:30px" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.GetUserAsync(User).Result.ProfilePicture))">
+                    </div>
+                }
+
+                <div class="info">
+                    <a href="#" class="d-block">
+                        @UserManager.GetUserAsync(User).Result.FirstName @UserManager.GetUserAsync(User).Result.LastName @{
+                            if (User.IsInRole("SuperAdmin"))
+                            {
+                                <span class="badge badge-danger">SA</span>
+                            }
+                            else if (User.IsInRole("Basic"))
+                            {
+                                <span class="badge badge-success">BASIC</span>
+                            }
+                        }
+                    </a>
+                </div>
+            </div>
+        }
+
+        <!-- SidebarSearch Form -->
+        <div class="form-inline">
+            <div class="input-group" data-widget="sidebar-search">
+                <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-sidebar">
+                        <i class="fas fa-search fa-fw"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                with font-awesome or any other icon font library -->
+                <li class="nav-item ">
+                    <a asp-controller="Home" asp-action="Index" class="nav-link @Url.MakeActiveClass("home","index")">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>
+                            Home
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a is-active-page asp-controller="Products" asp-action="Index" class="nav-link @Url.MakeActiveClass("products","index")">
+                        <i class="nav-icon fas fa-shopping-bag"></i>
+                        <p>
+                            Produtos
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-header">CONFIGURAÇÕES</li>
+                <li class="nav-item">
+                    <a is-active-page asp-area="Identity" asp-page="/Account/Manage/Index" class="nav-link">
+                        <i class="nav-icon fas fa-cogs"></i>
+                        <p>
+                            Minha Conta
+                        </p>
+                    </a>
+                </li>
+                @{
+                    if (User.IsInRole("SuperAdmin"))
+                    {
+                        <li class="nav-header">SUPER ADMIN</li>
+                        <li class="nav-item">
+                            <a is-active-page asp-area="Identity" asp-page="/Account/Users" class="nav-link">
+                                <i class="nav-icon fas fa-users-cog"></i>
+                                <p>
+                                    Usuários
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a is-active-page asp-area="Identity" asp-page="/Account/Roles" class="nav-link">
+                                <i class="nav-icon fas fa-user-lock"></i>
+                                <p>
+                                    Roles
+                                </p>
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
