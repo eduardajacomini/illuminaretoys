@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace IlluminareToys.Domain.Outputs
 {
-    public class CreateTagOutput : BaseOutput
+    public class ListTagsOutput : BaseOutput
     {
-        public CreateTagOutput(IEnumerable<ValidationFailure> errors = null) : base(errors) { }
+        public ListTagsOutput(IEnumerable<ValidationFailure> errors = null) : base(errors) { }
 
         [Display(Name = "Id")]
         public Guid Id { get; set; }

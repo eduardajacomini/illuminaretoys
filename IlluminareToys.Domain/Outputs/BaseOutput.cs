@@ -10,5 +10,7 @@ namespace IlluminareToys.Domain.Outputs
         }
 
         public IEnumerable<ValidationFailure> Errors { get; set; }
+
+        public bool IsValid => Errors.Any();
     }
 }

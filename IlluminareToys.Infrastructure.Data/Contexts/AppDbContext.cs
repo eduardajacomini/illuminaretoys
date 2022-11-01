@@ -15,6 +15,11 @@ namespace IlluminareToys.Infrastructure.Data.Contexts
         {
         }
 
+        public AppDbContext()
+        {
+
+        }
+
         public DbSet<Tag> Tags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

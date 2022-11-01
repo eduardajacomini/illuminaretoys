@@ -9,10 +9,11 @@ namespace IlluminareToys.Application.Mappers
     {
         public ApplicationMapper()
         {
-            CreateMap<CreateTagInput, Tag>()
-                .ReverseMap();
-
             CreateMap<Tag, CreateTagOutput>();
+
+            CreateMap<IEnumerable<Tag>, IEnumerable<ListTagsOutput>>();
+
+            CreateMap<CreateTagInput, Tag>();
         }
     }
 }

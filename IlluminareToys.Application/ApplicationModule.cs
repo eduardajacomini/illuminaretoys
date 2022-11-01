@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using AutoMapper;
 using FluentValidation;
+using IlluminareToys.Domain.Inputs;
+using IlluminareToys.Domain.Validators;
 using System.Reflection;
 
 namespace IlluminareToys.Application
@@ -15,11 +17,18 @@ namespace IlluminareToys.Application
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterAssemblyTypes(assembly)
-            .Where(t => t.IsClosedTypeOf(typeof(IValidator<>)))
-            .AsImplementedInterfaces();
+
 
             RegisterMaps(builder);
+            RegisterValidators(builder);
+        }
+
+        private void RegisterValidators(ContainerBuilder builder)
+        {
+            builder
+                .RegisterType<CreateTagInputValidator>()
+                .As<IValidator<CreateTagInput>>()
+                .SingleInstance();
         }
 
         private void RegisterMaps(ContainerBuilder builder)

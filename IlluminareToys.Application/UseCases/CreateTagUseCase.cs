@@ -15,7 +15,9 @@ namespace IlluminareToys.Application.UseCases
         private readonly IMapper _mapper;
         private readonly IValidator<CreateTagInput> _validator;
 
-        public CreateTagUseCase(ITagRepository tagRepository, IMapper mapper, IValidator<CreateTagInput> validator)
+        public CreateTagUseCase(ITagRepository tagRepository,
+                                IMapper mapper,
+                                IValidator<CreateTagInput> validator)
         {
             _tagRepository = tagRepository;
             _mapper = mapper;
@@ -33,7 +35,7 @@ namespace IlluminareToys.Application.UseCases
 
             var entity = _mapper.Map<Tag>(input);
 
-            await _tagRepository.AddAsync(entity);
+            await _tagRepository.AddAsync(entity, cancellationToken);
 
             return _mapper.Map<CreateTagOutput>(entity);
         }

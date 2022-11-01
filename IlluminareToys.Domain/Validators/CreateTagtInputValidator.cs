@@ -4,9 +4,9 @@ using IlluminareToys.Domain.Inputs;
 
 namespace IlluminareToys.Domain.Validators
 {
-    public class CreateProductInputValidator : AbstractValidator<CreateTagInput>
+    public class CreateTagInputValidator : AbstractValidator<CreateTagInput>
     {
-        public CreateProductInputValidator()
+        public CreateTagInputValidator()
         {
             RuleFor(x => x.Description)
                 .NotEmpty()
