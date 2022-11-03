@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using FluentValidation.Results;
 using IlluminareToys.Domain.Entities;
 using IlluminareToys.Domain.Inputs;
 using IlluminareToys.Domain.Outputs;
@@ -26,7 +25,7 @@ namespace IlluminareToys.Application.UseCases
 
         public async Task<CreateTagOutput> ExecuteAsync(CreateTagInput input, CancellationToken cancellationToken)
         {
-            ValidationResult validationResult = await _validator.ValidateAsync(input, cancellationToken);
+            var validationResult = await _validator.ValidateAsync(input, cancellationToken);
 
             if (!validationResult.IsValid)
             {

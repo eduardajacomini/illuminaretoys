@@ -19,10 +19,16 @@ namespace IlluminareToys.Infrastructure.Data.Repositories
             => await _context.Set<TEntity>().SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
 
         public async Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
-            => await _context.Set<TEntity>().SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
+            => await _context
+                        .Set<TEntity>()
+                        .SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
 
         public async Task<IEnumerable<TEntity>> ListAsync(CancellationToken cancellationToken = default)
-            => await _context.Set<TEntity>().AsNoTracking().ToListAsync(cancellationToken);
+            => await _context
+                        .Set<TEntity>()
+                        .Where(x => x.Active)
+                        .AsNoTracking()
+                        .ToListAsync(cancellationToken);
 
         public async Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken = default)
         {

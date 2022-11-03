@@ -11,11 +11,11 @@ namespace IlluminareToys.Application.Mappers
         {
             CreateMap<Tag, CreateTagOutput>();
 
-            CreateMap<Tag, ListTagsOutput>();
-
-            CreateMap<List<Tag>, List<ListTagsOutput>>();
+            CreateMap<Tag, GetTagOutput>();
 
             CreateMap<CreateTagInput, Tag>();
+
+            CreateMap<Tag, UpdateTagOutput>();
         }
     }
 }

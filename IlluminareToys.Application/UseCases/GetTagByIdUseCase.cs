@@ -5,24 +5,22 @@ using IlluminareToys.Domain.UseCases;
 
 namespace IlluminareToys.Application.UseCases
 {
-    public class ListTagsUseCase : IListTagsUseCase
+    public class GetTagByIdUseCase : IGetTagByIdUseCase
     {
         private readonly ITagRepository _tagRepository;
         private readonly IMapper _mapper;
 
-        public ListTagsUseCase(ITagRepository tagRepository, IMapper mapper)
+        public GetTagByIdUseCase(ITagRepository tagRepository, IMapper mapper)
         {
             _tagRepository = tagRepository;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<ListTagsOutput>> ExecuteAsync(CancellationToken cancellationToken)
+        public async Task<GetTagOutput> ExecuteAsync(Guid id, CancellationToken cancellationToken)
         {
-            var entities = await _tagRepository.ListAsync(cancellationToken);
+            var entity = await _tagRepository.GetByIdAsync(id, cancellationToken);
 
-            var output = _mapper.Map<List<ListTagsOutput>>(entities);
-
-            return output;
+            return _mapper.Map<GetTagOutput>(entity);
         }
     }
 }

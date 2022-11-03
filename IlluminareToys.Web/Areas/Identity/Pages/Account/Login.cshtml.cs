@@ -88,7 +88,7 @@ namespace IlluminareToys.Web.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _toastNotification.AddSuccessToastMessage($"Logado como {userName}");
+                    _toastNotification.AddSuccessToastMessage($"Bem-vindo, {userName}");
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

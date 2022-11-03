@@ -25,6 +25,11 @@ namespace IlluminareToys.Application
                 .RegisterType<CreateTagInputValidator>()
                 .As<IValidator<CreateTagInput>>()
                 .SingleInstance();
+
+            builder
+                .RegisterType<UpdateTagInputValidator>()
+                .As<IValidator<UpdateTagInput>>()
+                .SingleInstance();
         }
 
         private void RegisterMaps(ContainerBuilder builder)
