@@ -18,7 +18,7 @@ namespace IlluminareToys.Application.UseCases
 
         public async Task<IEnumerable<GetTagOutput>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            var entities = await _tagRepository.ListAsync(cancellationToken);
+            var entities = await _tagRepository.ListAsync(x => x.Active, x => x.Description, cancellationToken);
 
             var output = _mapper.Map<IEnumerable<GetTagOutput>>(entities);
 

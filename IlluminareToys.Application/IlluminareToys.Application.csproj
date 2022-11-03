@@ -9,10 +9,12 @@
     <PackageReference Include="Autofac" Version="6.4.0" />
     <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\IlluminareToys.Domain\IlluminareToys.Domain.csproj" />
+    <ProjectReference Include="..\IlluminareToys.Infrastructure.Bling\IlluminareToys.Infrastructure.Bling.csproj" />
   </ItemGroup>
 
 </Project>

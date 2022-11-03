@@ -4,7 +4,7 @@
     ViewData["Title"] = "Tags";
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
 }
-
+<script src="~/js/site.js"></script>
 
 <div class="col-md-12">
     <div class="card">
@@ -56,9 +56,9 @@
                                 <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id">
                                     <i class="icon fas fa-pen"></i>
                                 </a>
-                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                                <button type="button" class="btn btn-danger" onclick="deleteTag('@item.Id')">
                                     <i class="icon fas fa-trash"></i>
-                                </a>
+                                </button>
                             </td>
                         </tr>
                     }
@@ -67,3 +67,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    function deleteTag(tagId) {
+        showConfirmDialog('Você tem certeza?', "Esta ação irá excluir a tag selecionada e desassociar os produtos relacionados a ela.", () => {
+            showLoading();
+            $.post(`/Tags/Delete/${tagId}`)
+                .then(r => {
+                    location.reload()
+                });
+        })
+    }
+</script>

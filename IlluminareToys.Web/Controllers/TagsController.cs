@@ -6,6 +6,7 @@ using NToastNotify;
 
 namespace IlluminareToys.Web.Controllers
 {
+    [Route("[controller]")]
     public class TagsController : Controller
     {
         private readonly IToastNotification _toastNotification;
@@ -41,6 +42,7 @@ namespace IlluminareToys.Web.Controllers
             return View(output);
         }
 
+        [HttpGet("Create")]
         // GET: TagsController/Create
         public ActionResult Create()
         {
@@ -48,7 +50,7 @@ namespace IlluminareToys.Web.Controllers
         }
 
         // POST: TagsController/Create
-        [HttpPost]
+        [HttpPost("Create")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind("Description")] CreateTagInput input,
                                                [FromServices] ICreateTagUseCase createTagUseCase,
@@ -56,7 +58,7 @@ namespace IlluminareToys.Web.Controllers
         {
             var output = await createTagUseCase.ExecuteAsync(input, cancellationToken);
 
-            if (output.IsValid)
+            if (!output.IsValid)
             {
                 output.Errors.AddToModelState(ModelState);
                 return View(input);
@@ -92,7 +94,7 @@ namespace IlluminareToys.Web.Controllers
         {
             var output = await updateTagUseCase.ExecuteAsync(input, cancellationToken);
 
-            if (output.IsValid)
+            if (!output.IsValid)
             {
                 _toastNotification.AddErrorToastMessage("Erro ao atualizar a tag. Informe os campos corretamente.");
                 return RedirectToAction(nameof(Index));
@@ -103,25 +105,23 @@ namespace IlluminareToys.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: TagsController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
         // POST: TagsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        [HttpPost("Delete/{id:guid}")]
+        public async Task<ActionResult> Delete([FromRoute] Guid id,
+                                               [FromServices] IDeleteTagUseCase deleteTagUseCase,
+                                               CancellationToken cancellationToken)
         {
-            try
+            var output = await deleteTagUseCase.ExecuteAsync(new DeleteTagInput(id), cancellationToken);
+
+            if (!output.IsValid)
             {
+                _toastNotification.AddErrorToastMessage("Erro ao excluir a tag. Informe os campos corretamente.");
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+
+            _toastNotification.AddSuccessToastMessage("Tag removida com sucesso.");
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

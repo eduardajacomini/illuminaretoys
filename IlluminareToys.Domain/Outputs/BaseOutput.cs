@@ -21,6 +21,6 @@ namespace IlluminareToys.Domain.Outputs
 
         public IEnumerable<ValidationFailure> Errors { get; set; } = new List<ValidationFailure>();
 
-        public bool IsValid => Errors.Any();
+        public bool IsValid => !Errors.Any();
     }
 }

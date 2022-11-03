@@ -1,5 +1,6 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using IlluminareToys.Application.Workers;
 using IlluminareToys.Domain.Entities;
 using IlluminareToys.Infrastructure.Data.Contexts;
 using IlluminareToys.Infrastructure.Data.Seeds;
@@ -9,6 +10,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using NToastNotify;
+using Polly;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,10 +42,28 @@ builder.Services.AddMvc(options =>
     PositionClass = ToastPositions.TopRight
 });
 
+var retryPolicy = Policy
+                .HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode && r.StatusCode != HttpStatusCode.BadRequest)
+                .WaitAndRetryAsync(new[]
+                {
+                    TimeSpan.FromSeconds(1),
+                    TimeSpan.FromSeconds(3),
+                    TimeSpan.FromSeconds(6)
+                });
+
+builder.Services.AddHttpClient("InventoryApi", client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5000/");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+}).AddPolicyHandler(retryPolicy);
+
+builder.Services.AddHostedService<SyncProductsWorker>();
+
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new MainModule()));
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -50,6 +71,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+    app.UseHttpsRedirection();
 }
 else
 {
@@ -57,7 +79,6 @@ else
     app.UseDeveloperExceptionPage();
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
