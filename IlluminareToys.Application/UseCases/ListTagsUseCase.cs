@@ -20,7 +20,9 @@ namespace IlluminareToys.Application.UseCases
         {
             var entities = await _tagRepository.ListAsync(cancellationToken);
 
-            return _mapper.Map<IEnumerable<ListTagsOutput>>(entities);
+            var output = _mapper.Map<List<ListTagsOutput>>(entities);
+
+            return output;
         }
     }
 }

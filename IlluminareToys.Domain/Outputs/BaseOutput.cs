@@ -4,12 +4,17 @@ namespace IlluminareToys.Domain.Outputs
 {
     public abstract class BaseOutput
     {
-        public BaseOutput(IEnumerable<ValidationFailure> errors = null)
+        public BaseOutput(List<ValidationFailure> errors = null)
         {
             Errors = errors ?? new List<ValidationFailure>();
         }
 
-        public IEnumerable<ValidationFailure> Errors { get; set; }
+        public BaseOutput()
+        {
+
+        }
+
+        public List<ValidationFailure> Errors { get; set; } = new List<ValidationFailure>();
 
         public bool IsValid => Errors.Any();
     }

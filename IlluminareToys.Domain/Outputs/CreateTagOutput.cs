@@ -5,7 +5,7 @@ namespace IlluminareToys.Domain.Outputs
 {
     public class CreateTagOutput : BaseOutput
     {
-        public CreateTagOutput(IEnumerable<ValidationFailure> errors = null) : base(errors) { }
+        public CreateTagOutput(List<ValidationFailure> errors = null) : base(errors) { }
 
         [Display(Name = "Id")]
         public Guid Id { get; set; }

@@ -13,11 +13,7 @@ namespace IlluminareToys.Infrastructure.Data.Contexts
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
-        }
-
-        public AppDbContext()
-        {
-
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
 
         public DbSet<Tag> Tags { get; set; }

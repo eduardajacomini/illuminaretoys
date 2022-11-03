@@ -5,13 +5,15 @@ using IlluminareToys.Domain.Outputs;
 
 namespace IlluminareToys.Application.Mappers
 {
-    public class ApplicationMapper : Profile
+    public class ApplicationProfile : Profile
     {
-        public ApplicationMapper()
+        public ApplicationProfile()
         {
             CreateMap<Tag, CreateTagOutput>();
 
-            CreateMap<IEnumerable<Tag>, IEnumerable<ListTagsOutput>>();
+            CreateMap<Tag, ListTagsOutput>();
+
+            CreateMap<List<Tag>, List<ListTagsOutput>>();
 
             CreateMap<CreateTagInput, Tag>();
         }

@@ -11,13 +11,9 @@ namespace IlluminareToys.Application
     {
         protected override void Load(ContainerBuilder builder)
         {
-            var assembly = typeof(ApplicationModule).GetTypeInfo().Assembly;
-
-            builder.RegisterAssemblyTypes(new[] { assembly })
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
-
-
+            builder.RegisterAssemblyTypes(new[] { typeof(ApplicationModule).GetTypeInfo().Assembly })
+              .AsImplementedInterfaces()
+              .InstancePerLifetimeScope();
 
             RegisterMaps(builder);
             RegisterValidators(builder);
@@ -33,22 +29,9 @@ namespace IlluminareToys.Application
 
         private void RegisterMaps(ContainerBuilder builder)
         {
-            var assemblyNames = Assembly.GetExecutingAssembly().GetReferencedAssemblies();
-            var assembliesTypes = assemblyNames
-                .Where(a => a.Name.Equals("Com.Davidsekar.Models", StringComparison.OrdinalIgnoreCase))
-                .SelectMany(an => Assembly.Load(an).GetTypes())
-                .Where(p => typeof(Profile).IsAssignableFrom(p) && p.IsPublic && !p.IsAbstract)
-                .Distinct();
-
-            var autoMapperProfiles = assembliesTypes
-                .Select(p => (Profile)Activator.CreateInstance(p)).ToList();
-
             builder.Register(ctx => new MapperConfiguration(cfg =>
             {
-                foreach (var profile in autoMapperProfiles)
-                {
-                    cfg.AddProfile(profile);
-                }
+                cfg.AddMaps(new[] { typeof(ApplicationModule) });
             }));
 
             builder.Register(ctx => ctx.Resolve<MapperConfiguration>().CreateMapper()).As<IMapper>().InstancePerLifetimeScope();
