@@ -37,7 +37,7 @@ namespace IlluminareToys.Application.UseCases
                 return new DeleteTagOutput(new ValidationFailure(nameof(input.Id), "Tag não encontrada."));
             }
 
-            await _tagRepository.DeleteAsync(entity, cancellationToken);
+            await _tagRepository.LogicDeleteAsync(entity, cancellationToken);
 
             return _mapper.Map<DeleteTagOutput>(entity);
         }

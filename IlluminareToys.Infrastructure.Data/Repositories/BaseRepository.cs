@@ -46,9 +46,15 @@ namespace IlluminareToys.Infrastructure.Data.Repositories
             await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
+        public async Task LogicDeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
             entity.SetUnactive();
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
+        {
+            _context.Remove(entity);
             await _context.SaveChangesAsync(cancellationToken);
         }
 

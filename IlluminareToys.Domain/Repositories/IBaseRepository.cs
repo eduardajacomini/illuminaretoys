@@ -14,6 +14,7 @@ namespace IlluminareToys.Domain.Repositories
         Task<IEnumerable<TEntity>> AddAllAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
         Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
         Task UpdateAllAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
+        Task LogicDeleteAsync(TEntity entity, CancellationToken cancellationToken = default);
         Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default);
     }
 }

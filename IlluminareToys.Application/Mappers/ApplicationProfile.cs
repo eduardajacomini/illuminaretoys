@@ -22,6 +22,8 @@ namespace IlluminareToys.Application.Mappers
             CreateMap<ProductData, Product>()
                 .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Categoria.CategoryId))
                 .ForMember(dest => dest.CategoryDescription, opt => opt.MapFrom(src => src.Categoria.CategoryDescription));
+
+            CreateMap<Product, GetProductOutput>();
         }
     }
 }
