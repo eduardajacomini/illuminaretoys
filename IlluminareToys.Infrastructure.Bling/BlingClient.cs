@@ -16,14 +16,14 @@ namespace IlluminareToys.Infrastructure.Bling
             _configuration = configuration;
         }
 
-        public async Task<GetProductsResponse> GetProductsAsync()
+        public async Task<GetProductsResponse> GetProductsAsync(CancellationToken cancellationToken)
         {
             var apiKey = _configuration["BlingApiKey"];
-            var response = await _httpClient.GetAsync($"/Api/v2/produtos/json?apikey={apiKey}");
+            var response = await _httpClient.GetAsync($"/Api/v2/produtos/json?apikey={apiKey}", cancellationToken);
 
             response.EnsureSuccessStatusCode();
 
-            var content = await response.Content.ReadAsStringAsync();
+            var content = await response.Content.ReadAsStringAsync(cancellationToken);
 
             var produts = JsonConvert.DeserializeObject<GetProductsResponse>(content);
 

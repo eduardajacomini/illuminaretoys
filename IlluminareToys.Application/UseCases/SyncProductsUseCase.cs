@@ -1,0 +1,91 @@
+﻿using AutoMapper;
+using IlluminareToys.Domain.Entities;
+using IlluminareToys.Domain.UseCases;
+using IlluminareToys.Infrastructure.Bling;
+using IlluminareToys.Infrastructure.Data.Contexts;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+
+namespace IlluminareToys.Application.UseCases
+{
+    public class SyncProductsUseCase : ISyncProductsUseCase
+    {
+        private readonly IBlingClient _blingClient;
+        private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
+
+        public SyncProductsUseCase(IBlingClient blingClient, IMapper mapper, IConfiguration configuration)
+        {
+            _blingClient = blingClient;
+            _mapper = mapper;
+            _configuration = configuration;
+        }
+
+        public async Task ExecuteAsync(CancellationToken cancellationToken)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+
+            optionsBuilder.UseNpgsql(_configuration.GetConnectionString("Default"));
+
+            using var context = new AppDbContext(optionsBuilder.Options);
+            using var transaction = await context.Database.BeginTransactionAsync();
+
+            try
+            {
+                var result = await _blingClient.GetProductsAsync(cancellationToken);
+
+                var resultItems = result.Response.Products.Select(x => x.Product);
+                var resultItemsIds = resultItems.Select(x => x.BlingId);
+
+                var entities = _mapper.Map<IEnumerable<Product>>(resultItems).ToList();
+
+                var productsInDb = await context
+                                            .Products
+                                            .Where(x => resultItemsIds.Contains(x.BlingId))
+                                            .ToListAsync(cancellationToken);
+
+                if (productsInDb.Any())
+                {
+                    foreach (var product in productsInDb)
+                    {
+                        var item = entities.FirstOrDefault(x => x.BlingId == product.BlingId);
+
+                        if (item is not null)
+                        {
+                            product.SetBlingCreatedAt(item.BlingCreatedAt);
+                            product.SetBlingUpdatedAt(item.BlingUpdatedAt);
+                            product.SetState(item.State);
+                            product.SetCategoryDescription(item.CategoryDescription);
+                            product.SetCategoryId(item.CategoryId);
+                            product.SetCode(item.Code);
+                            product.SetDescription(item.Description);
+                            product.SetImageUrl(item.ImageUrl);
+                            product.SetUnity(item.Unity);
+                            product.SetPrice(item.Price);
+                            product.SetPriceCost(item.PriceCost);
+
+                            entities.Remove(item);
+                        }
+                    }
+                }
+
+                await context.Products.AddRangeAsync(entities, cancellationToken);
+
+                await context.SaveChangesAsync(cancellationToken);
+
+                await transaction.CommitAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+
+                if (ex.InnerException.Message.Contains("unique"))
+                {
+                    return;
+                }
+
+                throw ex;
+            }
+        }
+    }
+}

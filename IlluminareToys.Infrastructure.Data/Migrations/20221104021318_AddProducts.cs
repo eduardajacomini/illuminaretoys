@@ -26,14 +26,20 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
                     state = table.Column<string>(type: "text", nullable: true),
                     bling_created_at = table.Column<string>(type: "text", nullable: true),
                     bling_updated_at = table.Column<string>(type: "text", nullable: true),
-                    active = table.Column<bool>(type: "boolean", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    updated_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_products", x => x.id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_products_bling_id",
+                table: "products",
+                column: "bling_id",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

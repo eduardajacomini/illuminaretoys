@@ -4,6 +4,6 @@ namespace IlluminareToys.Infrastructure.Bling
 {
     public interface IBlingClient
     {
-        Task<GetProductsResponse> GetProductsAsync();
+        Task<GetProductsResponse> GetProductsAsync(CancellationToken cancellationToken);
     }
 }

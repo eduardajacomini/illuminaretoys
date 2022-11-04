@@ -1,6 +1,5 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using IlluminareToys.Application.Workers;
 using IlluminareToys.Domain.Entities;
 using IlluminareToys.Infrastructure.Data.Contexts;
 using IlluminareToys.Infrastructure.Data.Seeds;
@@ -57,7 +56,7 @@ builder.Services.AddHttpClient("InventoryApi", client =>
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 }).AddPolicyHandler(retryPolicy);
 
-builder.Services.AddHostedService<SyncProductsWorker>();
+//builder.Services.AddHostedService<SyncProductsWorker>();
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new MainModule()));

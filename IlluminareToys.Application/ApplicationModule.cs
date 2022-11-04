@@ -1,8 +1,10 @@
 ﻿using Autofac;
 using AutoMapper;
 using FluentValidation;
+using IlluminareToys.Application.Workers;
 using IlluminareToys.Domain.Inputs;
 using IlluminareToys.Domain.Validators;
+using Microsoft.Extensions.Hosting;
 using System.Reflection;
 
 namespace IlluminareToys.Application
@@ -17,6 +19,7 @@ namespace IlluminareToys.Application
 
             RegisterMaps(builder);
             RegisterValidators(builder);
+            RegisterBackgroundServices(builder);
         }
 
         private void RegisterValidators(ContainerBuilder builder)
@@ -45,6 +48,13 @@ namespace IlluminareToys.Application
             }));
 
             builder.Register(ctx => ctx.Resolve<MapperConfiguration>().CreateMapper()).As<IMapper>().InstancePerLifetimeScope();
+        }
+
+        private void RegisterBackgroundServices(ContainerBuilder builder)
+        {
+            builder.RegisterType<SyncProductsWorker>()
+                    .As<IHostedService>()
+                    .SingleInstance();
         }
     }
 }

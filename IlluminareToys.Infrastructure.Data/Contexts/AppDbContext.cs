@@ -30,5 +30,8 @@ namespace IlluminareToys.Infrastructure.Data.Contexts
 
             IdentityConfiguration.SetTableNames(builder);
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+            => optionsBuilder.LogTo(Console.WriteLine);
     }
 }

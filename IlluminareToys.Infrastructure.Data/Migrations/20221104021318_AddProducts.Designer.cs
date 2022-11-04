@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IlluminareToys.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221103212715_AddProducts")]
+    [Migration("20221104021318_AddProducts")]
     partial class AddProducts
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,7 +32,9 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
                         .HasColumnName("id");
 
                     b.Property<bool>("Active")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
+                        .HasDefaultValue(true)
                         .HasColumnName("active");
 
                     b.Property<string>("BlingCreatedAt")
@@ -60,8 +62,10 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_at");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Description")
                         .HasColumnType("text")
@@ -88,11 +92,16 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
                         .HasColumnName("unity");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("updated_at");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
 
                     b.HasKey("Id")
                         .HasName("pk_products");
+
+                    b.HasIndex("BlingId")
+                        .IsUnique();
 
                     b.ToTable("products");
                 });
