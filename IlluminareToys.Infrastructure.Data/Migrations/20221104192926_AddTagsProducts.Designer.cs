@@ -3,6 +3,7 @@ using System;
 using IlluminareToys.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IlluminareToys.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221104192926_AddTagsProducts")]
+    partial class AddTagsProducts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,12 +86,6 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
                     b.Property<string>("State")
                         .HasColumnType("text")
                         .HasColumnName("state");
-
-                    b.Property<DateTime>("SynchronizedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("synchronized_at")
-                        .HasDefaultValueSql("now()");
 
                     b.Property<string>("Unity")
                         .HasColumnType("text")

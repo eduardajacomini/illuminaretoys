@@ -6,7 +6,8 @@ namespace IlluminareToys.Application.Workers
     public class SyncProductsWorker : BackgroundService
     {
         private readonly ISyncProductsUseCase _syncProductsUseCase;
-        private readonly TimeSpan _interval = TimeSpan.FromHours(3);
+        //private readonly TimeSpan _interval = TimeSpan.FromHours(3);
+        private readonly TimeSpan _interval = TimeSpan.FromSeconds(30);
 
         public SyncProductsWorker(ISyncProductsUseCase syncProductsUseCase)
         {

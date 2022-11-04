@@ -43,6 +43,11 @@ namespace IlluminareToys.Application
              .RegisterType<DeleteProductInputValidator>()
              .As<IValidator<DeleteProductInput>>()
              .InstancePerLifetimeScope();
+
+            builder
+             .RegisterType<AssociateTagsToProductInputValidator>()
+             .As<IValidator<AssociateTagsToProductInput>>()
+             .InstancePerLifetimeScope();
         }
 
         private void RegisterMaps(ContainerBuilder builder)

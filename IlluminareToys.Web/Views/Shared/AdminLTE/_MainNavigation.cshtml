@@ -57,20 +57,12 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
-                with font-awesome or any other icon font library -->
+    with font-awesome or any other icon font library -->
                 <li class="nav-item ">
                     <a asp-controller="Home" asp-action="Index" class="nav-link @Url.MakeActiveClass("home","index")">
                         <i class="nav-icon fas fa-home"></i>
                         <p>
                             Home
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a is-active-page asp-controller="Tags" asp-action="Index" class="nav-link @Url.MakeActiveClass("tags","index")">
-                        <i class="nav-icon fas fa-tag"></i>
-                        <p>
-                            Tags
                         </p>
                     </a>
                 </li>
@@ -84,8 +76,25 @@
                     </a>
                 </li>
                 @{
-                    if (User.IsInRole("SuperAdmin"))
+                    if (User.IsInRole("SuperAdmin") || User.IsInRole("Admin"))
                     {
+                        <li class="nav-header">Bling</li>
+                        <li class="nav-item">
+                            <a is-active-page asp-controller="Tags" asp-action="Index" class="nav-link @Url.MakeActiveClass("tags","index")">
+                                <i class="nav-icon fas fa-tag"></i>
+                                <p>
+                                    Tags
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a is-active-page asp-controller="Products" asp-action="Index" class="nav-link @Url.MakeActiveClass("products","index")">
+                                <i class="nav-icon fas fa-shopping-bag"></i>
+                                <p>
+                                    Produtos
+                                </p>
+                            </a>
+                        </li>
                         <li class="nav-header">SUPER ADMIN</li>
                         <li class="nav-item">
                             <a is-active-page asp-area="Identity" asp-page="/Account/Users" class="nav-link">

@@ -4,15 +4,23 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace IlluminareToys.Infrastructure.Data.Configurations
 {
-    public class ProductConfiguration : IEntityTypeConfiguration<Product>
+    public class TagProductConfiguration : IEntityTypeConfiguration<TagProduct>
     {
-        public void Configure(EntityTypeBuilder<Product> builder)
+        public void Configure(EntityTypeBuilder<TagProduct> builder)
         {
             builder.Property(x => x.CreatedAt).HasColumnType("timestamp with time zone").HasDefaultValueSql("now()");
             builder.Property(x => x.UpdatedAt).HasColumnType("timestamp with time zone").HasDefaultValueSql("now()");
-            builder.Property(x => x.SynchronizedAt).HasColumnType("timestamp with time zone").HasDefaultValueSql("now()");
             builder.Property(x => x.Active).HasDefaultValue(true);
-            builder.HasIndex(x => x.BlingId).IsUnique();
+
+            builder.HasOne(x => x.Product)
+               .WithMany(x => x.TagsProducts)
+               .HasForeignKey(x => x.Id)
+               .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(x => x.Tag)
+               .WithMany(x => x.TagsProducts)
+               .HasForeignKey(x => x.Id)
+               .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

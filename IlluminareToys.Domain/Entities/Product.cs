@@ -26,70 +26,107 @@
 
         public string BlingUpdatedAt { get; private set; }
 
+        public DateTime SynchronizedAt { get; private set; }
+
+        public IEnumerable<TagProduct> TagsProducts { get; private set; }
+
         public void SetCode(string value)
         {
             if (Code != value)
+            {
+                SynchronizedAt = DateTime.Now;
                 Code = value;
+            }
         }
 
         public void SetDescription(string value)
         {
             if (Description != value)
+            {
+                SynchronizedAt = DateTime.Now;
                 Description = value;
+            }
         }
 
         public void SetPrice(string value)
         {
             if (Price != value)
+            {
+                SynchronizedAt = DateTime.Now;
                 Price = value;
+            }
         }
 
         public void SetPriceCost(string value)
         {
             if (PriceCost != value)
+            {
+                SynchronizedAt = DateTime.Now;
                 PriceCost = value;
+            }
         }
 
         public void SetImageUrl(string value)
         {
             if (ImageUrl != value)
+            {
+                SynchronizedAt = DateTime.Now;
                 ImageUrl = value;
+            }
         }
 
         public void SetCategoryId(string value)
         {
             if (CategoryId != value)
+            {
+                SynchronizedAt = DateTime.Now;
                 CategoryId = value;
+            }
         }
 
         public void SetCategoryDescription(string value)
         {
             if (CategoryDescription != value)
+            {
+                SynchronizedAt = DateTime.Now;
                 CategoryDescription = value;
+            }
         }
 
         public void SetUnity(string value)
         {
             if (Unity != value)
+            {
+                SynchronizedAt = DateTime.Now;
                 Unity = value;
+            }
         }
 
         public void SetState(string value)
         {
             if (State != value)
+            {
+                SynchronizedAt = DateTime.Now;
                 State = value;
+            }
         }
 
         public void SetBlingCreatedAt(string value)
         {
             if (BlingCreatedAt != value)
+            {
+                SynchronizedAt = DateTime.Now;
                 BlingCreatedAt = value;
+            }
         }
 
         public void SetBlingUpdatedAt(string value)
         {
             if (BlingUpdatedAt != value)
+            {
+                SynchronizedAt = DateTime.Now;
                 BlingUpdatedAt = value;
+            }
         }
     }
 }
