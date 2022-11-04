@@ -19,7 +19,7 @@ namespace IlluminareToys.Application
 
             RegisterMaps(builder);
             RegisterValidators(builder);
-            RegisterBackgroundServices(builder);
+            //RegisterBackgroundServices(builder);
         }
 
         private void RegisterValidators(ContainerBuilder builder)

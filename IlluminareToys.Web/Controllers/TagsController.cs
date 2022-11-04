@@ -1,6 +1,6 @@
 ﻿using IlluminareToys.Application.Extensions;
 using IlluminareToys.Domain.Inputs;
-using IlluminareToys.Domain.UseCases;
+using IlluminareToys.Domain.UseCases.Tag;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
 
