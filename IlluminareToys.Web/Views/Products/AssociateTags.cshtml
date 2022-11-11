@@ -1,0 +1,41 @@
+﻿@model AssociateTagsOutput
+
+@{
+    ViewData["Title"] = "Associar Tags";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+}
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Associar Tag ao @Model.Product.Description</h3>
+            <div class="card-tools">
+                <a class="btn btn-primary" asp-action="Index">Voltar</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <form>
+                        <div class="form-group">
+                            <label>Tags</label>
+                            <select class="form-control" id="select-tags" multiple="multiple">
+                                @foreach (var item in Model.Tags)
+                                {
+                                    <option value="@item.Id">@item.Description</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Criar" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#select-tags').select2();
+</script>

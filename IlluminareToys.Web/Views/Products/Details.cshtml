@@ -1,0 +1,62 @@
+﻿@model GetProductOutput
+
+@{
+    ViewData["Title"] = "Detalhes";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+}
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">@Model.Description</h3>
+            <div class="card-tools">
+                <a class="btn btn-primary" asp-action="AssociateTags" asp-route-id="@Model.Id">Associar Tag</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="product-container">
+                <img class="card-img-top" src="@Model.ImageUrl" id="img-product">
+                <h3>@Model.BlingId | @Model.Description</h3>
+                <div class="badges-product-info">
+                    <span class="badge bg-yellow">@Model.CategoryDescription</span>
+
+                    @if (Model.State is "Ativo")
+                    {
+                        <span class="badge bg-green">@Model.State</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">@Model.State</span>
+                    }
+                </div>
+                <div class="badges-product-tags">
+                    <span class="badge bg-primary">Teste</span>
+                    <span class="badge bg-primary">Teste</span>
+                    <span class="badge bg-primary">Teste</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #product-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #img-product {
+        width: 200px;
+        height: 200px;
+    }
+
+    #badges-product-info {
+        flex-direction: row;
+    }
+
+    #badges-product-tags {
+        flex-direction: row;
+    }
+</style>

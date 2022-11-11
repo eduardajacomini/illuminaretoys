@@ -16,11 +16,11 @@ namespace IlluminareToys.Application.Workers
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                await _syncProductsUseCase.ExecuteAsync(cancellationToken);
-                await Task.Delay(_interval, cancellationToken);
-            }
+            //while (!cancellationToken.IsCancellationRequested)
+            //{
+            //    await _syncProductsUseCase.ExecuteAsync(cancellationToken);
+            //    await Task.Delay(_interval, cancellationToken);
+            //}
         }
     }
 }

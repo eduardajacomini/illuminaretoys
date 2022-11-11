@@ -22,5 +22,30 @@ namespace IlluminareToys.Web.Controllers
 
             return View(output);
         }
+
+        [HttpGet("Details/{id:guid}")]
+        public async Task<ActionResult> Details([FromRoute] Guid id, [FromServices] IGetProductByIdUseCase _getProductByIdUseCase, CancellationToken cancellationToken)
+        {
+            var output = await _getProductByIdUseCase.ExecuteAsync(id, cancellationToken);
+
+            if (output is null)
+            {
+                _toastNotification.AddErrorToastMessage("Produto não encontrado.");
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(output);
+        }
+
+        [HttpGet("AssociateTags/{productId:guid}")]
+        public async Task<ActionResult> AssociateTags([FromRoute] Guid productId,
+                                                     [FromServices] IAssociateTagUseCase associateTagUseCase,
+                                                     CancellationToken cancellationToken)
+        {
+            var output = await associateTagUseCase.ExecuteAsync(productId, cancellationToken);
+
+            return View(output);
+        }
     }
 }

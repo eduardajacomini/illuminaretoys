@@ -7,7 +7,9 @@ $(document).ready(function () {
 	$.busyLoadSetup({
 		animation: "slide",
 		background: "rgba(52, 58, 64, 0.86)"
-	});
+    });
+
+    $.fn.select2.defaults.set("theme", "bootstrap");
 });
 
 const showLoading = () => {
