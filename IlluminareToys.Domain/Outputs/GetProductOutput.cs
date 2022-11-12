@@ -45,5 +45,7 @@ namespace IlluminareToys.Domain.Outputs
 
         [Display(Name = "Sincronizado em")]
         public DateTime? SynchronizedAt { get; private set; }
+
+        public IEnumerable<GetTagProductOutput> Tags { get; private set; }
     }
 }

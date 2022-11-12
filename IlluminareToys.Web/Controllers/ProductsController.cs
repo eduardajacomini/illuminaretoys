@@ -1,4 +1,6 @@
-﻿using IlluminareToys.Domain.UseCases.Product;
+﻿using IlluminareToys.Application.Extensions;
+using IlluminareToys.Domain.Inputs;
+using IlluminareToys.Domain.UseCases.Product;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
 
@@ -46,6 +48,24 @@ namespace IlluminareToys.Web.Controllers
             var output = await associateTagUseCase.ExecuteAsync(productId, cancellationToken);
 
             return View(output);
+        }
+
+        [HttpPost("AssociateTags")]
+        public async Task<ActionResult> AssociateTags([FromBody] AssociateTagsToProductInput input,
+                                                      [FromServices] IAssociateTagsToProductUseCase associateTagUseCase,
+                                                      CancellationToken cancellationToken)
+        {
+            var output = await associateTagUseCase.ExecuteAsync(input, cancellationToken);
+
+            if (!output.IsValid)
+            {
+                output.Errors.AddToModelState(ModelState);
+                return View(input);
+            }
+
+            _toastNotification.AddSuccessToastMessage("Tags associadas com sucesso.");
+
+            return Ok();
         }
     }
 }

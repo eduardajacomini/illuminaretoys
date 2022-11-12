@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
 using NToastNotify;
 using Polly;
 using System.Net;
@@ -39,6 +40,9 @@ builder.Services.AddMvc(options =>
 {
     ProgressBar = true,
     PositionClass = ToastPositions.TopRight
+}).AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 });
 
 var retryPolicy = Policy

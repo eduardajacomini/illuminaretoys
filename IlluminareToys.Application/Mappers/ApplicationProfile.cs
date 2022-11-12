@@ -10,6 +10,8 @@ namespace IlluminareToys.Application.Mappers
     {
         public ApplicationProfile()
         {
+            CreateMap<TagProduct, GetTagProductOutput>();
+
             CreateMap<Tag, CreateTagOutput>();
 
             CreateMap<Tag, GetTagOutput>();

@@ -14,12 +14,12 @@ namespace IlluminareToys.Infrastructure.Data.Configurations
 
             builder.HasOne(x => x.Product)
                .WithMany(x => x.TagsProducts)
-               .HasForeignKey(x => x.Id)
+               .HasForeignKey(x => x.ProductId)
                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(x => x.Tag)
                .WithMany(x => x.TagsProducts)
-               .HasForeignKey(x => x.Id)
+               .HasForeignKey(x => x.TagId)
                .OnDelete(DeleteBehavior.NoAction);
         }
     }

@@ -50,7 +50,7 @@
                     {
                         <tr>
                             <td>
-                                <img src="@item.ImageUrl" class="img-product"/>
+                                <img src="@item.ImageUrl" class="img-product" />
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Code)
@@ -74,12 +74,9 @@
                                 <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">
                                     <i class="icon fas fa-eye"></i>
                                 </a>
-                                <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id">
-                                    <i class="icon fas fa-pen"></i>
+                                <a class="btn btn-secondary" asp-action="AssociateTags" asp-route-productId="@item.Id">
+                                    <i class="icon fas fa-project-diagram"></i>
                                 </a>
-                                <button type="button" class="btn btn-danger" onclick="deleteTag('@item.Id')">
-                                    <i class="icon fas fa-trash"></i>
-                                </button>
                             </td>
                         </tr>
                     }
@@ -95,6 +92,7 @@
         $('#table-products').bootstrapTable({
             pagination: true,
             search: true,
+            sortable: true,
             locale: 'pt-BR'
         })
     });

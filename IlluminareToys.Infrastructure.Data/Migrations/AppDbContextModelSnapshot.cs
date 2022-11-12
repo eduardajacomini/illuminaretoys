@@ -148,6 +148,7 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
             modelBuilder.Entity("IlluminareToys.Domain.Entities.TagProduct", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -179,6 +180,10 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_tags_products");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("TagId");
 
                     b.ToTable("tags_products");
                 });
@@ -442,14 +447,14 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
                 {
                     b.HasOne("IlluminareToys.Domain.Entities.Product", "Product")
                         .WithMany("TagsProducts")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("fk_tags_products_products_product_id");
 
                     b.HasOne("IlluminareToys.Domain.Entities.Tag", "Tag")
                         .WithMany("TagsProducts")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("fk_tags_products_tags_tag_id");

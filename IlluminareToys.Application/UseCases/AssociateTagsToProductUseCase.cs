@@ -39,6 +39,11 @@ namespace IlluminareToys.Application.UseCases
                 return new AssociateTagsToProductOutput(new ValidationFailure(nameof(input.BlingProductId), "Produto não encontrado."));
             }
 
+            var tagsExists = await _tagProductRepository.ListAsync(x => x.ProductId.Equals(product.Id));
+
+            if (tagsExists.Any())
+                await _tagProductRepository.DeleteAllAsync(tagsExists);
+
             foreach (var tagId in input.TagIds)
             {
                 var tag = await _tagRepository.GetByIdAsync(tagId);

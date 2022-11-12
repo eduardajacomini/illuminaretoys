@@ -18,7 +18,7 @@ namespace IlluminareToys.Infrastructure.Data.Repositories
         public async Task<TEntity> GetById(Guid id, CancellationToken cancellationToken = default)
             => await _context.Set<TEntity>().SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
 
-        public async Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public virtual async Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
             => await _context
                         .Set<TEntity>()
                         .SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
@@ -55,6 +55,12 @@ namespace IlluminareToys.Infrastructure.Data.Repositories
         public async Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
             _context.Remove(entity);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task DeleteAllAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+        {
+            _context.RemoveRange(entities);
             await _context.SaveChangesAsync(cancellationToken);
         }
 
