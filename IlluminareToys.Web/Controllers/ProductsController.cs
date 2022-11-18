@@ -1,5 +1,6 @@
 ﻿using IlluminareToys.Application.Extensions;
 using IlluminareToys.Domain.Inputs;
+using IlluminareToys.Domain.UseCases;
 using IlluminareToys.Domain.UseCases.Product;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
@@ -66,6 +67,14 @@ namespace IlluminareToys.Web.Controllers
             _toastNotification.AddSuccessToastMessage("Tags associadas com sucesso.");
 
             return Ok();
+        }
+
+        [HttpGet("SyncProductsBling")]
+        public async Task<ActionResult> SyncProductsBling([FromServices] ISyncProductsUseCase syncProductsUseCase, CancellationToken cancellationToken)
+        {
+            await syncProductsUseCase.ExecuteAsync(cancellationToken);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

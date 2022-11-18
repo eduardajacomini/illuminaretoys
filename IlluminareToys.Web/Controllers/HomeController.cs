@@ -1,4 +1,5 @@
 ﻿using IlluminareToys.Application.ViewModels;
+using IlluminareToys.Domain.UseCases.Product;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,9 +7,11 @@ namespace IlluminareToys.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Index([FromServices] IGetProductsUseCase getProductsUseCase, CancellationToken cancellationToken)
         {
-            return View();
+            var output = await getProductsUseCase.ExecuteAsync(cancellationToken);
+
+            return View(output);
         }
 
         public IActionResult Privacy()

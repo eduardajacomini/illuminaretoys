@@ -90,12 +90,12 @@ namespace IlluminareToys.Infrastructure.Data.Repositories
             await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<TEntity>> ListAsync(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderByExpression, CancellationToken cancellationToken = default)
+        public virtual async Task<IEnumerable<TEntity>> ListAsync(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderByExpression, CancellationToken cancellationToken = default)
             => await _context
             .Set<TEntity>()
             .Where(expression)
             .OrderBy(orderByExpression)
             .AsNoTracking()
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 }

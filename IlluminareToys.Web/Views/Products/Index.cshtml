@@ -10,7 +10,7 @@
         <div class="card-header">
             <h3 class="card-title">Produtos</h3>
             <div class="card-tools">
-                <a class="btn btn-primary" asp-action="Create">Sincronizar com Bling</a>
+                <a class="btn btn-primary" asp-action="SyncProductsBling">Sincronizar com Bling</a>
             </div>
         </div>
         <div class="card-body table-responsive p-0">
@@ -42,7 +42,9 @@
                         <th>
                             @Html.DisplayNameFor(model => model.SynchronizedAt)
                         </th>
-                        <th></th>
+                        <th>
+
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,6 +53,9 @@
                         <tr>
                             <td>
                                 <img src="@item.ImageUrl" class="img-product" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BlingId)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Code)

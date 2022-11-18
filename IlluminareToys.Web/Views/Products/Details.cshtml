@@ -10,7 +10,7 @@
         <div class="card-header">
             <h3 class="card-title">@Model.Description</h3>
             <div class="card-tools">
-                <a class="btn btn-primary" asp-action="AssociateTags" asp-route-id="@Model.Id">Associar Tag</a>
+                <a class="btn btn-primary" asp-action="AssociateTags" asp-route-productId="@Model.Id">Associar Tag</a>
             </div>
         </div>
         <div class="card-body">
@@ -30,16 +30,37 @@
                     }
                 </div>
                 <div class="badges-product-tags">
-                    <span class="badge bg-primary">Teste</span>
-                    <span class="badge bg-primary">Teste</span>
-                    <span class="badge bg-primary">Teste</span>
+                    @foreach (var tag in Model.Tags)
+                    {
+                        <span class="badge bg-primary">@tag.Tag.Description</span>
+                    }
                 </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div id="div-subtitles">
+                <div class="div-subtitle-square bg-yellow m-2"></div>
+                <span>Categoria</span>
+                <div class="div-subtitle-square bg-primary m-2"></div>
+                <span> Tag</span>
             </div>
         </div>
     </div>
 </div>
 
 <style>
+    #div-subtitles {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: start;
+    }
+
+    .div-subtitle-square {
+        height: 15px;
+        width: 15px;
+    }
+
     #product-container {
         display: flex;
         flex-direction: column;

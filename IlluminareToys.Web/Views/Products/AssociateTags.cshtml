@@ -8,7 +8,7 @@
 <div class="col-md-12">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Associar Tag ao @Model.Product.Description</h3>
+            <h3 class="card-title">Associar Tag ao produto @Model.Product.Description</h3>
             <div class="card-tools">
                 <a class="btn btn-primary" asp-action="Index">Voltar</a>
             </div>
@@ -22,9 +22,9 @@
                             <select class="form-control" id="select-tags" multiple="multiple">
                                 @foreach (var item in Model.Tags)
                                 {
-                                    if (Model.Product.Tags.Any())
+                                    if (Model.Product.Tags.Any(x => x.TagId.Equals(item.Id)))
                                     {
-                                        <option value="@item.Id">@item.Description</option>
+                                        <option value="@item.Id" selected>@item.Description</option>
 
                                     }
                                     else
@@ -32,12 +32,11 @@
                                         <option value="@item.Id">@item.Description</option>
 
                                     }
-
                                 }
                             </select>
                         </div>
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary" id="button-salvar" onclick="saveAssociation(@Model.Product.BlingId)">Salvar</button>
+                            <button type="button" class="btn btn-primary" id="button-salvar" onclick="saveAssociation('@Model.Product.Id', @Model.Product.BlingId)">Salvar</button>
                         </div>
                     </form>
                 </div>
@@ -51,21 +50,33 @@
         $('#select-tags').select2();
     });
 
-    const saveAssociation = (blingProductId) => {
+    const saveAssociation = (id, blingProductId) => {
         showLoading();
 
         const tagIds = $('#select-tags').val();
 
-        $.ajax({
-            type: 'POST',
-            url: '/Products/AssociateTags',
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify({
-                TagIds: tagIds,
-                BlingProductId: blingProductId
-            })
-        }).then(r => location.reload())
+        axios.post('/Products/AssociateTags', {
+            TagIds: tagIds,
+            BlingProductId: blingProductId
+        }).then(_ => {
+            location.reload()
+        })
+
+        //$.ajax({
+        //    type: 'POST',
+        //    url: '/Products/AssociateTags',
+        //    async: true,
+        //    contentType: "application/json; charset=utf-8",
+        //    dataType: "json",
+        //    data: JSON.stringify({
+        //        TagIds: tagIds,
+        //        BlingProductId: blingProductId
+        //    })
+        //}).then(data => {
+        //    console.log('caiu', data);
+        //});
+
+        //window.location = `/Products/Details/${id}`;
     }
 </script>
 
