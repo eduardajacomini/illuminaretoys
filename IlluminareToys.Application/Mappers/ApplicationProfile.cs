@@ -27,6 +27,9 @@ namespace IlluminareToys.Application.Mappers
 
             CreateMap<Product, GetProductOutput>()
                 .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.TagsProducts));
+
+            CreateMap<Product, GetProductsByTagsOutput>()
+                .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.TagsProducts));
         }
     }
 }
