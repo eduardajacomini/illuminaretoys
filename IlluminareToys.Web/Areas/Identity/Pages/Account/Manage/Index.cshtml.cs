@@ -19,6 +19,7 @@ namespace IlluminareToys.Web.Areas.Identity.Pages.Account.Manage
             _signInManager = signInManager;
         }
 
+        [Display(Name = "Usuário")]
         public string Username { get; set; }
 
         [TempData]

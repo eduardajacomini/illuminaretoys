@@ -19,15 +19,37 @@ namespace IlluminareToys.Infrastructure.Bling
         public async Task<GetProductsResponse> GetProductsAsync(CancellationToken cancellationToken)
         {
             var apiKey = _configuration["BlingApiKey"];
-            var response = await _httpClient.GetAsync($"/Api/v2/produtos/json?apikey={apiKey}", cancellationToken);
+            var url = $"/Api/v2/produtos/page=@page/json?apikey={apiKey}";
+            var pageToSearch = 1;
+            GetProductsResponse finalResponse = new();
 
-            response.EnsureSuccessStatusCode();
+            var continueLoop = true;
 
-            var content = await response.Content.ReadAsStringAsync(cancellationToken);
+            while (continueLoop)
+            {
+                var response = await _httpClient.GetAsync(url.Replace("@page", pageToSearch.ToString()), cancellationToken);
 
-            var produts = JsonConvert.DeserializeObject<GetProductsResponse>(content);
+                response.EnsureSuccessStatusCode();
 
-            return produts;
+                var content = await response.Content.ReadAsStringAsync(cancellationToken);
+
+                var products = JsonConvert.DeserializeObject<GetProductsResponse>(content);
+
+                finalResponse.Response.Products.AddRange(products.Response.Products);
+
+                if (products.Response.Products.Count == 100)
+                {
+                    continueLoop = true;
+
+                    pageToSearch++;
+
+                    continue;
+                }
+
+                continueLoop = false;
+            }
+
+            return finalResponse;
         }
     }
 }

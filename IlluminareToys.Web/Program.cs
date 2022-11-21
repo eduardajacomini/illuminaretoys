@@ -54,7 +54,7 @@ var retryPolicy = Policy
                     TimeSpan.FromSeconds(6)
                 });
 
-builder.Services.AddHttpClient("InventoryApi", client =>
+builder.Services.AddHttpClient("Bling", client =>
 {
     client.BaseAddress = new Uri("http://localhost:5000/");
     client.DefaultRequestHeaders.Add("Accept", "application/json");

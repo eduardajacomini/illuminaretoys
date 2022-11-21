@@ -5,19 +5,19 @@ namespace IlluminareToys.Infrastructure.Bling.Contracts
     public class GetProductsResponse
     {
         [JsonProperty("retorno")]
-        public Response Response { get; set; }
+        public Response Response { get; set; } = new Response();
     }
 
     public partial class Response
     {
         [JsonProperty("produtos")]
-        public IEnumerable<ProductItem> Products { get; set; } = new List<ProductItem>();
+        public List<ProductItem> Products { get; set; } = new List<ProductItem>();
     }
 
     public partial class ProductItem
     {
         [JsonProperty("produto")]
-        public ProductData Product { get; set; }
+        public ProductData Product { get; set; } = new();
     }
 
     public partial class ProductData

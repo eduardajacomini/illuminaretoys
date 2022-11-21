@@ -101,7 +101,7 @@ namespace IlluminareToys.Web.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Credenciais inválidas.");
                     return Page();
                 }
             }
