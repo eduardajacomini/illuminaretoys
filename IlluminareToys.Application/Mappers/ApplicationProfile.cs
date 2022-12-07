@@ -37,6 +37,7 @@ namespace IlluminareToys.Application.Mappers
             CreateMap<CreateGroupInput, Group>();
 
             CreateMap<Group, CreateGroupOutput>();
+            CreateMap<Group, GetGroupOutput>();
         }
     }
 }
