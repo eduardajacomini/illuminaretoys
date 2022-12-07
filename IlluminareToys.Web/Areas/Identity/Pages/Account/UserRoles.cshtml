@@ -6,8 +6,8 @@
 <form method="post">
     <div class="card">
         <div class="card-header">
-            <h2>Gerenciar Roles</h2>
-            Adicionar ou remover Roles para o usuário / @Model.UserId / @Model.UserName.
+            <h2>Gerenciar Permissões</h2>
+            Adicionar ou remover Roles para o usuário @Model.UserName - @Model.UserEmail
         </div>
         <div class="card-body">
             <input hidden asp-for="@Model.UserId" />
@@ -25,7 +25,7 @@
             <div asp-validation-summary="All" class="text-danger"></div>
         </div>
         <div class="card-footer">
-            <input type="submit" value="Update" asp-route-model="@Model.UserRoles" class="btn btn-primary"
+            <input type="submit" value="Salvar" asp-route-model="@Model.UserRoles" class="btn btn-primary"
                    style="width:auto" />
         </div>
     </div>

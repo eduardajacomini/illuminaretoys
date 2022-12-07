@@ -26,6 +26,9 @@ namespace IlluminareToys.Web.Areas.Identity.Pages.Account
         public string UserId { get; set; }
         [BindProperty]
         public string UserName { get; set; }
+        [BindProperty]
+        public string UserEmail { get; set; }
+
         public async Task OnGet(string userId)
         {
             UserRoles = new List<UserRolesViewModel>();
@@ -37,6 +40,7 @@ namespace IlluminareToys.Web.Areas.Identity.Pages.Account
                 return;
             }
             UserName = user.UserName;
+            UserEmail = user.Email;
 
             var roles = await _roleManager.Roles.ToListAsync();
 
