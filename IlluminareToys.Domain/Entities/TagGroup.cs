@@ -2,6 +2,13 @@
 {
     public class TagGroup : BaseEntity
     {
+        public TagGroup(Guid tagId, Guid groupId, string age)
+        {
+            TagId = tagId;
+            GroupId = groupId;
+            Age = age;
+        }
+
         public Guid TagId { get; private set; }
 
         public Guid GroupId { get; private set; }

@@ -13,6 +13,9 @@ namespace IlluminareToys.Domain.Outputs.Group
         [Display(Name = "Descrição")]
         public string Description { get; set; }
 
+        [Display(Name = "Nome")]
+        public string Name { get; set; }
+
         [Display(Name = "Criado em")]
         public DateTime CreatedAt { get; set; }
 

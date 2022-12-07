@@ -33,7 +33,7 @@ namespace IlluminareToys.Web.Controllers
 
         [HttpPost("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind("Description, Age")] CreateGroupInput input,
+        public async Task<ActionResult> Create([Bind("Description, Name")] CreateGroupInput input,
                                                [FromServices] ICreateGroupUseCase createGroupUseCase,
                                                CancellationToken cancellationToken)
         {
@@ -64,6 +64,42 @@ namespace IlluminareToys.Web.Controllers
             }
 
             _toastNotification.AddSuccessToastMessage("Grupo removida com sucesso.");
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet("Edit/{id:guid}")]
+        public async Task<ActionResult> Edit([FromRoute] Guid id,
+                                             [FromServices] IGetGroupByIdUseCase getGroupByIdUseCase,
+                                             CancellationToken cancellationToken)
+        {
+            var output = await getGroupByIdUseCase.ExecuteAsync(id, cancellationToken);
+
+            if (output is null)
+            {
+                _toastNotification.AddErrorToastMessage("Grupo não encontrado.");
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(output);
+        }
+
+        [HttpPost("Edit/{id:guid}")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit([Bind("Id,Description, Name")] UpdateGroupInput input,
+                                             [FromServices] IUpdateGroupUseCase updateTagUseCase,
+                                             CancellationToken cancellationToken)
+        {
+            var output = await updateTagUseCase.ExecuteAsync(input, cancellationToken);
+
+            if (!output.IsValid)
+            {
+                _toastNotification.AddErrorToastMessage("Erro ao atualizar o grupo. Informe os campos corretamente.");
+                return RedirectToAction(nameof(Index));
+            }
+
+            _toastNotification.AddSuccessToastMessage("Grupo atualizado com sucesso.");
 
             return RedirectToAction(nameof(Index));
         }

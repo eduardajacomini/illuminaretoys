@@ -4,13 +4,13 @@ using IlluminareToys.Domain.Inputs.Tags;
 
 namespace IlluminareToys.Domain.Validators
 {
-    public class CreateTagGroupInputValidator : AbstractValidator<CreateTagGroupInput>
+    public class CreateTagsGroupsInputValidator : AbstractValidator<CreateTagsGroupsInput>
     {
-        public CreateTagGroupInputValidator()
+        public CreateTagsGroupsInputValidator()
         {
             RuleFor(x => x.TagsGroups.Count())
                 .GreaterThan(0)
-                .WithMessage(ValidationMessages.TagsGroups);
+                .WithMessage(ValidationMessages.TagsGroupsInvalid);
         }
     }
 }
