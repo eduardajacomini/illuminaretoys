@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using IlluminareToys.Domain.Outputs.Group;
 using IlluminareToys.Domain.Repositories;
+using IlluminareToys.Domain.UseCases.Group;
 
 namespace IlluminareToys.Application.UseCases.Groups
 {
-    public class GetGroupsUseCase
+    public class GetGroupsUseCase : IGetGroupsUseCase
     {
         private readonly IGroupRepository _groupRepository;
         private readonly IMapper _mapper;
@@ -15,9 +16,13 @@ namespace IlluminareToys.Application.UseCases.Groups
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<GetGroupOutput>> ExecuteAsync()
+        public async Task<IEnumerable<GetGroupOutput>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            return Enumerable.Empty<GetGroupOutput>();
+            var entities = await _groupRepository.ListAsync(x => x.Active, x => x.Description, cancellationToken);
+
+            var output = _mapper.Map<IEnumerable<GetGroupOutput>>(entities);
+
+            return output;
         }
     }
 }
