@@ -4,15 +4,15 @@
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
 }
 <div>
-    <h4>Manage Users</h4>
+    <h4>Gerenciar usuários</h4>
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>Nome</th>
+                <th>Sobrenome</th>
                 <th>Email</th>
-                <th>Roles</th>
-                <th>Action</th>
+                <th>Permissões</th>
+                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -44,7 +44,7 @@
                         }
                     </td>
                     <td>
-                        <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/UserRoles" asp-route-userId="@user.UserId">Manage Roles</a>
+                        <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/UserRoles" asp-route-userId="@user.UserId">Gerenciar Permissões</a>
                     </td>
                 </tr>
             }

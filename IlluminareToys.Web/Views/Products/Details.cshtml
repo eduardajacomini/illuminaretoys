@@ -16,6 +16,20 @@
         <div class="card-body">
             <div id="product-container">
                 <img class="card-img-top" src="@Model.ImageUrl" id="img-product">
+                <form>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input type="file" 
+                                   accept=".png,.jpg,.jpeg"
+                                   class="custom-file-input" 
+                                   id="input-image"
+                                   onchange="addImage('@Model.Id')">
+                            <label 
+                                   class="custom-file-label" 
+                                   for="input-image">Escolher imagem</label>
+                        </div>
+                    </div>
+                </form>
                 <h3>@Model.BlingId | @Model.Description</h3>
                 <div class="badges-product-info">
                     <span class="badge bg-yellow">@Model.CategoryDescription</span>
@@ -47,6 +61,25 @@
         </div>
     </div>
 </div>
+
+<script>
+    const addImage = (productId) => {
+        showLoading();
+        
+        const file = $('#input-image')[0].files[0]
+
+        var formData = new FormData();
+        formData.append('file', file);
+
+        axios.post(`/Products/Image/${productId}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(_ => {
+            location.reload()
+        })
+    }
+</script>
 
 <style>
     #div-subtitles {

@@ -70,7 +70,6 @@
         {
             if (ImageUrl != value)
             {
-                SynchronizedAt = DateTime.Now;
                 ImageUrl = value;
             }
         }

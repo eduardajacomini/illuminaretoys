@@ -76,5 +76,30 @@ namespace IlluminareToys.Web.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost("Image/{productId:guid}")]
+        public async Task<ActionResult> AddImage([FromRoute] Guid productId,
+                                                 [FromForm] IFormFile file,
+                                                 [FromServices] IAddImageProductUseCase addImageProductUseCase,
+                                                 CancellationToken cancellationToken)
+        {
+            var output = await addImageProductUseCase.ExecuteAsync(new(file, productId), cancellationToken);
+
+            if (!output.IsValid)
+            {
+                _toastNotification.AddErrorToastMessage("Erro adicionar a imagem. Informe os campos corretamente.");
+                return RedirectToAction(nameof(Index), new
+                {
+                    id = productId
+                });
+            }
+
+            _toastNotification.AddSuccessToastMessage("Imagem adicionada com sucesso.");
+
+            return RedirectToAction(nameof(Index), new
+            {
+                id = productId
+            });
+        }
     }
 }
