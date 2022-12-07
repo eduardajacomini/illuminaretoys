@@ -6,8 +6,5 @@ namespace IlluminareToys.Domain.Inputs
     {
         [Display(Name = "Descrição")]
         public string Description { get; set; }
-
-        [Display(Name = "Idade")]
-        public string Age { get; set; }
     }
 }

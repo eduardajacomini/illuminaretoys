@@ -1,5 +1,6 @@
 ﻿using IlluminareToys.Application.Extensions;
 using IlluminareToys.Domain.Inputs;
+using IlluminareToys.Domain.UseCases.Group;
 using IlluminareToys.Domain.UseCases.Tag;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
@@ -71,7 +72,10 @@ namespace IlluminareToys.Web.Controllers
 
         // GET: TagsController/Edit/5
         [HttpGet("Edit/{id:guid}")]
-        public async Task<ActionResult> Edit([FromRoute] Guid id, [FromServices] IGetTagByIdUseCase getTagByIdUseCase, CancellationToken cancellationToken)
+        public async Task<ActionResult> Edit([FromRoute] Guid id,
+                                             [FromServices] IGetTagByIdUseCase getTagByIdUseCase,
+                                             [FromServices] IGetGroupsUseCase getGroupsUseCase,
+                                             CancellationToken cancellationToken)
         {
             var output = await getTagByIdUseCase.ExecuteAsync(id, cancellationToken);
 
@@ -81,6 +85,8 @@ namespace IlluminareToys.Web.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewBag.Groups = await getGroupsUseCase.ExecuteAsync(cancellationToken);
 
             return View(output);
         }

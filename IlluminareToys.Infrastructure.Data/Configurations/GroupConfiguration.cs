@@ -11,7 +11,6 @@ namespace IlluminareToys.Infrastructure.Data.Configurations
             builder.Property(x => x.CreatedAt).HasColumnType("timestamp with time zone").HasDefaultValueSql("now()");
             builder.Property(x => x.UpdatedAt).HasColumnType("timestamp with time zone").HasDefaultValueSql("now()");
             builder.Property(x => x.Active).HasDefaultValue(true);
-            builder.Property(x => x.Age).IsRequired();
         }
     }
 }

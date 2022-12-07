@@ -6,6 +6,7 @@ using NToastNotify;
 
 namespace IlluminareToys.Web.Controllers
 {
+    [Route("[controller]")]
     public class GroupsController : Controller
     {
         private readonly IToastNotification _toastNotification;
@@ -45,6 +46,24 @@ namespace IlluminareToys.Web.Controllers
             }
 
             _toastNotification.AddSuccessToastMessage("Grupo criado com sucesso.");
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost("Delete/{id:guid}")]
+        public async Task<ActionResult> Delete([FromRoute] Guid id,
+                                               [FromServices] IDeleteGroupUseCase deleteTagUseCase,
+                                               CancellationToken cancellationToken)
+        {
+            var output = await deleteTagUseCase.ExecuteAsync(id, cancellationToken);
+
+            if (!output.IsValid)
+            {
+                _toastNotification.AddErrorToastMessage("Erro ao excluir o grupo. Informe os campos corretamente.");
+                return RedirectToAction(nameof(Index));
+            }
+
+            _toastNotification.AddSuccessToastMessage("Grupo removida com sucesso.");
 
             return RedirectToAction(nameof(Index));
         }

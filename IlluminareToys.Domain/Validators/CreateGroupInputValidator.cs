@@ -11,10 +11,6 @@ namespace IlluminareToys.Domain.Validators
             RuleFor(x => x.Description)
                 .NotEmpty()
                 .WithMessage(ValidationMessages.DescriptionInvalid);
-
-            RuleFor(x => x.Age)
-                .NotEmpty()
-                .WithMessage(ValidationMessages.AgeInvalid);
         }
     }
 }

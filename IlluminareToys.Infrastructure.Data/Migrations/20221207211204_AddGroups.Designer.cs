@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IlluminareToys.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221207152829_AddGroup")]
-    partial class AddGroup
+    [Migration("20221207211204_AddGroups")]
+    partial class AddGroups
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,11 +36,6 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(true)
                         .HasColumnName("active");
-
-                    b.Property<string>("Age")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("age");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()

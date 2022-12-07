@@ -25,9 +25,6 @@
                             @Html.DisplayNameFor(model => model.Description)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Age)
-                        </th>
-                        <th>
                             @Html.DisplayNameFor(model => model.CreatedAt)
                         </th>
                         <th>
@@ -45,9 +42,6 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Description)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Age)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.CreatedAt)
@@ -72,10 +66,10 @@
 </div>
 
 <script>
-    function deleteGroup(tagId) {
-        showConfirmDialog('Você tem certeza?', "Esta ação irá excluir a tag selecionada e desassociar os produtos relacionados a ela.", () => {
+    function deleteGroup(groupId) {
+        showConfirmDialog('Você tem certeza?', "Esta ação irá excluir o grupo selecionado e as idades relacionadas a ele.", () => {
             showLoading();
-            $.post(`/Tags/Delete/${tagId}`)
+            $.post(`/Groups/Delete/${groupId}`)
                 .then(r => {
                     location.reload()
                 });

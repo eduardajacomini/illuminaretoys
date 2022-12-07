@@ -35,11 +35,6 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
                         .HasDefaultValue(true)
                         .HasColumnName("active");
 
-                    b.Property<string>("Age")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("age");
-
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")

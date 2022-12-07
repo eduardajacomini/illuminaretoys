@@ -3,12 +3,16 @@
 @{
     ViewData["Title"] = "Editar Tag";
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+    var groups = ViewBag.Groups as IEnumerable<GetGroupOutput>;
 }
 
 <div class="col-md-12">
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Editar @Model.Description</h3>
+            <div class="card-tools">
+                <a class="btn btn-primary" asp-action="Index">Voltar</a>
+            </div>
         </div>
         <div class="card-body">
             <form asp-action="Edit">
@@ -26,9 +30,33 @@
             </form>
         </div>
         <div class="card-footer">
+        </div>
+    </div>
+
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Grupos da Tag</h3>
             <div class="card-tools">
-                <a class="btn btn-primary" asp-action="Details" asp-route-id="@Model.Id">Voltar</a>
+                <a class="btn btn-secondary" asp-action="Create">Salvar Grupos</a>
             </div>
+        </div>
+        <div class="card-body">
+            <div class="col-md-12">
+                <div class="row">
+                    @foreach (var group in groups)
+                    {
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label class="control-label">@group.Description</label>
+                                <input type="text" class="form-control" placeholder="Informe a idade"/>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            The footer of the card
         </div>
     </div>
 </div>
