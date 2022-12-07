@@ -16,11 +16,6 @@ namespace IlluminareToys.Infrastructure.Providers
             _storageContainer = _configuration["AzureBlobContainer"];
         }
 
-        public async Task DeleteImageAsync()
-        {
-
-        }
-
         public async Task<string> UploadImageAsync(string base64Image, CancellationToken cancellationToken)
         {
             // Gera um nome randomico para imagem
