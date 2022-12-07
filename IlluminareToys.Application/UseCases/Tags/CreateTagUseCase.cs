@@ -6,7 +6,7 @@ using IlluminareToys.Domain.Outputs;
 using IlluminareToys.Domain.Repositories;
 using IlluminareToys.Domain.UseCases.Tag;
 
-namespace IlluminareToys.Application.UseCases
+namespace IlluminareToys.Application.UseCases.Tags
 {
     public class CreateTagUseCase : ICreateTagUseCase
     {

@@ -5,7 +5,7 @@ using IlluminareToys.Domain.Outputs;
 using IlluminareToys.Domain.Repositories;
 using IlluminareToys.Domain.UseCases.Product;
 
-namespace IlluminareToys.Application.UseCases
+namespace IlluminareToys.Application.UseCases.Products
 {
     public class DeleteProductUseCase : IDeleteProductUseCase
     {

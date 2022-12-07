@@ -2,7 +2,7 @@
 using IlluminareToys.Domain.UseCases.Product;
 using IlluminareToys.Domain.UseCases.Tag;
 
-namespace IlluminareToys.Application.UseCases
+namespace IlluminareToys.Application.UseCases.Tags
 {
     public class AssociateTagUseCase : IAssociateTagUseCase
     {

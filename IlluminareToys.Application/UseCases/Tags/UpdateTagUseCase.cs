@@ -6,40 +6,43 @@ using IlluminareToys.Domain.Outputs;
 using IlluminareToys.Domain.Repositories;
 using IlluminareToys.Domain.UseCases.Tag;
 
-namespace IlluminareToys.Application.UseCases
+namespace IlluminareToys.Application.UseCases.Tags
 {
-    public class DeleteTagUseCase : IDeleteTagUseCase
+    public class UpdateTagUseCase : IUpdateTagUseCase
     {
         private readonly ITagRepository _tagRepository;
         private readonly IMapper _mapper;
-        private readonly IValidator<DeleteTagInput> _validator;
+        private readonly IValidator<UpdateTagInput> _validator;
 
-        public DeleteTagUseCase(ITagRepository tagRepository, IMapper mapper, IValidator<DeleteTagInput> validator)
+        public UpdateTagUseCase(ITagRepository tagRepository, IMapper mapper, IValidator<UpdateTagInput> validator)
         {
             _tagRepository = tagRepository;
             _mapper = mapper;
             _validator = validator;
         }
 
-        public async Task<DeleteTagOutput> ExecuteAsync(DeleteTagInput input, CancellationToken cancellationToken)
+        public async Task<UpdateTagOutput> ExecuteAsync(UpdateTagInput input, CancellationToken cancellationToken)
         {
             var validationResult = await _validator.ValidateAsync(input, cancellationToken);
 
             if (!validationResult.IsValid)
             {
-                return new DeleteTagOutput(validationResult.Errors);
+                return new UpdateTagOutput(validationResult.Errors);
             }
 
             var entity = await _tagRepository.GetByIdAsync(input.Id, cancellationToken);
 
             if (entity is null)
             {
-                return new DeleteTagOutput(new ValidationFailure(nameof(input.Id), "Tag não encontrada."));
+                return new UpdateTagOutput(new ValidationFailure(nameof(input.Id), "Tag não encontrada."));
             }
 
-            await _tagRepository.LogicDeleteAsync(entity, cancellationToken);
+            entity.SetDescription(input.Description);
 
-            return _mapper.Map<DeleteTagOutput>(entity);
+            await _tagRepository.UpdateAsync(entity, cancellationToken);
+
+
+            return _mapper.Map<UpdateTagOutput>(entity);
         }
     }
 }

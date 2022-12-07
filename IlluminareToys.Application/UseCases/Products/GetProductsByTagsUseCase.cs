@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
+using IlluminareToys.Domain.Inputs;
 using IlluminareToys.Domain.Outputs;
 using IlluminareToys.Domain.Repositories;
 using IlluminareToys.Domain.UseCases.Product;
 
-namespace IlluminareToys.Domain.Inputs
+namespace IlluminareToys.Application.UseCases.Products
 {
     public class GetProductsByTagsUseCase : IGetProductsByTagsUseCase
     {

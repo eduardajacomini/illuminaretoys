@@ -53,6 +53,11 @@ namespace IlluminareToys.Application
              .RegisterType<AddImageProductInputValidator>()
              .As<IValidator<AddImageProductInput>>()
              .InstancePerLifetimeScope();
+
+            builder
+             .RegisterType<CreateGroupInputValidator>()
+             .As<IValidator<CreateGroupInput>>()
+             .InstancePerLifetimeScope();
         }
 
         private void RegisterMaps(ContainerBuilder builder)

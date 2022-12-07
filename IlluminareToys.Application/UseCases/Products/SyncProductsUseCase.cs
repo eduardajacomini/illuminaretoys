@@ -6,7 +6,7 @@ using IlluminareToys.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace IlluminareToys.Application.UseCases
+namespace IlluminareToys.Application.UseCases.Products
 {
     public class SyncProductsUseCase : ISyncProductsUseCase
     {

@@ -6,7 +6,7 @@ using IlluminareToys.Domain.Providers;
 using IlluminareToys.Domain.Repositories;
 using IlluminareToys.Domain.UseCases.Product;
 
-namespace IlluminareToys.Application.UseCases
+namespace IlluminareToys.Application.UseCases.Products
 {
     public class AddImageProductUseCase : IAddImageProductUseCase
     {
