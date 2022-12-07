@@ -16,11 +16,8 @@ namespace IlluminareToys.Infrastructure.Providers
             _storageContainer = _configuration["AzureBlobContainer"];
         }
 
-        public async Task<string> UploadImageAsync(string base64Image, CancellationToken cancellationToken)
+        public async Task<string> UploadImageAsync(string base64Image, string fileName, CancellationToken cancellationToken)
         {
-            // Gera um nome randomico para imagem
-            var fileName = Guid.NewGuid().ToString() + ".jpg";
-
             // Limpa o hash enviado
             var data = new Regex(@"^data:image\/[a-z]+;base64,").Replace(base64Image, "");
 
@@ -32,7 +29,7 @@ namespace IlluminareToys.Infrastructure.Providers
             // Envia a imagem
             using var stream = new MemoryStream(imageBytes);
 
-            await blobClient.UploadAsync(stream, cancellationToken);
+            await blobClient.UploadAsync(stream, true, cancellationToken);
 
             // Retorna a URL da imagem
             return blobClient.Uri.AbsoluteUri;

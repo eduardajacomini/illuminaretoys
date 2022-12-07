@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
 using IlluminareToys.Domain.Inputs;
 using IlluminareToys.Domain.Outputs;
 using IlluminareToys.Domain.Providers;
@@ -31,6 +32,13 @@ namespace IlluminareToys.Application.UseCases
                 return new AddImageProductOutput(validationResult.Errors);
             }
 
+            var product = await _productRepository.GetByIdAsync(input.ProductId);
+
+            if (product is null)
+            {
+                return new AddImageProductOutput(new ValidationFailure(nameof(input.ProductId), "Produto não encontrado."));
+            }
+
             using var memoryStream = new MemoryStream();
 
             input.Image.CopyTo(memoryStream);
@@ -39,9 +47,9 @@ namespace IlluminareToys.Application.UseCases
 
             var imageBase64 = Convert.ToBase64String(imageBytes);
 
-            var imageUrl = await _azureStorageProvider.UploadImageAsync(imageBase64, cancellationToken);
+            var fileName = string.Concat(product.Id, ".jpg");
 
-            var product = await _productRepository.GetByIdAsync(input.ProductId);
+            var imageUrl = await _azureStorageProvider.UploadImageAsync(imageBase64, fileName, cancellationToken);
 
             product.SetImageUrl(imageUrl);
 
