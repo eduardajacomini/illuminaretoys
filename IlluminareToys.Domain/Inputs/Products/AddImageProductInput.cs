@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace IlluminareToys.Domain.Inputs
+namespace IlluminareToys.Domain.Inputs.Products
 {
     public record AddImageProductInput
     {

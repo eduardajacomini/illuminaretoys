@@ -1,5 +1,5 @@
 ﻿using IlluminareToys.Application.Extensions;
-using IlluminareToys.Domain.Inputs;
+using IlluminareToys.Domain.Inputs.Tags;
 using IlluminareToys.Domain.UseCases.Group;
 using IlluminareToys.Domain.UseCases.Tag;
 using Microsoft.AspNetCore.Mvc;

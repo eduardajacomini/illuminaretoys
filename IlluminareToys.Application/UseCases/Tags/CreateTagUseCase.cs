@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using IlluminareToys.Domain.Entities;
-using IlluminareToys.Domain.Inputs;
+using IlluminareToys.Domain.Inputs.Tags;
 using IlluminareToys.Domain.Outputs.Tag;
 using IlluminareToys.Domain.Repositories;
 using IlluminareToys.Domain.UseCases.Tag;

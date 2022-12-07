@@ -1,5 +1,5 @@
 ﻿using IlluminareToys.Application.Extensions;
-using IlluminareToys.Domain.Inputs;
+using IlluminareToys.Domain.Inputs.Groups;
 using IlluminareToys.Domain.UseCases.Group;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;

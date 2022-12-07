@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using IlluminareToys.Domain.Inputs;
+using IlluminareToys.Domain.Inputs.Products;
 using IlluminareToys.Domain.Outputs.Product;
 using IlluminareToys.Domain.Repositories;
 using IlluminareToys.Domain.UseCases.Product;

@@ -1,4 +1,4 @@
-﻿namespace IlluminareToys.Domain.Inputs
+﻿namespace IlluminareToys.Domain.Inputs.Products
 {
     public class GetProductsByTagsInput
     {

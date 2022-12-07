@@ -2,7 +2,9 @@
 using AutoMapper;
 using FluentValidation;
 using IlluminareToys.Application.Workers;
-using IlluminareToys.Domain.Inputs;
+using IlluminareToys.Domain.Inputs.Groups;
+using IlluminareToys.Domain.Inputs.Products;
+using IlluminareToys.Domain.Inputs.Tags;
 using IlluminareToys.Domain.Validators;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
@@ -58,6 +60,11 @@ namespace IlluminareToys.Application
              .RegisterType<CreateGroupInputValidator>()
              .As<IValidator<CreateGroupInput>>()
              .InstancePerLifetimeScope();
+
+            builder
+            .RegisterType<CreateTagGroupInputValidator>()
+            .As<IValidator<CreateTagGroupInput>>()
+            .InstancePerLifetimeScope();
         }
 
         private void RegisterMaps(ContainerBuilder builder)

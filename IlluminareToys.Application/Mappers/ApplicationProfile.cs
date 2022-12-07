@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using IlluminareToys.Domain.Entities;
-using IlluminareToys.Domain.Inputs;
+using IlluminareToys.Domain.Inputs.Groups;
+using IlluminareToys.Domain.Inputs.Tags;
 using IlluminareToys.Domain.Outputs.Group;
 using IlluminareToys.Domain.Outputs.Product;
 using IlluminareToys.Domain.Outputs.Tag;

@@ -1,4 +1,4 @@
-﻿using IlluminareToys.Domain.Inputs;
+﻿using IlluminareToys.Domain.Inputs.Groups;
 using IlluminareToys.Domain.Outputs.Group;
 
 namespace IlluminareToys.Domain.UseCases.Group

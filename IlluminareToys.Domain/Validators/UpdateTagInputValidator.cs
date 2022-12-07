@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using IlluminareToys.Domain.Constants;
-using IlluminareToys.Domain.Inputs;
+using IlluminareToys.Domain.Inputs.Tags;
 
 namespace IlluminareToys.Domain.Validators
 {

@@ -9,5 +9,6 @@
         public const string BlingProductIdInvalid = "BlingProductId inválidos.";
         public const string ImageInvalid = "Imagem inválida.";
         public const string ImageRequired = "Imagem obrigatória.";
+        public const string TagsGroups = "TagGroups inválidos.";
     }
 }

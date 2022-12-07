@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IlluminareToys.Domain.Inputs
+namespace IlluminareToys.Domain.Inputs.Tags
 {
     public class UpdateTagInput
     {
