@@ -1,4 +1,4 @@
-﻿namespace IlluminareToys.Domain.Outputs
+﻿namespace IlluminareToys.Domain.Outputs.Tag
 {
     public class GetTagProductOutput
     {

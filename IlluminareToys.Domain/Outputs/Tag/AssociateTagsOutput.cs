@@ -1,4 +1,6 @@
-﻿namespace IlluminareToys.Domain.Outputs
+﻿using IlluminareToys.Domain.Outputs.Product;
+
+namespace IlluminareToys.Domain.Outputs.Tag
 {
     public class AssociateTagsOutput
     {

@@ -1,11 +1,12 @@
 ﻿using FluentValidation.Results;
+using IlluminareToys.Domain.Outputs.Tag;
 using System.ComponentModel.DataAnnotations;
 
-namespace IlluminareToys.Domain.Outputs
+namespace IlluminareToys.Domain.Outputs.Product
 {
-    public class GetProductOutput : BaseOutput
+    public class GetProductsByTagsOutput : BaseOutput
     {
-        public GetProductOutput(IEnumerable<ValidationFailure> errors = null) : base(errors) { }
+        public GetProductsByTagsOutput(IEnumerable<ValidationFailure> errors = null) : base(errors) { }
 
         public Guid Id { get; private set; }
         public string BlingId { get; private set; }

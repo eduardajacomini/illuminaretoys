@@ -1,13 +1,11 @@
 ﻿using FluentValidation.Results;
 using System.ComponentModel.DataAnnotations;
 
-namespace IlluminareToys.Domain.Outputs
+namespace IlluminareToys.Domain.Outputs.Tag
 {
-    public class UpdateTagOutput : BaseOutput
+    public class GetTagOutput : BaseOutput
     {
-        public UpdateTagOutput(IEnumerable<ValidationFailure> errors = null) : base(errors) { }
-
-        public UpdateTagOutput(ValidationFailure error) : base(error) { }
+        public GetTagOutput(IEnumerable<ValidationFailure> errors = null) : base(errors) { }
 
         [Display(Name = "Id")]
         public Guid Id { get; set; }

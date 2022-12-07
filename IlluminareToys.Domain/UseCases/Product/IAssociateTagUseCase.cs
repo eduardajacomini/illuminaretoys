@@ -1,4 +1,4 @@
-﻿using IlluminareToys.Domain.Outputs;
+﻿using IlluminareToys.Domain.Outputs.Tag;
 
 namespace IlluminareToys.Domain.UseCases.Product
 {

@@ -1,7 +1,7 @@
 ﻿using FluentValidation.Results;
 using System.ComponentModel.DataAnnotations;
 
-namespace IlluminareToys.Domain.Outputs
+namespace IlluminareToys.Domain.Outputs.Group
 {
     public class CreateGroupOutput : BaseOutput
     {

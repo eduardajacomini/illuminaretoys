@@ -1,5 +1,5 @@
 ﻿using IlluminareToys.Domain.Inputs;
-using IlluminareToys.Domain.Outputs;
+using IlluminareToys.Domain.Outputs.Product;
 
 namespace IlluminareToys.Domain.UseCases.Product
 {

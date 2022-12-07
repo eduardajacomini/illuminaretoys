@@ -2,7 +2,7 @@
 using FluentValidation.Results;
 using IlluminareToys.Domain.Entities;
 using IlluminareToys.Domain.Inputs;
-using IlluminareToys.Domain.Outputs;
+using IlluminareToys.Domain.Outputs.Tag;
 using IlluminareToys.Domain.Repositories;
 using IlluminareToys.Domain.UseCases.Product;
 

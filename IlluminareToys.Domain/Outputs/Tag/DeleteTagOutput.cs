@@ -1,6 +1,6 @@
 ﻿using FluentValidation.Results;
 
-namespace IlluminareToys.Domain.Outputs
+namespace IlluminareToys.Domain.Outputs.Tag
 {
     public class DeleteTagOutput : BaseOutput
     {

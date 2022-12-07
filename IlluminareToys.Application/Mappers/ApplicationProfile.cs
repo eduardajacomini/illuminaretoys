@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using IlluminareToys.Domain.Entities;
 using IlluminareToys.Domain.Inputs;
-using IlluminareToys.Domain.Outputs;
+using IlluminareToys.Domain.Outputs.Group;
+using IlluminareToys.Domain.Outputs.Product;
+using IlluminareToys.Domain.Outputs.Tag;
 using IlluminareToys.Infrastructure.Bling.Contracts;
 
 namespace IlluminareToys.Application.Mappers
@@ -19,6 +21,7 @@ namespace IlluminareToys.Application.Mappers
             CreateMap<CreateTagInput, Tag>();
 
             CreateMap<Tag, UpdateTagOutput>();
+
             CreateMap<Tag, DeleteTagOutput>();
 
             CreateMap<ProductData, Product>()
@@ -30,6 +33,10 @@ namespace IlluminareToys.Application.Mappers
 
             CreateMap<Product, GetProductsByTagsOutput>()
                 .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.TagsProducts));
+
+            CreateMap<CreateGroupInput, Group>();
+
+            CreateMap<Group, CreateGroupOutput>();
         }
     }
 }
