@@ -3,6 +3,7 @@ using IlluminareToys.Domain.Entities;
 using IlluminareToys.Domain.Inputs.Tags;
 using IlluminareToys.Domain.Outputs.Tag;
 using IlluminareToys.Domain.Repositories;
+using IlluminareToys.Domain.Shared.Extensions;
 using IlluminareToys.Domain.UseCases.Tag;
 
 namespace IlluminareToys.Application.UseCases.Tags
@@ -27,7 +28,7 @@ namespace IlluminareToys.Application.UseCases.Tags
                 return new CreateTagGroupOutput(validationResult.Errors);
             }
 
-            foreach (var item in input.TagsGroups)
+            foreach (var item in input.TagsGroups.Where(x => !x.Age.IsNullOrWhiteSpace()))
             {
                 var existingEntities = await _tagGroupRepository.ListAsync(x => x.GroupId.Equals(item.GroupId) &&
                                                                                 x.TagId.Equals(item.TagId), cancellationToken);

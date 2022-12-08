@@ -47,6 +47,8 @@ namespace IlluminareToys.Web.Controllers
         // GET: TagsController/Create
         public ActionResult Create()
         {
+            ViewBag.Groups = await getGroupsUseCase.ExecuteAsync(cancellationToken);
+
             return View();
         }
 
@@ -75,6 +77,7 @@ namespace IlluminareToys.Web.Controllers
         public async Task<ActionResult> Edit([FromRoute] Guid id,
                                              [FromServices] IGetTagByIdUseCase getTagByIdUseCase,
                                              [FromServices] IGetGroupsUseCase getGroupsUseCase,
+                                             [FromServices] IGetTagsGroupsByTagIdUseCase getTagsGroupsUseCase,
                                              CancellationToken cancellationToken)
         {
             var output = await getTagByIdUseCase.ExecuteAsync(id, cancellationToken);
@@ -87,6 +90,7 @@ namespace IlluminareToys.Web.Controllers
             }
 
             ViewBag.Groups = await getGroupsUseCase.ExecuteAsync(cancellationToken);
+            ViewBag.ExistingTagsGroups = await getTagsGroupsUseCase.ExecuteAsync(id, cancellationToken);
 
             return View(output);
         }

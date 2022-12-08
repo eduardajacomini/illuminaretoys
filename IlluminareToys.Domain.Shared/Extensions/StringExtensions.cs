@@ -11,5 +11,8 @@ namespace IlluminareToys.Domain.Shared.Extensions
             var startUnderscores = Regex.Match(input, @"^_+");
             return startUnderscores + Regex.Replace(input, @"([a-z0-9])([A-Z])", "$1_$2").ToLower();
         }
+
+        public static bool IsNullOrWhiteSpace(this string input)
+            => string.IsNullOrWhiteSpace(input);
     }
 }

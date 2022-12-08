@@ -16,7 +16,7 @@ namespace IlluminareToys.Web.Controllers
             _toastNotification = toastNotification;
         }
 
-        [HttpPost("Create")]
+        [HttpPost]
         public async Task<ActionResult> Create([FromBody] CreateTagsGroupsInput input,
                                                [FromServices] ICreateTagsGroupsUseCase createTagsGroupsUseCase,
                                                CancellationToken cancellationToken)

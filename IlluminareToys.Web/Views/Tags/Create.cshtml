@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Criar Tag";
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+
+    var groups = ViewBag.Groups as IEnumerable<GetGroupOutput>;
 }
 
 <div class="col-md-12">
@@ -22,6 +24,22 @@
                             <label asp-for="Description" class="control-label"></label>
                             <input asp-for="Description" class="form-control" />
                             <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                @foreach (var group in groups)
+                                {
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">@group.Name</label>
+                                            <input type="text"
+                                                   id="@group.Id"
+                                                   class="form-control group-age"
+                                                   placeholder="Informe a idade" />
+                                        </div>
+                                    </div>
+                                }
+                            </div>
                         </div>
                         <div class="form-group">
                             <input type="submit" value="Criar" class="btn btn-primary" />
