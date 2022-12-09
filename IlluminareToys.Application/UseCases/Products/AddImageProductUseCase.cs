@@ -1,10 +1,13 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using IlluminareToys.Domain.Entities;
 using IlluminareToys.Domain.Inputs.Products;
 using IlluminareToys.Domain.Outputs.Product;
 using IlluminareToys.Domain.Providers;
 using IlluminareToys.Domain.Repositories;
 using IlluminareToys.Domain.UseCases.Product;
+using IlluminareToys.Infrastructure.Bling;
+using IlluminareToys.Infrastructure.Bling.Contracts;
 
 namespace IlluminareToys.Application.UseCases.Products
 {
@@ -13,14 +16,17 @@ namespace IlluminareToys.Application.UseCases.Products
         private readonly IAzureStorageProvider _azureStorageProvider;
         private readonly IValidator<AddImageProductInput> _validator;
         private readonly IProductRepository _productRepository;
+        private readonly IBlingClient _blingClient;
 
         public AddImageProductUseCase(IAzureStorageProvider azureStorageProvider,
             IValidator<AddImageProductInput> validator,
-            IProductRepository productRepository)
+            IProductRepository productRepository,
+            IBlingClient blingClient)
         {
             _azureStorageProvider = azureStorageProvider;
             _validator = validator;
             _productRepository = productRepository;
+            _blingClient = blingClient;
         }
 
         public async Task<AddImageProductOutput> ExecuteAsync(AddImageProductInput input, CancellationToken cancellationToken)
@@ -55,7 +61,31 @@ namespace IlluminareToys.Application.UseCases.Products
 
             await _productRepository.UpdateAsync(product, cancellationToken);
 
+            await PutImageInProductAsync(product, imageUrl, cancellationToken);
+
             return new();
+        }
+
+        private async Task PutImageInProductAsync(Product product, string imageUrl, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var request = new PutImageInProductRequest
+                {
+                    Code = product.Code,
+                    Description = product.Description,
+                    Images = new ImageRequest
+                    {
+                        Url = imageUrl
+                    }
+                };
+
+                await _blingClient.PutImageInProductAsync(request, cancellationToken);
+            }
+            catch (Exception)
+            {
+                return;
+            }
         }
     }
 }

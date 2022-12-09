@@ -72,6 +72,8 @@ namespace IlluminareToys.Application.UseCases.Products
 
                 await context.Products.AddRangeAsync(entities, cancellationToken);
 
+                await DeleteProductsThatNotInBling(context, resultItemsIds, cancellationToken);
+
                 await context.SaveChangesAsync(cancellationToken);
 
                 await transaction.CommitAsync(cancellationToken);
@@ -87,6 +89,25 @@ namespace IlluminareToys.Application.UseCases.Products
 
                 throw ex;
             }
+        }
+
+        private async Task DeleteProductsThatNotInBling(AppDbContext context,
+                                                        IEnumerable<string> resultItemsIds,
+                                                        CancellationToken cancellationToken)
+        {
+            var productsInDbToDelete = await context
+                    .Products
+                    .Where(x => !resultItemsIds.Contains(x.BlingId))
+                    .ToListAsync(cancellationToken);
+
+            var tagsProductsToDelete = await context
+                .TagsProducts
+                .Where(x => productsInDbToDelete.Select(x => x.Id).Contains(x.ProductId))
+                .ToListAsync(cancellationToken);
+
+
+            context.TagsProducts.RemoveRange(tagsProductsToDelete);
+            context.Products.RemoveRange(productsInDbToDelete);
         }
     }
 }

@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IlluminareToys.Domain.Shared\IlluminareToys.Domain.Shared.csproj" />
     <ProjectReference Include="..\IlluminareToys.Infrastructure.Data\IlluminareToys.Infrastructure.Data.csproj" />
   </ItemGroup>
 

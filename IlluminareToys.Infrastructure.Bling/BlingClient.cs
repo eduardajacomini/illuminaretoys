@@ -1,4 +1,5 @@
-﻿using IlluminareToys.Infrastructure.Bling.Contracts;
+﻿using IlluminareToys.Domain.Shared.Extensions;
+using IlluminareToys.Infrastructure.Bling.Contracts;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
@@ -50,6 +51,22 @@ namespace IlluminareToys.Infrastructure.Bling
             }
 
             return finalResponse;
+        }
+
+        public async Task PutImageInProductAsync(PutImageInProductRequest request, CancellationToken cancellationToken)
+        {
+            var apiKey = _configuration["BlingApiKey"];
+            var url = $"/Api/v2/produto/{request.Code}/json/";
+
+            var xml = request.ToXml();
+
+            var dict = new Dictionary<string, string>();
+            dict.Add("apikey", apiKey);
+            dict.Add("xml", xml);
+
+            var response = await _httpClient.PostAsync(url, new FormUrlEncodedContent(dict), cancellationToken);
+
+            response.EnsureSuccessStatusCode();
         }
     }
 }
