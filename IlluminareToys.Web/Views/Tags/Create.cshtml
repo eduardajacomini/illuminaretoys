@@ -16,37 +16,61 @@
             </div>
         </div>
         <div class="card-body">
-            <div>
+            <form>
                 <div class="col-md-4">
-                    <form asp-action="Create">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group">
-                            <label asp-for="Description" class="control-label"></label>
-                            <input asp-for="Description" class="form-control" />
-                            <span asp-validation-for="Description" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                @foreach (var group in groups)
-                                {
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <label class="control-label">@group.Name</label>
-                                            <input type="text"
-                                                   id="@group.Id"
-                                                   class="form-control group-age"
-                                                   placeholder="Informe a idade" />
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" value="Criar" class="btn btn-primary" />
-                        </div>
-                    </form>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label">Descrição</label>
+                        <input id="input-description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
                 </div>
-            </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        @foreach (var group in groups)
+                        {
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="control-label">@group.Name</label>
+                                    <input type="text"
+                                           id="@group.Id"
+                                           class="form-control group-age"
+                                           placeholder="Informe a idade" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" onclick="saveTag()">Criar</button>
+                </div>
+
+            </form>
         </div>
     </div>
 </div>
+
+<script>
+    const saveTag = () => {
+        showLoading();
+
+        const inputsGroups = $('.group-age');
+
+        const body = {
+            description: $('#input-description').val(),
+            tagsGroups: []
+        }
+
+        for (let i = 0; i < inputsGroups.length; i++) {
+            body.tagsGroups.push({
+                groupId: inputsGroups[i].id,
+                age: inputsGroups[i].value
+            });
+        }
+
+        axios.post('/Tags/Create', body)
+            .then(_ => {
+                location.reload()
+            })
+    }
+</script>

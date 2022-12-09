@@ -45,7 +45,8 @@ namespace IlluminareToys.Web.Controllers
 
         [HttpGet("Create")]
         // GET: TagsController/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create([FromServices] IGetGroupsUseCase getGroupsUseCase,
+                                               CancellationToken cancellationToken)
         {
             ViewBag.Groups = await getGroupsUseCase.ExecuteAsync(cancellationToken);
 
@@ -54,8 +55,7 @@ namespace IlluminareToys.Web.Controllers
 
         // POST: TagsController/Create
         [HttpPost("Create")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind("Description")] CreateTagInput input,
+        public async Task<ActionResult> Create([FromBody] CreateTagInput input,
                                                [FromServices] ICreateTagUseCase createTagUseCase,
                                                CancellationToken cancellationToken)
         {

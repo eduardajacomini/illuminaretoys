@@ -13,14 +13,17 @@ namespace IlluminareToys.Application.UseCases.Tags
         private readonly ITagRepository _tagRepository;
         private readonly IMapper _mapper;
         private readonly IValidator<CreateTagInput> _validator;
+        private readonly ICreateTagsGroupsUseCase _createTagsGroupsUseCase;
 
         public CreateTagUseCase(ITagRepository tagRepository,
                                 IMapper mapper,
-                                IValidator<CreateTagInput> validator)
+                                IValidator<CreateTagInput> validator,
+                                ICreateTagsGroupsUseCase createTagsGroupsUseCase)
         {
             _tagRepository = tagRepository;
             _mapper = mapper;
             _validator = validator;
+            _createTagsGroupsUseCase = createTagsGroupsUseCase;
         }
 
         public async Task<CreateTagOutput> ExecuteAsync(CreateTagInput input, CancellationToken cancellationToken)
@@ -32,9 +35,16 @@ namespace IlluminareToys.Application.UseCases.Tags
                 return new CreateTagOutput(validationResult.Errors);
             }
 
-            var entity = _mapper.Map<Tag>(input);
+            var entity = new Tag(input.Description);
 
             await _tagRepository.AddAsync(entity, cancellationToken);
+
+            foreach (var tagGroup in input.TagsGroups)
+            {
+                tagGroup.TagId = entity.Id;
+            }
+
+            await _createTagsGroupsUseCase.ExecuteAsync(new CreateTagsGroupsInput(input.TagsGroups), cancellationToken);
 
             return _mapper.Map<CreateTagOutput>(entity);
         }

@@ -1,7 +1,12 @@
 ﻿namespace IlluminareToys.Domain.Inputs.Tags
 {
-    public record CreateTagsGroupsInput
+    public class CreateTagsGroupsInput
     {
+        public CreateTagsGroupsInput(IEnumerable<CreateTagGroupInputItem> tagsGroups = null)
+        {
+            TagsGroups = tagsGroups;
+        }
+
         public IEnumerable<CreateTagGroupInputItem> TagsGroups { get; set; } = new List<CreateTagGroupInputItem>();
     }
 
