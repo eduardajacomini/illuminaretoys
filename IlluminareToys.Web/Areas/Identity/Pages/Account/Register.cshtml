@@ -1,35 +1,21 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
-    Layout = null;
+    ViewData["Title"] = "Novo Usuário";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Registration</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <partial name="AdminLTE/_Styles" />
-</head>
-<body class="hold-transition register-page">
-    <div class="register-box">
-        <div class="register-logo">
-            <a href="https://codewithmukesh.com"><b>Admin</b>LTE</a> Starter Kit
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Novo Usuário</h3>
         </div>
-
-        <div class="card">
+        <div class="card-body">
             <div class="card-body register-card-body">
-                <p class="login-box-msg">Register a new membership</p>
-
                 <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
                     <small> <span asp-validation-for="Input.FirstName" class="text-danger"></span></small>
                     <div class="input-group mb-3">
-                        <input asp-for="Input.FirstName" type="text" class="form-control" placeholder="First Name">
+                        <input asp-for="Input.FirstName" type="text" class="form-control" placeholder="Nome">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -39,7 +25,7 @@
                     </div>
                     <small><span asp-validation-for="Input.LastName" class="text-danger"></span></small>
                     <div class="input-group mb-3">
-                        <input asp-for="Input.LastName" type="text" class="form-control" placeholder="Last Name">
+                        <input asp-for="Input.LastName" type="text" class="form-control" placeholder="Sobrenome">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -48,7 +34,7 @@
                     </div>
                     <small> <span asp-validation-for="Input.UserName" class="text-danger"></span></small>
                     <div class="input-group mb-3">
-                        <input asp-for="Input.UserName" type="text" class="form-control" placeholder="User Name">
+                        <input asp-for="Input.UserName" type="text" class="form-control" placeholder="Usuário">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -66,7 +52,7 @@
                     </div>
                     <small><span asp-validation-for="Input.Password" class="text-danger"></span></small>
                     <div class="input-group mb-3">
-                        <input asp-for="Input.Password" type="password" class="form-control" placeholder="Password">
+                        <input asp-for="Input.Password" type="password" class="form-control" placeholder="Senha">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -75,7 +61,7 @@
                     </div>
                     <small><span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span></small>
                     <div class="input-group mb-3">
-                        <input asp-for="Input.ConfirmPassword" type="password" class="form-control" placeholder="Retype password">
+                        <input asp-for="Input.ConfirmPassword" type="password" class="form-control" placeholder="Confirmação de Senha">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -86,22 +72,15 @@
                         <div asp-validation-summary="All" class="text-danger"></div>
                         <!-- /.col -->
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                            <button type="submit" class="btn btn-primary btn-block">Criar</button>
                         </div>
                         <!-- /.col -->
                     </div>
                 </form>
-
-
             </div>
-            <!-- /.form-box -->
-        </div><!-- /.card -->
+        </div>
     </div>
-    <a asp-page="LoginPage" class="text-center">Already Registered?</a>
-    <br />
-    <partial name="AdminLTE/_Scripts" />
-</body>
-</html>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

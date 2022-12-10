@@ -3,52 +3,63 @@
 @{
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
 }
-<div>
-    <h4>Gerenciar usuários</h4>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Sobrenome</th>
-                <th>Email</th>
-                <th>Permissões</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var user in Model.Users)
-            {
-                <tr>
-                    <td>@user.FirstName</td>
-                    <td>@user.LastName</td>
-                    <td>@user.Email</td>
-                    <td>
-                        @{
-                            if (user.Roles.Contains("SuperAdmin"))
-                            {
-                                <span class="badge badge-danger">SA</span>
-                            }
-                            else if (user.Roles.Contains("Admin"))
-                            {
-                                <span class="badge badge-danger">ADMIN</span>
-                            }
-                            else if (user.Roles.Contains("Moderator"))
-                            {
-                                <span class="badge badge-warning">MOD</span>
-                            }
-                            else if (user.Roles.Contains("Basic"))
-                            {
-                                <span class="badge badge-success">BASIC</span>
-                            }
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Gerenciar Usuários</h3>
+            <div class="card-tools">
+                <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Register">Novo Usuário</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Sobrenome</th>
+                            <th>Email</th>
+                            <th>Permissões</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Users)
+                        {
+                            <tr>
+                                <td>@user.FirstName</td>
+                                <td>@user.LastName</td>
+                                <td>@user.Email</td>
+                                <td>
+                                    @{
+                                        if (user.Roles.Contains("SuperAdmin"))
+                                        {
+                                            <span class="badge badge-danger">SUPER ADMIN</span>
+                                        }
+                                        else if (user.Roles.Contains("Admin"))
+                                        {
+                                            <span class="badge badge-danger">ADMIN</span>
+                                        }
+                                        else if (user.Roles.Contains("Moderator"))
+                                        {
+                                            <span class="badge badge-warning">MOD</span>
+                                        }
+                                        else if (user.Roles.Contains("Basic"))
+                                        {
+                                            <span class="badge badge-success">BÁSICO</span>
+                                        }
 
+                                    }
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/UserRoles" asp-route-userId="@user.UserId">Gerenciar Permissões</a>
+                                </td>
+                            </tr>
                         }
-                    </td>
-                    <td>
-                        <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/UserRoles" asp-route-userId="@user.UserId">Gerenciar Permissões</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                    </tbody>
+                </table>
 
+            </div>
+        </div>
+    </div>
 </div>

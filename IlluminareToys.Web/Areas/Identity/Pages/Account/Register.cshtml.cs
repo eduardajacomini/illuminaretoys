@@ -84,9 +84,9 @@ namespace IlluminareToys.Web.Areas.Identity.Pages.Account
                 {
                     _toastNotification.AddSuccessToastMessage("Novo usuário criado.");
                     await _userManager.AddToRoleAsync(user, Roles.Basic.ToString());
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _toastNotification.AddSuccessToastMessage($"Bem-vindo, {user.UserName}!");
-                    return LocalRedirect(returnUrl);
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    //_toastNotification.AddSuccessToastMessage($"Bem-vindo, {user.UserName}!");
+                    return LocalRedirect("/Identity/Account/Users");
                 }
                 foreach (var error in result.Errors)
                 {
