@@ -1,112 +1,69 @@
-﻿@model IEnumerable<GetProductsByTagsOutput>
-@{
+﻿@{
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
-
-    var tags = ViewBag.Tags as IEnumerable<GetTagOutput>;
-    var selectedTags = ViewBag.SelectedTags as IEnumerable<Guid> ?? new List<Guid>();
 }
 
 <div class="col-md-12">
-    <form method="POST" id="form-tags">
-        <div class="form-group">
-            @*<label>Select</label>*@
-            <select class="form-control" name="Tags" id="select-tags" multiple="multiple">
-                @foreach (var tag in tags)
-                {
-                    if (selectedTags.Contains(tag.Id))
-                    {
-                        <option value="@tag.Id" selected>@tag.Description</option>
-                    }
-                    else
-                    {
-                        <option value="@tag.Id">@tag.Description</option>
-                    }
-                }
-            </select>
-        </div>
-    </form>
-
-</div>
-
-<div class="col-md-12">
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        @*<ol class="carousel-indicators">
-                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-            </ol>*@
-        <div class="carousel-inner">
-            @foreach (var product in Model)
-            {
-                <div class="carousel-item @(Model.FirstOrDefault().Equals(product) ? "active" : "")">
-                    <img class="d-block w-100 product-image"
-                         src="@product.ImageUrl">
-                    <div class="product-container">
-                        <h5>@product.Description</h5>
-                        <p>@product.CategoryDescription</p>
-                        <div class="badges-product-tags">
-                            @foreach (var tag in product.Tags)
-                            {
-                                <span class="badge bg-primary">@tag.Tag.Description</span>
-                            }
-                        </div>
+    <div class="row">
+        @*<div class="col-lg-3 col-6">
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>150</h3>
+                        <p>New Orders</p>
                     </div>
+                    <div class="icon">
+                        <i class="ion ion-bag"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
-            }
+            </div>*@
+        <div class="col-lg-3">
+            <div class="card card-button mx-auto">
+                <a class="card-body" asp-action="KnowChild">
+                    <h3 class="display-5 text-center card-button-label">Conheço a criança</h3>
+                </a>
+            </div>
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
+        <div class="col-lg-3">
+            <div class="card card-button mx-auto">
+                <a class="card-body" asp-action="DontKnowChild">
+                    <h3 class="display-5 text-center card-button-label">Não conheço a criança</h3>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card card-button mx-auto">
+                <a class="card-body" asp-action="ByTag">
+                    <h3 class="display-5 text-center card-button-label">Aspecto do desenvolvimento</h3>
+                </a>
+            </div>
+        </div>
     </div>
-
 </div>
 
 <style>
-    .badges-product-tags {
-        flex-direction: row;
+    .card-button {
+        background-color: #f012be !important;
+        border-radius: 10px;
+        box-shadow: 0 0 2px #888;
     }
 
-    .product-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
+        .card-button:hover {
+            cursor: pointer;
+            opacity: 0.7;
+        }
 
-    .product-image {
-        height: 369px;
-        width: 369px;
-    }
-
-    .carousel-control-prev-icon {
-        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%202020' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
-    }
-
-    .carousel-control-next-icon {
-        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%202020' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
-    }
-
-    .carousel-caption > h5 {
-        color: black;
-    }
-
-    .select2-container--default .select2-selection--multiple .select2-selection__choice {
-        color: black;
+    .card-button-label {
+        color: white !important;
     }
 </style>
 
 <script>
-    $(document).ready(function () {
-        $('#select-tags').select2();
+    //$(document).ready(function () {
+    //    $('#select-tags').select2();
 
-        $('#select-tags').on('change', e => {
-            showLoading();
-            $('#form-tags').submit();
-        })
-    });
+    //    $('#select-tags').on('change', e => {
+    //        showLoading();
+    //        $('#form-tags').submit();
+    //    })
+    //});
 </script>

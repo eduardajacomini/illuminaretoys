@@ -1,0 +1,40 @@
+﻿@model IEnumerable<GetGroupOutput>
+
+@{
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+}
+
+<div class="col-md-12">
+    <div class="row">
+        @foreach (var group in Model)
+        {
+            <div class="col-lg-3">
+                <div class="card card-button mx-auto">
+                    <a class="card-body" asp-action="KnowChildAges" asp-route-groupId="@group.Id">
+                        <h3 class="display-5 text-center card-button-label">@group.Name</h3>
+                        <span class="text-muted text-center text-white">@group.Description</span>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+<style>
+    .card-button {
+        background-color: #f012be !important;
+        border-radius: 10px;
+        box-shadow: 0 0 2px #888;
+    }
+
+        .card-button:hover {
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+    .card-button-label {
+        color: white !important;
+        font-weight: bold;
+    }
+</style>

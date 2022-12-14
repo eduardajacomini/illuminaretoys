@@ -18,7 +18,7 @@ namespace IlluminareToys.Application.UseCases.Groups
 
         public async Task<IEnumerable<GetGroupOutput>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            var entities = await _groupRepository.ListAsync(x => x.Active, x => x.Description, cancellationToken);
+            var entities = await _groupRepository.ListAsync(x => x.Active, x => x.Name, cancellationToken);
 
             var output = _mapper.Map<IEnumerable<GetGroupOutput>>(entities);
 
