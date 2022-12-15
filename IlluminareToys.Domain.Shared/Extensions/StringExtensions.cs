@@ -14,5 +14,8 @@ namespace IlluminareToys.Domain.Shared.Extensions
 
         public static bool IsNullOrWhiteSpace(this string input)
             => string.IsNullOrWhiteSpace(input);
+
+        public static string RemoveSpaces(this string input)
+            => input.Trim().TrimStart().TrimEnd();
     }
 }

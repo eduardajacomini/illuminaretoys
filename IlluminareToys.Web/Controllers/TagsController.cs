@@ -1,6 +1,8 @@
 ﻿using IlluminareToys.Application.Extensions;
+using IlluminareToys.Domain.Inputs.Products;
 using IlluminareToys.Domain.Inputs.Tags;
 using IlluminareToys.Domain.UseCases.Group;
+using IlluminareToys.Domain.UseCases.Product;
 using IlluminareToys.Domain.UseCases.Tag;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
@@ -78,6 +80,7 @@ namespace IlluminareToys.Web.Controllers
                                              [FromServices] IGetTagByIdUseCase getTagByIdUseCase,
                                              [FromServices] IGetGroupsUseCase getGroupsUseCase,
                                              [FromServices] IGetTagsGroupsByTagIdUseCase getTagsGroupsUseCase,
+                                             [FromServices] IGetProductsByTagsUseCase getProductsByTagsUseCase,
                                              CancellationToken cancellationToken)
         {
             var output = await getTagByIdUseCase.ExecuteAsync(id, cancellationToken);
@@ -91,6 +94,10 @@ namespace IlluminareToys.Web.Controllers
 
             ViewBag.Groups = await getGroupsUseCase.ExecuteAsync(cancellationToken);
             ViewBag.ExistingTagsGroups = await getTagsGroupsUseCase.ExecuteAsync(id, cancellationToken);
+            ViewBag.Products = await getProductsByTagsUseCase.ExecuteAsync(new GetProductsByTagsInput
+            {
+                Tags = new List<Guid> { id }
+            }, cancellationToken);
 
             return View(output);
         }

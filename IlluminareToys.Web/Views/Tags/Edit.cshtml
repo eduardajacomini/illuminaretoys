@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
     var groups = ViewBag.Groups as IEnumerable<GetGroupOutput>;
     var existingTagsGroups = ViewBag.ExistingTagsGroups as IEnumerable<GetTagGroupOutput>;
+    var products = ViewBag.Products as IEnumerable<GetProductsByTagsOutput>;
 }
 
 <div class="col-md-12">
@@ -51,16 +52,16 @@
                                 <label class="control-label">@group.Name</label>
                                 @if (existingTagsGroups.Any(x => x.GroupId.Equals(group.Id)))
                                 {
-                                    <input type="text" 
-                                           id="@group.Id" 
-                                           class="form-control group-age" 
+                                    <input type="text"
+                                           id="@group.Id"
+                                           class="form-control group-age"
                                            value="@existingTagsGroups.FirstOrDefault(x => x.GroupId.Equals(group.Id)).Age" />
                                 }
                                 else
                                 {
-                                    <input type="text" 
-                                           id="@group.Id" 
-                                           class="form-control group-age" 
+                                    <input type="text"
+                                           id="@group.Id"
+                                           class="form-control group-age"
                                            placeholder="Informe a idade" />
 
                                 }
@@ -71,11 +72,97 @@
             </div>
         </div>
     </div>
+
+    <div class="card card-fuchsia">
+        <div class="card-header">
+            <h3 class="card-title">Produtos relacionados</h3>
+        </div>
+        <div class="card-body">
+            <div class="card-body table-responsive p-0">
+                <table id="table-products">
+                    <thead>
+                        <tr>
+                            <th data-align="center">
+                                Imagem
+                            </th>
+                            <th>
+                                BlingId
+                            </th>
+                            <th>
+                                Código
+                            </th>
+                            <th>
+                                Descrição
+                            </th>
+                            <th>
+                                Categoria
+                            </th>
+                            <th>
+                                Situação
+                            </th>
+                            <th>
+                                Criado em
+                            </th>
+                            <th>
+                                Sincronizado em
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in products)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="@item.ImageUrl" class="img-product" />
+                                </td>
+                                <td>
+                                    @item.BlingId
+                                </td>
+                                <td>
+                                    @item.Code
+                                </td>
+                                <td>
+                                    @item.Description
+                                </td>
+                                <td>
+                                    @item.CategoryDescription
+                                </td>
+                                <td>
+                                    @item.State
+                                </td>
+                                <td>
+                                    @item.BlingCreatedAt
+                                </td>
+                                <td>
+                                    @item.SynchronizedAt
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary" asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">
+                                        <i class="icon fas fa-eye"></i>
+                                    </a>
+                                    <a class="btn btn-secondary" asp-controller="Products" asp-action="AssociateTags" asp-route-productId="@item.Id">
+                                        <i class="icon fas fa-project-diagram"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
     $(document).ready(function () {
-        /*       $('input[type=checkbox][name*="indisponivel_"]')*/
+        $('#table-products').bootstrapTable({
+            pagination: true,
+            search: true,
+            sortable: true,
+            locale: 'pt-BR'
+        })
     });
 
     const saveGroupAges = (tagId) => {
@@ -102,3 +189,10 @@
     }
 
 </script>
+
+<style>
+    .img-product {
+        width: 50px;
+        height: 50px;
+    }
+</style>

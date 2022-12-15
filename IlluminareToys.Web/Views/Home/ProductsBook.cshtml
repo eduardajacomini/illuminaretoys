@@ -1,32 +1,12 @@
-﻿@model IEnumerable<GetProductsByTagsOutput>
+﻿@model IEnumerable<GetProductOutput>
 @{
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
 
-    var tags = ViewBag.Tags as IEnumerable<GetTagOutput>;
-    var selectedTags = ViewBag.SelectedTags as IEnumerable<Guid> ?? new List<Guid>();
+    //var tags = ViewBag.Tags as IEnumerable<GetTagOutput>;
+    //var selectedTags = ViewBag.SelectedTags as IEnumerable<Guid> ?? new List<Guid>();
 }
 
-<div class="col-md-12">
-    <form method="POST" id="form-tags">
-        <div class="form-group">
-            @*<label>Select</label>*@
-            <select class="form-control" name="Tags" id="select-tags" multiple="multiple">
-                @foreach (var tag in tags)
-                {
-                    if (selectedTags.Contains(tag.Id))
-                    {
-                        <option value="@tag.Id" selected>@tag.Description</option>
-                    }
-                    else
-                    {
-                        <option value="@tag.Id">@tag.Description</option>
-                    }
-                }
-            </select>
-        </div>
-    </form>
 
-</div>
 
 <div class="col-md-12">
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">

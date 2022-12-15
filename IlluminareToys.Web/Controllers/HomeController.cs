@@ -56,7 +56,18 @@ namespace IlluminareToys.Web.Controllers
 
             ViewBag.Group = await getGroupByIdUseCase.ExecuteAsync(groupId, cancellationToken);
 
-            return View(output);
+            return View(output.DistinctBy(x => x.Age));
+        }
+
+        [HttpGet("KnowChildAgesProducts/{groupId:guid}/{age}")]
+        public async Task<IActionResult> KnowChildAgesProducts([FromRoute] Guid groupId,
+                                                               [FromRoute] string age,
+                                                               [FromServices] IGetProductsByGroupIdUseCase getProductsByGroupIdUseCase,
+                                                               CancellationToken cancellationToken)
+        {
+            var output = await getProductsByGroupIdUseCase.ExecuteAsync(groupId, age, cancellationToken);
+
+            return View(nameof(ProductsBook), output);
         }
 
         [HttpGet]
@@ -67,6 +78,11 @@ namespace IlluminareToys.Web.Controllers
 
         [HttpGet]
         public IActionResult ByTag()
+        {
+            return View();
+        }
+
+        public IActionResult ProductsBook()
         {
             return View();
         }
