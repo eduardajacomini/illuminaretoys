@@ -38,11 +38,11 @@ namespace IlluminareToys.Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [Display(Name = "Email / Username")]
+            [Display(Name = "Email")]
+            [Required(ErrorMessage = "Email obrigatório.")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Senha obrigatória.")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -75,35 +75,30 @@ namespace IlluminareToys.Web.Areas.Identity.Pages.Account
             {
 
                 var userName = Input.Email;
-                if (IsValidEmail(Input.Email))
-                {
-                    var user = await _userManager.FindByEmailAsync(Input.Email);
-                    if (user != null)
-                    {
-                        userName = user.UserName;
-                    }
-                }
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
-                {
-                    _toastNotification.AddSuccessToastMessage($"Bem-vindo, {userName}");
-                    return LocalRedirect(returnUrl);
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, Input.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    return RedirectToPage("./Lockout");
-                }
-                else
+
+                if (!IsValidEmail(Input.Email))
                 {
                     ModelState.AddModelError(string.Empty, "Credenciais inválidas.");
                     return Page();
                 }
+
+                var user = await _userManager.FindByEmailAsync(Input.Email);
+                if (user != null)
+                {
+                    userName = user.UserName;
+                }
+                // This doesn't count login failures towards account lockout
+                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
+                if (!result.Succeeded)
+                {
+                    ModelState.AddModelError(string.Empty, "Credenciais inválidas.");
+                    return Page();
+                }
+
+                _toastNotification.AddSuccessToastMessage($"Bem-vindo, {user.FirstName}");
+                return LocalRedirect(returnUrl);
             }
 
             // If we got this far, something failed, redisplay form
