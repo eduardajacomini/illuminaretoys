@@ -20,6 +20,9 @@ namespace IlluminareToys.Domain.Outputs.Product
         [Display(Name = "Preço")]
         public string Price { get; private set; }
 
+        [Display(Name = "Preço (R$)")]
+        public string PriceFormatted => Convert.ToDecimal(Price.Replace(".", ",")).ToString("C");
+
         [Display(Name = "Preço de Custo")]
         public string PriceCost { get; private set; }
 

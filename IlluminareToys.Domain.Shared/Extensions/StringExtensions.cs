@@ -17,5 +17,8 @@ namespace IlluminareToys.Domain.Shared.Extensions
 
         public static string RemoveSpaces(this string input)
             => input.Trim().TrimStart().TrimEnd();
+
+        public static string ToMoney(this string input)
+            => Convert.ToDecimal(input).ToString("C");
     }
 }

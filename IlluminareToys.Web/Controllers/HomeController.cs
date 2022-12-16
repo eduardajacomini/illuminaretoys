@@ -71,9 +71,22 @@ namespace IlluminareToys.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult DontKnowChild()
+        public async Task<IActionResult> DontKnowChild([FromServices] IGetProductCategoriesUseCase getProductCategoriesUseCase,
+                                                       CancellationToken cancellationToken)
         {
-            return View();
+            var output = await getProductCategoriesUseCase.ExecuteAsync(cancellationToken);
+
+            return View(output);
+        }
+
+        [HttpGet("DontKnowChildCategoryProducts/{category}")]
+        public async Task<IActionResult> DontKnowChildCategoryProducts([FromRoute] string category,
+                                                                       [FromServices] IGetProductsByCategoryUseCase getProductsByCategoryUseCase,
+                                                                       CancellationToken cancellationToken)
+        {
+            var output = await getProductsByCategoryUseCase.ExecuteAsync(category, cancellationToken);
+
+            return View(nameof(ProductsBook), output);
         }
 
         [HttpGet]
