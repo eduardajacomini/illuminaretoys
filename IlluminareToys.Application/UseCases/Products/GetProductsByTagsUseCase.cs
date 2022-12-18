@@ -22,11 +22,7 @@ namespace IlluminareToys.Application.UseCases.Products
         public async Task<IEnumerable<GetProductsByTagsOutput>> ExecuteAsync(GetProductsByTagsInput input, CancellationToken cancellationToken)
         {
             if (!input.Tags.Any())
-            {
-                var allProducts = await _productRepository.ListAsync(x => x.Active, x => x.Description, cancellationToken);
-
-                return _mapper.Map<IEnumerable<GetProductsByTagsOutput>>(allProducts);
-            }
+                return Enumerable.Empty<GetProductsByTagsOutput>();
 
             var tagsProduct = await _tagProductRepository.ListAsync(x => input.Tags.Contains(x.TagId), cancellationToken);
 

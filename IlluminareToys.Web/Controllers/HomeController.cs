@@ -90,9 +90,32 @@ namespace IlluminareToys.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult ByTag()
+        public async Task<IActionResult> ByTag([FromServices] IGetTagsUseCase getTagsUseCase,
+                                               [FromServices] IGetProductsByTagsUseCase getProductsByTagsUseCase,
+                                               CancellationToken cancellationToken)
         {
-            return View();
+            var output = await getProductsByTagsUseCase.ExecuteAsync(new(), cancellationToken);
+            var tags = await getTagsUseCase.ExecuteAsync(cancellationToken);
+
+            ViewBag.Tags = tags;
+
+            return View(output);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ByTag([Bind("Tags")] GetProductsByTagsInput input,
+                                               [FromServices] IGetProductsByTagsUseCase getProductsByTagsUseCase,
+                                               [FromServices] IGetTagsUseCase getTagsUseCase,
+                                               CancellationToken cancellationToken)
+        {
+            var output = await getProductsByTagsUseCase.ExecuteAsync(input, cancellationToken);
+
+            var tags = await getTagsUseCase.ExecuteAsync(cancellationToken);
+
+            ViewBag.Tags = tags;
+            ViewBag.SelectedTags = input.Tags;
+
+            return View(output);
         }
 
         public IActionResult ProductsBook()
