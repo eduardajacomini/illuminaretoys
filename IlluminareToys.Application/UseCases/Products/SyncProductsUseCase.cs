@@ -59,6 +59,7 @@ namespace IlluminareToys.Application.UseCases.Products
                             product.SetCategoryId(item.CategoryId);
                             product.SetCode(item.Code);
                             product.SetDescription(item.Description);
+                            product.SetBrand(item.Brand);
                             //Comentado pois a imagem agora será cadastrada direto na aplicação.
                             //product.SetImageUrl(item.ImageUrl);
                             product.SetUnity(item.Unity);

@@ -22,6 +22,9 @@
 
         public string State { get; private set; }
 
+        public string Brand { get; private set; }
+
+
         public string BlingCreatedAt { get; private set; }
 
         public string BlingUpdatedAt { get; private set; }
@@ -29,6 +32,15 @@
         public DateTime SynchronizedAt { get; private set; }
 
         public IEnumerable<TagProduct> TagsProducts { get; private set; }
+
+        public void SetBrand(string value)
+        {
+            if (Brand != value)
+            {
+                SynchronizedAt = DateTime.Now;
+                Brand = value;
+            }
+        }
 
         public void SetCode(string value)
         {

@@ -21,12 +21,20 @@
             {
                 <div class="carousel-item @(Model.FirstOrDefault().Equals(product) ? "active" : "")">
 
-                    <a href="@product.ImageUrl" 
+                    <a href="@product.ImageUrl"
                        data-toggle="lightbox"
                        data-title="@product.Description"
                        data-footer="@product.PriceFormatted">
-                        <img class="d-block w-100 product-image"
-                             src="@product.ImageUrl">
+                        @if (product.ImageUrl is not null)
+                        {
+                            <img class="d-block w-100 product-image"
+                                 src="@product.ImageUrl">
+                        }
+                        else
+                        {
+                            <img class="d-block w-100 product-image"
+                                 src="~/img/no-image-available.jpg">
+                        }
                     </a>
                     <div class="product-container">
                         <h5>@product.Description</h5>
@@ -50,7 +58,6 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
-
 </div>
 
 <style>

@@ -35,6 +35,9 @@ namespace IlluminareToys.Infrastructure.Bling.Contracts
         [JsonProperty("situacao")]
         public string State { get; set; }
 
+        [JsonProperty("marca")]
+        public string Brand { get; set; }
+
         [JsonProperty("unidade")]
         public string Unity { get; set; }
 

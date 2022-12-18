@@ -52,7 +52,14 @@
                     {
                         <tr>
                             <td>
-                                <img src="@item.ImageUrl" class="img-product" />
+                                @if (item.ImageUrl is not null)
+                                {
+                                    <img src="@item.ImageUrl" class="img-product" />
+                                }
+                                else
+                                {
+                                    <img src="~/img/no-image-available.jpg" class="img-product" />
+                                }
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.BlingId)
