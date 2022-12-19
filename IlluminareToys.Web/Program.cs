@@ -6,6 +6,7 @@ using IlluminareToys.Infrastructure.Data.Seeds;
 using IlluminareToys.Web;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
@@ -30,6 +31,10 @@ builder.Services.AddIdentity<User, IdentityRole<Guid>>(options => options.SignIn
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 builder.Services.AddControllersWithViews();
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture("pt-BR");
+});
 builder.Services.AddMvc(options =>
 {
     var policy = new AuthorizationPolicyBuilder()
