@@ -115,15 +115,20 @@ app.UseEndpoints(endpoints =>
 if (isProduction)
 {
     app.UseSentryTracing();
+    ExecuteMigrations(app.Services);
 }
+
+
+
 
 app.Run();
 
+
 void ExecuteMigrations(IServiceProvider serviceProvider)
 {
-    //var context = serviceProvider.GetRequiredService<AppDbContext>();
+    var context = serviceProvider.GetRequiredService<AppDbContext>();
 
-    //context.Database.Migrate();
+    context.Database.Migrate();
 }
 
 async Task Seed(WebApplication app)
