@@ -32,24 +32,6 @@ builder.Services.AddIdentity<User, IdentityRole<Guid>>(options => options.SignIn
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 builder.Services.AddControllersWithViews();
-builder.Services.Configure<RequestLocalizationOptions>(options =>
-{
-    var ptBrCulture = new CultureInfo("pt-BR");
-
-    options.SupportedCultures = new List<CultureInfo>()
-    {
-        ptBrCulture
-    };
-
-    options.SupportedUICultures = new List<CultureInfo>()
-    {
-        ptBrCulture
-    };
-    options.DefaultRequestCulture = new RequestCulture(ptBrCulture);
-    options.FallBackToParentCultures = false;
-    options.FallBackToParentUICultures = false;
-    options.RequestCultureProviders.Clear();
-});
 
 builder.Services.AddMvc(options =>
 {
@@ -139,6 +121,14 @@ if (isProduction)
     ExecuteMigrations(app.Services);
 }
 
+var supportedCultures = new[] { new CultureInfo("pt-BR") };  //1
+var requestLocalizationOptions = new RequestLocalizationOptions  //2
+{
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures,
+    DefaultRequestCulture = new RequestCulture("pt-BR"),
+};
+app.UseRequestLocalization(requestLocalizationOptions);
 
 
 
