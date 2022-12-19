@@ -65,7 +65,7 @@ builder.Services.AddHttpClient("Bling", client =>
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new MainModule()));
 
-var isProduction = builder.Configuration["Environment"] == "production";
+var isProduction = Convert.ToBoolean(builder.Configuration["IsProduction"]);
 
 if (isProduction)
 {
