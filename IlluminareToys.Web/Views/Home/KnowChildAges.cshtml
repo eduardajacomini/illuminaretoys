@@ -6,37 +6,49 @@
     var group = ViewBag.Group as GetGroupOutput;
 }
 
-<div class="col-md-12">
-    <h3 class="display-5 text-center">@group.Name</h3>
-    <div class="row">
+<div class="buttons-container">
+    <h3 class="display-5">@group.Name</h3>
         @foreach (var item in Model)
         {
-            <div class="col-lg-3">
+            <a class="button-menu" asp-action="KnowChildAgesProducts" asp-route-groupId="@item.GroupId" asp-route-age="@item.Age">
+                <h3 class="button-menu-label">@item.Age</h3>
+            </a>
+
+            @*<div class="col-lg-3">
                 <div class="card card-button mx-auto">
                     <a class="card-body" asp-action="KnowChildAgesProducts" asp-route-groupId="@item.GroupId" asp-route-age="@item.Age">
                         <h3 class="display-5 text-center card-button-label">@item.Age</h3>
                     </a>
                 </div>
-            </div>
+            </div>*@
         }
-    </div>
 </div>
 
 
 <style>
-    .card-button {
-        background-color: #f012be !important;
-        border-radius: 10px;
-        box-shadow: 0 0 2px #888;
+    .buttons-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
-        .card-button:hover {
+    .button-menu {
+        padding: 20px;
+        background-color: #f012be;
+        border-radius: 10px;
+        box-shadow: 0 0 2px #888;
+        text-align: center;
+        margin-bottom: 10px;
+        width: 80%;
+    }
+
+        .button-menu:hover {
             cursor: pointer;
             opacity: 0.7;
         }
 
-    .card-button-label {
-        color: white !important;
-        font-weight: bold;
+    .button-menu-label {
+        color: white;
     }
 </style>
