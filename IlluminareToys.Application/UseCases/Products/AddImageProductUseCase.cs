@@ -8,6 +8,7 @@ using IlluminareToys.Domain.Repositories;
 using IlluminareToys.Domain.UseCases.Product;
 using IlluminareToys.Infrastructure.Bling;
 using IlluminareToys.Infrastructure.Bling.Contracts;
+using Microsoft.Extensions.Logging;
 
 namespace IlluminareToys.Application.UseCases.Products
 {
@@ -17,16 +18,19 @@ namespace IlluminareToys.Application.UseCases.Products
         private readonly IValidator<AddImageProductInput> _validator;
         private readonly IProductRepository _productRepository;
         private readonly IBlingClient _blingClient;
+        private readonly ILogger<AddImageProductUseCase> _logger;
 
         public AddImageProductUseCase(IAzureStorageProvider azureStorageProvider,
             IValidator<AddImageProductInput> validator,
             IProductRepository productRepository,
-            IBlingClient blingClient)
+            IBlingClient blingClient,
+            ILogger<AddImageProductUseCase> logger)
         {
             _azureStorageProvider = azureStorageProvider;
             _validator = validator;
             _productRepository = productRepository;
             _blingClient = blingClient;
+            _logger = logger;
         }
 
         public async Task<AddImageProductOutput> ExecuteAsync(AddImageProductInput input, CancellationToken cancellationToken)
@@ -61,12 +65,12 @@ namespace IlluminareToys.Application.UseCases.Products
 
             await _productRepository.UpdateAsync(product, cancellationToken);
 
-            await PutImageInProductAsync(product, imageUrl, cancellationToken);
+            await PutImageInProductOnBlingAsync(product, imageUrl, cancellationToken);
 
             return new();
         }
 
-        private async Task PutImageInProductAsync(Product product, string imageUrl, CancellationToken cancellationToken)
+        private async Task PutImageInProductOnBlingAsync(Product product, string imageUrl, CancellationToken cancellationToken)
         {
             try
             {
@@ -82,8 +86,10 @@ namespace IlluminareToys.Application.UseCases.Products
 
                 await _blingClient.PutImageInProductAsync(request, cancellationToken);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex, $"Error on put image of product {product.Id} in bling.", imageUrl);
+
                 return;
             }
         }

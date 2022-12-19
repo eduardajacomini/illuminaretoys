@@ -65,8 +65,19 @@ builder.Services.AddHttpClient("Bling", client =>
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new MainModule()));
 
-var app = builder.Build();
+var isProduction = builder.Configuration["Environment"] == "production";
 
+if (isProduction)
+{
+    builder.WebHost.UseSentry(o =>
+    {
+        o.Dsn = "https://a28a7e2339c340a69a45363ed5054116@o4504357169856512.ingest.sentry.io/4504357170970624";
+        o.Debug = true;
+        o.TracesSampleRate = 1.0;
+    });
+}
+
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -101,11 +112,12 @@ app.UseEndpoints(endpoints =>
     endpoints.MapRazorPages();
 });
 
-await Seed(app);
-
+if (isProduction)
+{
+    app.UseSentryTracing();
+}
 
 app.Run();
-
 
 void ExecuteMigrations(IServiceProvider serviceProvider)
 {
