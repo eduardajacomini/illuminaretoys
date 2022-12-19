@@ -53,8 +53,9 @@ namespace IlluminareToys.Infrastructure.Bling.Contracts
         [JsonProperty("dataAlteracao")]
         public string BlindUpdatedAt { get; set; }
 
-        [JsonProperty("imageThumbnail")]
-        public string ImageUrl { get; set; }
+        //comentado pois não vamos receber a imagem do bling
+        //[JsonProperty("imageThumbnail")]
+        //public string ImageUrl { get; set; }
 
         [JsonProperty("categoria")]
         public Category Categoria { get; set; }
