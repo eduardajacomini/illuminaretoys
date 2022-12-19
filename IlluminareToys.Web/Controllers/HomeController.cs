@@ -4,7 +4,6 @@ using IlluminareToys.Domain.UseCases.Group;
 using IlluminareToys.Domain.UseCases.Product;
 using IlluminareToys.Domain.UseCases.Tag;
 using Microsoft.AspNetCore.Mvc;
-using Sentry;
 using System.Diagnostics;
 
 namespace IlluminareToys.Web.Controllers
@@ -19,8 +18,6 @@ namespace IlluminareToys.Web.Controllers
             var tags = await getTagsUseCase.ExecuteAsync(cancellationToken);
 
             ViewBag.Tags = tags;
-
-            SentrySdk.CaptureMessage("Caiu aqui!!!");
 
             return View(output);
         }
