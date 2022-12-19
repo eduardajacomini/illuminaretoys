@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
 using NToastNotify;
 using Polly;
+using System.Globalization;
 using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,8 +34,23 @@ builder.Services.AddIdentity<User, IdentityRole<Guid>>(options => options.SignIn
 builder.Services.AddControllersWithViews();
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
-    options.DefaultRequestCulture = new RequestCulture("pt-BR");
+    var ptBrCulture = new CultureInfo("pt-BR");
+
+    options.SupportedCultures = new List<CultureInfo>()
+    {
+        ptBrCulture
+    };
+
+    options.SupportedUICultures = new List<CultureInfo>()
+    {
+        ptBrCulture
+    };
+    options.DefaultRequestCulture = new RequestCulture(ptBrCulture);
+    options.FallBackToParentCultures = false;
+    options.FallBackToParentUICultures = false;
+    options.RequestCultureProviders.Clear();
 });
+
 builder.Services.AddMvc(options =>
 {
     var policy = new AuthorizationPolicyBuilder()
