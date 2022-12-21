@@ -6,13 +6,11 @@ using IlluminareToys.Infrastructure.Data.Seeds;
 using IlluminareToys.Web;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
 using NToastNotify;
 using Polly;
-using System.Globalization;
 using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -120,17 +118,6 @@ if (isProduction)
     app.UseSentryTracing();
     ExecuteMigrations(app.Services);
 }
-
-var supportedCultures = new[] { new CultureInfo("pt-BR") };  //1
-var requestLocalizationOptions = new RequestLocalizationOptions  //2
-{
-    SupportedCultures = supportedCultures,
-    SupportedUICultures = supportedCultures,
-    DefaultRequestCulture = new RequestCulture("pt-BR"),
-};
-app.UseRequestLocalization(requestLocalizationOptions);
-
-
 
 app.Run();
 

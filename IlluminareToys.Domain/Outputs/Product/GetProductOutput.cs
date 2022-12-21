@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Results;
 using IlluminareToys.Domain.Outputs.Tag;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace IlluminareToys.Domain.Outputs.Product
 {
@@ -21,7 +22,7 @@ namespace IlluminareToys.Domain.Outputs.Product
         public string Price { get; private set; }
 
         [Display(Name = "Preço (R$)")]
-        public string PriceFormatted => Convert.ToDecimal(Price.Replace(".", ",")).ToString("C");
+        public string PriceFormatted => Convert.ToDecimal(Price.Replace(".", ",")).ToString("C", new CultureInfo("pt-BR"));
 
         [Display(Name = "Preço de Custo")]
         public string PriceCost { get; private set; }
