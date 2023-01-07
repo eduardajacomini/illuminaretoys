@@ -1,4 +1,6 @@
-﻿@model IEnumerable<GetGroupOutput>
+﻿@using IlluminareToys.Web.Helpers;
+
+@model IEnumerable<GetGroupOutput>
 
 @{
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
@@ -6,50 +8,30 @@
 }
 
 <div class="buttons-container">
+    @{
+        var currentClass = "";
+        var prevClass = "";
+        var nextClass = "";
+    }
 
-        @foreach (var group in Model)
-        {
-            @*<div class="col-lg-3">
-                <div class="card card-button mx-auto">
-                    <a class="card-body" asp-action="KnowChildAges" asp-route-groupId="@group.Id">
-                        <h3 class="display-5 text-center card-button-label">@group.Name</h3>
-                        <span class="text-muted text-center text-white">@group.Description</span>
-                    </a>
-                </div>
-            </div>*@
+    @foreach (var group in Model)
+    {
 
-            <a class="button-menu" asp-action="KnowChildAges" asp-route-groupId="@group.Id">
-                <h3 class="button-menu-label">@group.Name</h3>
-                <span class="text-muted text-center text-white">@group.Description</span>
-            </a>
-        }
+        prevClass = currentClass;
+
+
+        currentClass = CardColorHelper.GetCurrentClass(prevClass, currentClass);
+
+        <a class="button-menu @currentClass" asp-action="KnowChildAges" asp-route-groupId="@group.Id">
+            <h3 class="button-menu-label">@group.Name</h3>
+            <span class="text-muted text-center text-white group-description">@group.Description</span>
+        </a>
+    }
 </div>
 
 
 <style>
-    .buttons-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .button-menu {
-        padding: 20px;
-        background-color: #f012be;
-        border-radius: 10px;
-        box-shadow: 0 0 2px #888;
-        text-align: center;
-        margin-bottom: 10px;
-        width: 80%;
-    }
-
-        .button-menu:hover {
-            cursor: pointer;
-            opacity: 0.7;
-        }
-
-    .button-menu-label {
-        color: white;
+    .group-description {
+        font-size: 20px;
     }
 </style>

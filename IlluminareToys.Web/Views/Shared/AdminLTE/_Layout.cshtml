@@ -15,7 +15,7 @@
         <partial name="AdminLTE/_TopNavigation" />
         <partial name="AdminLTE/_MainNavigation" />
 
-        <div class="content-wrapper" id="content-body">
+        <div class="content-wrapper">
             <div class="content-header">
                 <!--<div class="container-fluid">
                 <div class="row mb-2">
@@ -70,6 +70,51 @@
 
 <style>
     .content-wrapper {
-        background: url("@Url.Content("~/img/background.png")") no-repeat !important;
+        background: url("@Url.Content("~/img/background2.png")") no-repeat !important;
+    }
+
+    .bg-primary {
+        background-color: #f012be !important;
+    }
+
+    .buttons-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .button-menu {
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 2px #888;
+        text-align: center;
+        margin-bottom: 24px;
+        width: 80%;
+        background-color: #f2787b;
+    }
+        .button-menu:hover {
+            cursor: pointer;
+            opacity: 0.7;
+        }
+        
+    .button-menu-bg-primary {
+        background-color: #f2787b !important;
+
+    }
+
+    .button-menu-bg-secondary {
+        background-color: #32c3e4 !important;
+
+    }
+    
+    .button-menu-bg-tertiary {
+        background-color: #efbc44 !important;
+
+    }
+
+    .button-menu-label {
+        color: white;
+        font-weight: bold;
     }
 </style>

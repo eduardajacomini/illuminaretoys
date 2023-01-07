@@ -50,7 +50,7 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
+                        <tr data-id="@item.Id">
                             <td>
                                 @if (item.ImageUrl is not null)
                                 {
@@ -100,13 +100,18 @@
 
 <script>
     $(document).ready(function () {
-        //$('#table-products').DataTable();
         $('#table-products').bootstrapTable({
             pagination: true,
             search: true,
             sortable: true,
             locale: 'pt-BR'
-        })
+        });
+
+        $("#table-products").on("click-row.bs.table", function (editable, columns, row) {
+            const productId = row.attr('data-id')
+
+            window.location = `/Products/Details/${productId}`
+        });
     });
 </script>
 

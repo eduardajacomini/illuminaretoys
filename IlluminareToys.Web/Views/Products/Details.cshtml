@@ -35,7 +35,7 @@
                 }
                 <h3>@Model.Code | @Model.Description | @Model.PriceFormatted</h3>
                 <div class="badges-product-info">
-                    <span class="badge bg-yellow">@Model.CategoryDescription</span>
+                    @*<span class="badge bg-yellow">@Model.CategoryDescription</span>*@
 
                     @if (Model.State is "Ativo")
                     {
@@ -56,8 +56,8 @@
         </div>
         <div class="card-footer">
             <div id="div-subtitles">
-                <div class="div-subtitle-square bg-yellow m-2"></div>
-                <span>Categoria</span>
+                @*<div class="div-subtitle-square bg-yellow m-2"></div>
+                <span>Categoria</span>*@
                 <div class="div-subtitle-square bg-primary m-2"></div>
                 <span> Tag</span>
             </div>

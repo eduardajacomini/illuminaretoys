@@ -7,10 +7,10 @@
     <a class="button-menu" asp-action="KnowChild">
         <h3 class="button-menu-label">Conheço a criança</h3>
     </a>
-    <a class="button-menu" asp-action="DontKnowChild">
+    <a class="button-menu button-menu-bg-secondary" asp-action="DontKnowChild">
         <h3 class="button-menu-label">Não conheço a criança</h3>
     </a>
-    <a class="button-menu" asp-action="ByTag">
+    <a class="button-menu button-menu-bg-tertiary" asp-action="ByTag">
         <h3 class="button-menu-label">Aspecto do desenvolvimento</h3>
     </a>
     <a class="button-menu" asp-action="Books">
@@ -39,33 +39,7 @@
             </div>
         </div>*@
 </div>
-<style>
-    .buttons-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
 
-    .button-menu {
-        padding: 20px;
-        background-color: #f012be;
-        border-radius: 10px;
-        box-shadow: 0 0 2px #888;
-        text-align: center;
-        margin-bottom: 10px;
-        width: 80%;
-    }
-
-        .button-menu:hover {
-            cursor: pointer;
-            opacity: 0.7;
-        }
-
-    .button-menu-label {
-        color: white;
-    }
-</style>
 <script>
     //$(document).ready(function () {
     //    $('#select-tags').select2();
