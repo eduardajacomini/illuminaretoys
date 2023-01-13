@@ -3,6 +3,7 @@ using System;
 using IlluminareToys.Infrastructure.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IlluminareToys.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230112214700_AddAges")]
+    partial class AddAges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -190,49 +192,6 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("products");
-                });
-
-            modelBuilder.Entity("IlluminareToys.Domain.Entities.ProductAge", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true)
-                        .HasColumnName("active");
-
-                    b.Property<Guid>("AgeId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("age_id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("product_id");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at")
-                        .HasDefaultValueSql("now()");
-
-                    b.HasKey("Id")
-                        .HasName("pk_products_ages");
-
-                    b.HasIndex("AgeId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("products_ages");
                 });
 
             modelBuilder.Entity("IlluminareToys.Domain.Entities.Tag", b =>
@@ -615,27 +574,6 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
                     b.ToTable("user_tokens", (string)null);
                 });
 
-            modelBuilder.Entity("IlluminareToys.Domain.Entities.ProductAge", b =>
-                {
-                    b.HasOne("IlluminareToys.Domain.Entities.Age", "Age")
-                        .WithMany("ProductsAges")
-                        .HasForeignKey("AgeId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired()
-                        .HasConstraintName("fk_products_ages_ages_age_id");
-
-                    b.HasOne("IlluminareToys.Domain.Entities.Product", "Product")
-                        .WithMany("ProductsAges")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired()
-                        .HasConstraintName("fk_products_ages_products_product_id");
-
-                    b.Navigation("Age");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("IlluminareToys.Domain.Entities.TagGroup", b =>
                 {
                     b.HasOne("IlluminareToys.Domain.Entities.Group", "Group")
@@ -735,11 +673,6 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
                         .HasConstraintName("fk_asp_net_user_tokens_asp_net_users_user_id");
                 });
 
-            modelBuilder.Entity("IlluminareToys.Domain.Entities.Age", b =>
-                {
-                    b.Navigation("ProductsAges");
-                });
-
             modelBuilder.Entity("IlluminareToys.Domain.Entities.Group", b =>
                 {
                     b.Navigation("TagsGroups");
@@ -747,8 +680,6 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("IlluminareToys.Domain.Entities.Product", b =>
                 {
-                    b.Navigation("ProductsAges");
-
                     b.Navigation("TagsProducts");
                 });
 

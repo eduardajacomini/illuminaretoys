@@ -1,4 +1,5 @@
 ﻿using IlluminareToys.Application.Extensions;
+using IlluminareToys.Domain.Inputs.Products;
 using IlluminareToys.Domain.Inputs.Tags;
 using IlluminareToys.Domain.UseCases;
 using IlluminareToys.Domain.UseCases.Product;
@@ -100,6 +101,37 @@ namespace IlluminareToys.Web.Controllers
             {
                 id = productId
             });
+        }
+
+        [HttpGet("AssociateAges/{productId:guid}")]
+        public async Task<IActionResult> AssociateAges([FromRoute] Guid productId,
+                                                       [FromServices] IAssociateAgesUseCase associateAgesUseCase,
+                                                       [FromServices] IGetProductsAgesByProductIdUseCase getProductsAgesByProductIdUseCase,
+                                                       CancellationToken cancellationToken)
+        {
+            var output = await associateAgesUseCase.ExecuteAsync(productId, cancellationToken);
+
+            ViewBag.SelectedAges = await getProductsAgesByProductIdUseCase.ExecuteAsync(productId, cancellationToken);
+
+            return View(output);
+        }
+
+        [HttpPost("AssociateAges")]
+        public async Task<ActionResult> AssociateAges([FromBody] AssociateAgesToProductInput input,
+                                                      [FromServices] IAssociateAgesToProductUseCase useCase,
+                                                      CancellationToken cancellationToken)
+        {
+            var output = await useCase.ExecuteAsync(input, cancellationToken);
+
+            if (!output.IsValid)
+            {
+                output.Errors.AddToModelState(ModelState);
+                return View(input);
+            }
+
+            _toastNotification.AddSuccessToastMessage("Idades associadas com sucesso.");
+
+            return Ok();
         }
     }
 }

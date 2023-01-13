@@ -32,3 +32,11 @@ const showConfirmDialog = (title, text, callbackConfirm) => {
         }
     })
 }
+
+const showMessage = (title, message, icon) => {
+    Swal.fire({
+        icon: icon,
+        title: title,
+        text: message,
+    })
+}

@@ -32,6 +32,7 @@
         public DateTime SynchronizedAt { get; private set; }
 
         public IEnumerable<TagProduct> TagsProducts { get; private set; }
+        public IEnumerable<ProductAge> ProductsAges { get; private set; }
 
         public void SetBrand(string value)
         {

@@ -25,5 +25,8 @@ namespace IlluminareToys.Domain.Shared.Extensions
 
             return xml;
         }
+
+        public static int ToInt(this object obj)
+            => Convert.ToInt32(obj);
     }
 }

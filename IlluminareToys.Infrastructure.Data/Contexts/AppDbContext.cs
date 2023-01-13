@@ -26,6 +26,10 @@ namespace IlluminareToys.Infrastructure.Data.Contexts
 
         public DbSet<TagGroup> TagsGroups { get; set; }
 
+        public DbSet<Age> Ages { get; set; }
+
+        public DbSet<ProductAge> ProductsAges { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

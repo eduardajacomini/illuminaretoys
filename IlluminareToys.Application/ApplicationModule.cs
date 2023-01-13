@@ -2,6 +2,7 @@
 using AutoMapper;
 using FluentValidation;
 using IlluminareToys.Application.Workers;
+using IlluminareToys.Domain.Inputs.Ages;
 using IlluminareToys.Domain.Inputs.Groups;
 using IlluminareToys.Domain.Inputs.Products;
 using IlluminareToys.Domain.Inputs.Tags;
@@ -70,6 +71,21 @@ namespace IlluminareToys.Application
             .RegisterType<UpdateGroupInputValidator>()
             .As<IValidator<UpdateGroupInput>>()
             .InstancePerLifetimeScope();
+
+            builder
+            .RegisterType<CreateAgeInputValidator>()
+            .As<IValidator<CreateAgeInput>>()
+            .InstancePerLifetimeScope();
+
+            builder
+           .RegisterType<UpdateAgeInputValidator>()
+           .As<IValidator<UpdateAgeInput>>()
+           .InstancePerLifetimeScope();
+
+            builder
+           .RegisterType<AssociateAgesToProductInputValidator>()
+           .As<IValidator<AssociateAgesToProductInput>>()
+           .InstancePerLifetimeScope();
         }
 
         private void RegisterMaps(ContainerBuilder builder)

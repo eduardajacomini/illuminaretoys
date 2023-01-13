@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using IlluminareToys.Domain.Entities;
+using IlluminareToys.Domain.Inputs.Ages;
 using IlluminareToys.Domain.Inputs.Groups;
+using IlluminareToys.Domain.Outputs.Age;
 using IlluminareToys.Domain.Outputs.Group;
 using IlluminareToys.Domain.Outputs.Product;
 using IlluminareToys.Domain.Outputs.Tag;
@@ -38,6 +40,14 @@ namespace IlluminareToys.Application.Mappers
             CreateMap<Group, GetGroupOutput>();
 
             CreateMap<TagGroup, GetTagGroupOutput>();
+
+            CreateMap<CreateAgeInput, Age>();
+
+            CreateMap<Age, CreateAgeOutput>();
+
+            CreateMap<Age, GetAgeOutput>();
+
+            CreateMap<ProductAge, GetProductAgeOutput>();
         }
     }
 }
