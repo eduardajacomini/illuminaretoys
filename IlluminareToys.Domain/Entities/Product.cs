@@ -34,6 +34,7 @@
         public IEnumerable<TagProduct> TagsProducts { get; private set; }
         public IEnumerable<ProductAge> ProductsAges { get; private set; }
 
+        public IEnumerable<ProductGroup> ProductsGroups { get; private set; }
         public void SetBrand(string value)
         {
             if (Brand != value)

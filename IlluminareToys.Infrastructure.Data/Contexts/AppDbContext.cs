@@ -24,11 +24,11 @@ namespace IlluminareToys.Infrastructure.Data.Contexts
 
         public DbSet<Group> Groups { get; set; }
 
-        public DbSet<TagGroup> TagsGroups { get; set; }
-
         public DbSet<Age> Ages { get; set; }
 
         public DbSet<ProductAge> ProductsAges { get; set; }
+
+        public DbSet<ProductGroup> ProductsGroups { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

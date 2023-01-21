@@ -1,9 +1,7 @@
 ﻿using FluentValidation;
-using IlluminareToys.Domain.Entities;
 using IlluminareToys.Domain.Inputs.Tags;
 using IlluminareToys.Domain.Outputs.Tag;
 using IlluminareToys.Domain.Repositories;
-using IlluminareToys.Domain.Shared.Extensions;
 using IlluminareToys.Domain.UseCases.Tag;
 
 namespace IlluminareToys.Application.UseCases.Tags
@@ -28,17 +26,17 @@ namespace IlluminareToys.Application.UseCases.Tags
                 return new CreateTagGroupOutput(validationResult.Errors);
             }
 
-            foreach (var item in input.TagsGroups.Where(x => !x.Age.IsNullOrWhiteSpace()))
-            {
-                var existingEntities = await _tagGroupRepository.ListAsync(x => x.GroupId.Equals(item.GroupId) &&
-                                                                                x.TagId.Equals(item.TagId), cancellationToken);
+            //foreach (var item in input.TagsGroups.Where(x => !x.Age.IsNullOrWhiteSpace()))
+            //{
+            //    var existingEntities = await _tagGroupRepository.ListAsync(x => x.GroupId.Equals(item.GroupId) &&
+            //                                                                    x.TagId.Equals(item.TagId), cancellationToken);
 
-                await _tagGroupRepository.DeleteAllAsync(existingEntities, cancellationToken);
+            //    await _tagGroupRepository.DeleteAllAsync(existingEntities, cancellationToken);
 
-                var entity = new TagGroup(item.TagId, item.GroupId, item.Age);
+            //    var entity = new TagGroup(item.TagId, item.GroupId, item.Age);
 
-                await _tagGroupRepository.AddAsync(entity, cancellationToken);
-            }
+            //    await _tagGroupRepository.AddAsync(entity, cancellationToken);
+            //}
 
             return new();
         }

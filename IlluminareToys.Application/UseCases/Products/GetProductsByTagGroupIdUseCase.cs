@@ -26,21 +26,23 @@ namespace IlluminareToys.Application.UseCases.Products
         public async Task<IEnumerable<GetProductOutput>> ExecuteAsync(Guid groupId, string age, CancellationToken cancellationToken)
         {
 
-            var tagsGroups = await _tagGroupRepository.ListAsync(x => x.GroupId.Equals(groupId) &&
-                                                                      x.Age.Equals(age)
-                                                                 , cancellationToken);
+            //var tagsGroups = await _tagGroupRepository.ListAsync(x => x.GroupId.Equals(groupId) &&
+            //                                                          x.Age.Equals(age)
+            //                                                     , cancellationToken);
 
-            var tagsIds = tagsGroups.Select(x => x.TagId);
+            //var tagsIds = tagsGroups.Select(x => x.TagId);
 
-            var tagsProducts = await _tagProductRepository.ListAsync(x => tagsIds.Contains(x.TagId) &&
-                                                                    x.Active
-                                                                    , cancellationToken);
+            //var tagsProducts = await _tagProductRepository.ListAsync(x => tagsIds.Contains(x.TagId) &&
+            //                                                        x.Active
+            //                                                        , cancellationToken);
 
-            var productsIds = tagsProducts.Select(x => x.ProductId);
+            //var productsIds = tagsProducts.Select(x => x.ProductId);
 
-            var products = await _productRepository.ListAsync(x => productsIds.Contains(x.Id), x => x.Description, cancellationToken);
+            //var products = await _productRepository.ListAsync(x => productsIds.Contains(x.Id), x => x.Description, cancellationToken);
 
-            return _mapper.Map<IEnumerable<GetProductOutput>>(products);
+            //return _mapper.Map<IEnumerable<GetProductOutput>>(products);
+
+            return Enumerable.Empty<GetProductOutput>();
         }
     }
 }

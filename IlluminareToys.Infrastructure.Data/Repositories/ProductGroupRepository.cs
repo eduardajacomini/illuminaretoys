@@ -4,9 +4,9 @@ using IlluminareToys.Infrastructure.Data.Contexts;
 
 namespace IlluminareToys.Infrastructure.Data.Repositories
 {
-    public class TagGroupRepository : BaseRepository<BaseEntity>, ITagGroupRepository
+    public class ProductGroupRepository : BaseRepository<ProductGroup>, IProductGroupRepository
     {
-        public TagGroupRepository(AppDbContext context) : base(context)
+        public ProductGroupRepository(AppDbContext context) : base(context)
         {
         }
     }

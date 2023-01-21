@@ -2,7 +2,7 @@
 
 namespace IlluminareToys.Domain.Repositories
 {
-    public interface ITagGroupRepository : IBaseRepository<BaseEntity>
+    public interface IProductGroupRepository : IBaseRepository<ProductGroup>
     {
     }
 }

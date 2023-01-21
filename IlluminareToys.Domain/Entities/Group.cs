@@ -6,7 +6,7 @@
 
         public string Name { get; private set; }
 
-        public IEnumerable<TagGroup> TagsGroups { get; private set; }
+        public IEnumerable<ProductGroup> ProductsGroups { get; private set; }
 
         public void SetDescription(string value)
         {

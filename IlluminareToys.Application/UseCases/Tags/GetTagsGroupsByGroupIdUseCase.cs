@@ -18,9 +18,11 @@ namespace IlluminareToys.Application.UseCases.Tags
 
         public async Task<IEnumerable<GetTagGroupOutput>> ExecuteAsync(Guid groupId, CancellationToken cancellationToken)
         {
-            var entities = await _tagGroupRepository.ListAsync(x => x.GroupId.Equals(groupId) && x.Active, cancellationToken);
+            //var entities = await _tagGroupRepository.ListAsync(x => x.GroupId.Equals(groupId) && x.Active, cancellationToken);
 
-            return _mapper.Map<IEnumerable<GetTagGroupOutput>>(entities);
+            //return _mapper.Map<IEnumerable<GetTagGroupOutput>>(entities);
+
+            return Enumerable.Empty<GetTagGroupOutput>();
         }
     }
 }
