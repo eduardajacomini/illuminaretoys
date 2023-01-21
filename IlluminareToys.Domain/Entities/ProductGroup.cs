@@ -2,6 +2,12 @@
 {
     public class ProductGroup : BaseEntity
     {
+        public ProductGroup(Guid productId, Guid groupId)
+        {
+            ProductId = productId;
+            GroupId = groupId;
+        }
+
         public Guid ProductId { get; private set; }
 
         public Guid GroupId { get; private set; }

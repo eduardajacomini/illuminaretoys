@@ -29,7 +29,9 @@ namespace IlluminareToys.Application.Mappers
                 .ForMember(dest => dest.CategoryDescription, opt => opt.MapFrom(src => src.Categoria.CategoryDescription));
 
             CreateMap<Product, GetProductOutput>()
-                .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.TagsProducts));
+                .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.TagsProducts))
+                .ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.ProductsGroups)
+                );
 
             CreateMap<Product, GetProductsByTagsOutput>()
                 .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.TagsProducts));
@@ -46,6 +48,8 @@ namespace IlluminareToys.Application.Mappers
             CreateMap<Age, GetAgeOutput>();
 
             CreateMap<ProductAge, GetProductAgeOutput>();
+
+            CreateMap<ProductGroup, GetProductGroupOutput>();
         }
     }
 }

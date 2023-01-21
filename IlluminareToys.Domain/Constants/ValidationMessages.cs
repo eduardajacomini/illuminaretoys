@@ -14,5 +14,6 @@
         public const string NameInvalid = "Nome inválido.";
         public const string ValueInvalid = "Valor inválido.";
         public const string AgesInvalid = "Idades inválidas.";
+        public const string GroupsInvalid = "Grupos inválidas.";
     }
 }

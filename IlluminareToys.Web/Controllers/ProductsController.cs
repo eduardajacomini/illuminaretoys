@@ -133,5 +133,33 @@ namespace IlluminareToys.Web.Controllers
 
             return Ok();
         }
+
+        [HttpGet("AssociateGroups/{productId:guid}")]
+        public async Task<ActionResult> AssociateGroups([FromRoute] Guid productId,
+                                                       [FromServices] IAssociateGroupsUseCase associateGroupsUseCase,
+                                                       CancellationToken cancellationToken)
+        {
+            var output = await associateGroupsUseCase.ExecuteAsync(productId, cancellationToken);
+
+            return View(output);
+        }
+
+        [HttpPost("AssociateGroups")]
+        public async Task<ActionResult> AssociateGroups([FromBody] AssociateGroupsToProductInput input,
+                                                        [FromServices] IAssociateGroupsToProductUseCase associateGroupsToProductUseCase,
+                                                        CancellationToken cancellationToken)
+        {
+            var output = await associateGroupsToProductUseCase.ExecuteAsync(input, cancellationToken);
+
+            if (!output.IsValid)
+            {
+                output.Errors.AddToModelState(ModelState);
+                return View(input);
+            }
+
+            _toastNotification.AddSuccessToastMessage("Grupos associados com sucesso.");
+
+            return Ok();
+        }
     }
 }

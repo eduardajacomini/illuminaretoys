@@ -86,6 +86,11 @@ namespace IlluminareToys.Application
            .RegisterType<AssociateAgesToProductInputValidator>()
            .As<IValidator<AssociateAgesToProductInput>>()
            .InstancePerLifetimeScope();
+
+            builder
+           .RegisterType<AssociateGroupsToProductInputValidator>()
+           .As<IValidator<AssociateGroupsToProductInput>>()
+           .InstancePerLifetimeScope();
         }
 
         private void RegisterMaps(ContainerBuilder builder)

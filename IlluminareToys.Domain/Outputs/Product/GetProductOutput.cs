@@ -52,5 +52,6 @@ namespace IlluminareToys.Domain.Outputs.Product
         public DateTime? SynchronizedAt { get; private set; }
 
         public IEnumerable<GetTagProductOutput> Tags { get; private set; }
+        public IEnumerable<GetProductGroupOutput> Groups { get; private set; }
     }
 }

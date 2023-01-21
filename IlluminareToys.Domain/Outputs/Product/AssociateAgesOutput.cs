@@ -2,7 +2,7 @@
 
 namespace IlluminareToys.Domain.Outputs.Product
 {
-    public class AssociateAgesOutput
+    public class AssociateAgesOutput : BaseOutput
     {
         public GetProductOutput Product { get; set; }
 
