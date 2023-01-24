@@ -15,5 +15,7 @@
         public Product Product { get; private set; }
 
         public Group Group { get; private set; }
+
+        public IEnumerable<ProductGroupAge> ProductsGroupsAges { get; private set; }
     }
 }

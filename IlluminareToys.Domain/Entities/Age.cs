@@ -10,6 +10,8 @@ namespace IlluminareToys.Domain.Entities
 
         public IEnumerable<ProductAge> ProductsAges { get; private set; }
 
+        public IEnumerable<ProductGroupAge> ProductsGroupsAges { get; private set; }
+
         public void SetQuantity(int value)
         {
             if (Quantity != value)

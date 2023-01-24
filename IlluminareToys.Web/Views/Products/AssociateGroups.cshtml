@@ -3,22 +3,77 @@
 @{
     ViewData["Title"] = "Illuminare Toys - Associar Grupos";
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+
+    var ages = ViewBag.Ages as IEnumerable<GetAgeOutput>;
 }
 
 <div class="col-md-12">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Associar Tag ao produto @Model.Product.Description</h3>
+            <h3 class="card-title">Associar grupos ao produto</h3>
             <div class="card-tools">
-                <a class="btn btn-primary" asp-action="Index">Voltar</a>
+                <button class="btn btn-secondary" onclick="saveGroupAges('@Model.Product.Id')">Salvar Grupos</button>
             </div>
         </div>
         <div class="card-body">
+            <div class="col-md-12">
+                <div class="row">
+                    @foreach (var group in Model.Groups)
+                    {
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">@group.Name</label>
+                                @*@if (existingTagsGroups.Any(x => x.GroupId.Equals(group.Id)))
+                                    {
+                                        <input type="text"
+                                               id="@group.Id"
+                                               class="form-control group-age"
+                                               value="@existingTagsGroups.FirstOrDefault(x => x.GroupId.Equals(group.Id)).Age" />
+                                    }
+                                    else
+                                    {
+                                        <input type="text"
+                                               id="@group.Id"
+                                               class="form-control group-age"
+                                               placeholder="Informe a idade" />
+
+                                    }*@
+                                <select class="form-control select-ages" id="@group.Id" multiple>
+                                    @foreach (var age in ages)
+                                    {
+                                        <option value="@age.Id">@age.QuantityNormalized</option>
+                                        @*if (Model.Product.Groups.Any(x => x.GroupId.Equals(item.Id)))
+                                            {
+                                                <option value="@item.Id" selected>@item.Name</option>
+
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+
+                                            }*@
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Associar Grupos ao produto @Model.Product.Description</h3>
+            <div class="card-tools">
+                <a class="btn btn-primary" asp-action="Index">Voltar</a>
+            </div>
+        </div>-->
+    @*<div class="card-body">
             <div class="row">
                 <div class="col-md-6">
                     <form>
                         <div class="form-group">
-                            <label>Tags</label>
+                            <label>Grupos</label>
                             <select class="form-control" id="select-groups" multiple="multiple">
                                 @foreach (var item in Model.Groups)
                                 {
@@ -41,13 +96,13 @@
                     </form>
                 </div>
             </div>
-        </div>
-    </div>
+        </div>*@
+    <!--</div>-->
 </div>
 
 <script>
     $(document).ready(function () {
-        $('#select-groups').select2();
+        $('.select-ages').select2();
     });
 
     const saveAssociation = (productId) => {
@@ -55,12 +110,40 @@
 
         const groupsIds = $('#select-groups').val();
 
+        console.log(groupsIds);
+
         axios.post('/Products/AssociateGroups', {
-            GroupsIds: groupsIds,
+            GroupIds: groupsIds,
             ProductId: productId
         }).then(_ => {
             location.reload()
         })
+    }
+
+    const saveGroupAges = (productId) => {
+        showLoading();
+
+        /*        const selectsAges = $('.select-ages');*/
+
+        const body = {
+            ProductGroups: []
+        };
+
+        $('.select-ages').each((index, el) => {
+            console.log(el.id);
+            const ageIds = $(`#${el.id}`).val();
+
+            body.ProductGroups.push({
+                ProductId: productId,
+                GroupId: el.id,
+                AgeIds: ageIds
+            });
+        })
+
+        axios.post('/Products/AssociateGroups', body)
+            .then(_ => {
+                location.reload()
+            })
     }
 </script>
 

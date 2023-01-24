@@ -11,5 +11,7 @@ namespace IlluminareToys.Domain.Outputs.Product
         public GetProductOutput Product { get; private set; }
 
         public GetGroupOutput Group { get; private set; }
+
+        public IEnumerable<GetProductGroupAgeOutput> ProductsGroupsAges { get; private set; }
     }
 }

@@ -2,6 +2,7 @@
 using IlluminareToys.Domain.Inputs.Products;
 using IlluminareToys.Domain.Inputs.Tags;
 using IlluminareToys.Domain.UseCases;
+using IlluminareToys.Domain.UseCases.Age;
 using IlluminareToys.Domain.UseCases.Product;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
@@ -137,9 +138,12 @@ namespace IlluminareToys.Web.Controllers
         [HttpGet("AssociateGroups/{productId:guid}")]
         public async Task<ActionResult> AssociateGroups([FromRoute] Guid productId,
                                                        [FromServices] IAssociateGroupsUseCase associateGroupsUseCase,
+                                                       [FromServices] IGetAgesUseCase getAgesUseCase,
                                                        CancellationToken cancellationToken)
         {
             var output = await associateGroupsUseCase.ExecuteAsync(productId, cancellationToken);
+
+            ViewBag.Ages = await getAgesUseCase.ExecuteAsync(cancellationToken);
 
             return View(output);
         }

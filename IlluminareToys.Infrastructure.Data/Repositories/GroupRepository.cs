@@ -18,6 +18,7 @@ namespace IlluminareToys.Infrastructure.Data.Repositories
             => await _context
                 .Set<Group>()
                 .Include(x => x.ProductsGroups)
+                .ThenInclude(x => x.ProductsGroupsAges)
                 .Where(expression)
                 .OrderBy(orderByExpression)
                 .AsNoTracking()

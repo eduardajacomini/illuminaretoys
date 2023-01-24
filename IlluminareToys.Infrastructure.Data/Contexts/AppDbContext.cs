@@ -30,6 +30,8 @@ namespace IlluminareToys.Infrastructure.Data.Contexts
 
         public DbSet<ProductGroup> ProductsGroups { get; set; }
 
+        public DbSet<ProductGroupAge> ProductsGroupsAges { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

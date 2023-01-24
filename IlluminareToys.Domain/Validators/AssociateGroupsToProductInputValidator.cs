@@ -8,13 +8,9 @@ namespace IlluminareToys.Domain.Validators
     {
         public AssociateGroupsToProductInputValidator()
         {
-            RuleFor(x => x.ProductId)
-              .NotEmpty()
-              .WithMessage(ValidationMessages.ProductIdInvalid);
-
-            RuleFor(x => x.GroupIds.Count())
-                .GreaterThan(0)
-                .WithMessage(ValidationMessages.GroupsInvalid);
+            RuleFor(x => x.ProductGroups.Count())
+              .GreaterThan(0)
+              .WithMessage(ValidationMessages.GroupsInvalid);
         }
     }
 }
