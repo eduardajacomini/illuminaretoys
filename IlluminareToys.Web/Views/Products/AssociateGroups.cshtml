@@ -41,7 +41,16 @@
                                 <select class="form-control select-ages" id="@group.Id" multiple>
                                     @foreach (var age in ages)
                                     {
-                                        <option value="@age.Id">@age.QuantityNormalized</option>
+                                        if (group.ProductsGroups.Any(x => x.ProductsGroupsAges.Any(y => y.ProductGroupId.Equals(y.ProductGroupId))))
+                                        {
+                                            <option value="@age.Id" selected>@age.QuantityNormalized</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@age.Id">@age.QuantityNormalized</option>
+
+                                        }
+
                                         @*if (Model.Product.Groups.Any(x => x.GroupId.Equals(item.Id)))
                                             {
                                                 <option value="@item.Id" selected>@item.Name</option>
@@ -61,6 +70,7 @@
             </div>
         </div>
     </div>
+
     <!--<div class="card">
         <div class="card-header">
             <h3 class="card-title">Associar Grupos ao produto @Model.Product.Description</h3>

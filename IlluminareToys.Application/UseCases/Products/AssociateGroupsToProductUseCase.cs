@@ -96,8 +96,6 @@ namespace IlluminareToys.Domain.UseCases.Product
 
                     await _productGroupAgeRepository.AddAsync(newProductGroupAge, cancellationToken);
                 }
-
-                return new();
             }
 
             //foreach (var groupId in input.GroupIds)
