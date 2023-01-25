@@ -15,12 +15,12 @@ namespace IlluminareToys.Infrastructure.Data.Configurations
             builder.HasOne(x => x.ProductGroup)
               .WithMany(x => x.ProductsGroupsAges)
               .HasForeignKey(x => x.ProductGroupId)
-              .OnDelete(DeleteBehavior.NoAction);
+              .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(x => x.Age)
              .WithMany(x => x.ProductsGroupsAges)
              .HasForeignKey(x => x.AgeId)
-             .OnDelete(DeleteBehavior.NoAction);
+             .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

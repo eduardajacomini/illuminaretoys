@@ -71,7 +71,12 @@ namespace IlluminareToys.Domain.UseCases.Product
                 var productGroup = await _productGroupRepository.FirstOrDefaultAsync(x => x.GroupId.Equals(item.GroupId) && x.ProductId.Equals(item.ProductId), cancellationToken);
 
                 if (productGroup is null)
-                {//colocar if pra nao fazer nada caso nao tenha AGE IDS
+                {
+                    if (!item.AgeIds.Any())
+                    {
+                        continue;
+                    }
+
                     var newProductGroup = new ProductGroup(item.ProductId, item.GroupId);
 
                     await _productGroupRepository.AddAsync(newProductGroup, cancellationToken);

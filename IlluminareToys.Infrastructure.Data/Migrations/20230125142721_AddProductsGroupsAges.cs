@@ -27,12 +27,14 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
                         name: "fk_products_groups_ages_ages_age_id",
                         column: x => x.age_id,
                         principalTable: "ages",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "fk_products_groups_ages_products_groups_product_group_id",
                         column: x => x.product_group_id,
                         principalTable: "products_groups",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

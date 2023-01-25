@@ -24,7 +24,6 @@
 
         public string Brand { get; private set; }
 
-
         public string BlingCreatedAt { get; private set; }
 
         public string BlingUpdatedAt { get; private set; }

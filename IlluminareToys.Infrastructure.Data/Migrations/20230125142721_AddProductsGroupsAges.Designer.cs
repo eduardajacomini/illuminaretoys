@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IlluminareToys.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230124224906_AddProductsGroupsAges")]
+    [Migration("20230125142721_AddProductsGroupsAges")]
     partial class AddProductsGroupsAges
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -703,14 +703,14 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
                     b.HasOne("IlluminareToys.Domain.Entities.Age", "Age")
                         .WithMany("ProductsGroupsAges")
                         .HasForeignKey("AgeId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_products_groups_ages_ages_age_id");
 
                     b.HasOne("IlluminareToys.Domain.Entities.ProductGroup", "ProductGroup")
                         .WithMany("ProductsGroupsAges")
                         .HasForeignKey("ProductGroupId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_products_groups_ages_products_groups_product_group_id");
 
