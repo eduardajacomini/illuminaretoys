@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using FluentValidation.Results;
 using IlluminareToys.Domain.Entities;
 using IlluminareToys.Domain.Inputs.Ages;
 using IlluminareToys.Domain.Outputs.Age;
@@ -30,6 +31,14 @@ namespace IlluminareToys.Application.UseCases.Ages
             if (!validationResult.IsValid)
             {
                 return new CreateAgeOutput(validationResult.Errors);
+            }
+
+            var ageExists = await _repository.FirstOrDefaultAsync(x => x.Quantity.Equals(input.Quantity) &&
+                                                                      x.Type.Equals(input.Type));
+
+            if (ageExists is not null)
+            {
+                return new CreateAgeOutput(new ValidationFailure("Idade", "Idade informada já existe."));
             }
 
             var entity = _mapper.Map<Age>(input);

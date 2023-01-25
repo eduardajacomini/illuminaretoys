@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using IlluminareToys.Application.Extensions;
 using IlluminareToys.Domain.Outputs.Age;
 using IlluminareToys.Domain.Repositories;
 using IlluminareToys.Domain.UseCases.Age;
@@ -22,7 +23,7 @@ namespace IlluminareToys.Application.UseCases.Ages
 
             var output = _mapper.Map<IEnumerable<GetAgeOutput>>(entities);
 
-            return output;
+            return output.ToOrderedByAge();
         }
     }
 }

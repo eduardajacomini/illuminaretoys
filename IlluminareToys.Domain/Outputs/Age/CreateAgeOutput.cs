@@ -8,6 +8,7 @@ namespace IlluminareToys.Domain.Outputs.Age
     {
         public CreateAgeOutput(List<ValidationFailure> errors = null) : base(errors) { }
 
+        public CreateAgeOutput(ValidationFailure error = null) : base(error) { }
 
         [Display(Name = "Valor")]
         public int Quantity { get; set; }

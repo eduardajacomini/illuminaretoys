@@ -69,12 +69,12 @@ namespace IlluminareToys.Infrastructure.Data.Repositories
                         .Set<TEntity>()
                         .FirstOrDefaultAsync(expression, cancellationToken);
 
-        public async Task<IEnumerable<TEntity>> ListAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default)
-            => await Task.Run(() => _context
-                                        .Set<TEntity>()
-                                        .Where(expression)
-                                        .AsNoTracking()
-                                        .ToListAsync(cancellationToken));
+        public virtual async Task<IEnumerable<TEntity>> ListAsync(Expression<Func<TEntity, bool>> expression, CancellationToken cancellationToken = default)
+            => await _context
+                        .Set<TEntity>()
+                        .Where(expression)
+                        .AsNoTracking()
+                        .ToListAsync(cancellationToken);
 
         public async Task<IEnumerable<TEntity>> AddAllAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
         {

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GetTagGroupOutput>
+﻿@model IEnumerable<GetProductGroupAgeOutput>
 
 @{
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
@@ -21,8 +21,11 @@
 
         currentClass = CardColorHelper.GetCurrentClass(prevClass, currentClass);
 
-        <a class="button-menu @currentClass" asp-action="KnowChildAgesProducts" asp-route-groupId="@item.GroupId" asp-route-age="@item.Age">
-            <h3 class="button-menu-label">@item.Age</h3>
+        <a class="button-menu @currentClass"
+           asp-action="KnowChildAgesProducts"
+           asp-route-groupId="@item.ProductGroup.GroupId"
+           asp-route-age="@item.Age.Id">
+            <h3 class="button-menu-label">@item.Age.QuantityNormalized</h3>
         </a>
     }
 </div>

@@ -48,15 +48,15 @@ namespace IlluminareToys.Web.Controllers
 
         [HttpGet("KnowChildAges/{groupId:guid}")]
         public async Task<IActionResult> KnowChildAges([FromRoute] Guid groupId,
-                                                      [FromServices] IGetTagsGroupsByGroupIdUseCase getTagsGroupsByGroupIdUseCase,
+                                                      [FromServices] IGetProductsGroupsAgesByGroupIdUseCase getProductsGroupsAgesByGroupIdUseCase,
                                                       [FromServices] IGetGroupByIdUseCase getGroupByIdUseCase,
                                                       CancellationToken cancellationToken)
         {
-            var output = await getTagsGroupsByGroupIdUseCase.ExecuteAsync(groupId, cancellationToken);
+            var output = await getProductsGroupsAgesByGroupIdUseCase.ExecuteAsync(groupId, cancellationToken);
 
             ViewBag.Group = await getGroupByIdUseCase.ExecuteAsync(groupId, cancellationToken);
 
-            return View(output.DistinctBy(x => x.Age));
+            return View(output);
         }
 
         [HttpGet("KnowChildAgesProducts/{groupId:guid}/{age}")]

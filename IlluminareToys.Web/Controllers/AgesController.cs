@@ -52,7 +52,18 @@ namespace IlluminareToys.Web.Controllers
 
             if (!output.IsValid)
             {
+                var ageTypes = new List<SelectListItem>
+            {
+                new SelectListItem("ANOS", AgeType.YEARS.ToInt().ToString()),
+                new SelectListItem("MESES", AgeType.MONTHS.ToInt().ToString())
+            };
+
+                ViewBag.AgeTypes = ageTypes;
+
                 output.Errors.AddToModelState(ModelState);
+
+                _toastNotification.AddErrorToastMessage(string.Join(";", output.Errors.Select(x => x.ErrorMessage)));
+
                 return View(input);
             }
 

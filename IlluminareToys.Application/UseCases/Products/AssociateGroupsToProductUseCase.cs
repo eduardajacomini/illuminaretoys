@@ -91,7 +91,9 @@ namespace IlluminareToys.Domain.UseCases.Product
                     continue;
                 }
 
-                var existingProductGroupAges = await _productGroupAgeRepository.ListAsync(x => x.ProductGroupId.Equals(productGroup.Id), cancellationToken);
+                var existingProductGroupAges = await _productGroupAgeRepository.ListAsync(x => x.ProductGroupId.Equals(productGroup.Id),
+                                                                                               x => x.ProductGroupId,
+                                                                                               cancellationToken);
 
                 await _productGroupAgeRepository.DeleteAllAsync(existingProductGroupAges, cancellationToken);
 

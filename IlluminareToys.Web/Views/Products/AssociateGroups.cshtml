@@ -51,25 +51,8 @@
         $('.select-ages').select2();
     });
 
-    const saveAssociation = (productId) => {
-        showLoading();
-
-        const groupsIds = $('#select-groups').val();
-
-        console.log(groupsIds);
-
-        axios.post('/Products/AssociateGroups', {
-            GroupIds: groupsIds,
-            ProductId: productId
-        }).then(_ => {
-            location.reload()
-        })
-    }
-
     const saveGroupAges = (productId) => {
         showLoading();
-
-        /*        const selectsAges = $('.select-ages');*/
 
         const body = {
             ProductGroups: []
