@@ -72,7 +72,7 @@ if (isProduction)
 {
     builder.WebHost.UseSentry(o =>
     {
-        o.Dsn = "https://a28a7e2339c340a69a45363ed5054116@o4504357169856512.ingest.sentry.io/4504357170970624";
+        o.Dsn = builder.Configuration["SentryDsn"];
         o.Debug = true;
         o.TracesSampleRate = 1.0;
     });

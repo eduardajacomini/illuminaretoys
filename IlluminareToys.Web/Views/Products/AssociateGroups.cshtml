@@ -26,7 +26,7 @@
                                 <select class="form-control select-ages" id="@group.Id" multiple>
                                     @foreach (var age in ages)
                                     {
-                                        if (group.ProductsGroups.Any(x => x.ProductsGroupsAges.Any(y => y.AgeId.Equals(age.Id))))
+                                        if (group.ProductsGroups.Any(x => x.ProductsGroupsAges.Any(y => y.AgeId.Equals(age.Id)) && x.ProductId.Equals(Model.Product.Id)))
                                         {
                                             <option value="@age.Id" selected>@age.QuantityNormalized</option>
                                         }
@@ -59,7 +59,6 @@
         };
 
         $('.select-ages').each((index, el) => {
-            console.log(el.id);
             const ageIds = $(`#${el.id}`).val();
 
             body.ProductGroups.push({
