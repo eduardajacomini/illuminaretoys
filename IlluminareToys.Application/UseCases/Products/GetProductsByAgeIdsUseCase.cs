@@ -32,7 +32,7 @@ namespace IlluminareToys.Application.UseCases.Products
             _productGroupRepository = productGroupRepository;
         }
 
-        public async Task<IEnumerable<GetProductOutput>> ExecuteAsync(IEnumerable<Guid> ageIds, bool useProductAgeRelation, CancellationToken cancellationToken)
+        public async Task<IEnumerable<GetProductOutput>> ExecuteAsync(Guid groupId, IEnumerable<Guid> ageIds, bool useProductAgeRelation, CancellationToken cancellationToken)
         {
             var ages = await _ageRepository.ListAsync(x => ageIds.Contains(x.Id), cancellationToken);
             var finalAgeIds = ages.Select(x => x.Id);
@@ -43,7 +43,7 @@ namespace IlluminareToys.Application.UseCases.Products
                 var productsGroupsIds = productsGroupsAges.Select(x => x.ProductGroupId);
 
                 var productsGroups = await _productGroupRepository.ListAsync(x => productsGroupsIds.Contains(x.Id), cancellationToken);
-                var productIds = productsGroups.Select(x => x.ProductId);
+                var productIds = productsGroups.Where(x => x.GroupId.Equals(groupId)).Select(x => x.ProductId);
 
                 var entities = await _productRepository.ListAsync(x => productIds.Contains(x.Id), x => x.Description, cancellationToken);
 

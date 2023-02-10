@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GetProductGroupAgeOutput>
+﻿@model GetProductGroupAgeOutput
 
 @{
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
@@ -14,7 +14,7 @@
     }
 
     <h3 class="display-5 text-bold">@group.Name</h3>
-    @foreach (var item in Model)
+    @foreach (var item in Model.ItemsToShow)
     {
         prevClass = currentClass;
 
@@ -29,11 +29,19 @@
         </a>
     }
 
-    <button 
-            type="button" 
-            class="btn btn-primary button-search" 
+    <button type="button"
+            class="btn btn-primary button-search"
             style="margin-top: 60px;"
-            onclick="searchProducts()">BUSCAR</button>
+            onclick="searchProducts('@group.Id')">
+        BUSCAR
+    </button>
+</div>
+
+<div hidden>
+    @foreach (var item in Model.ItemsToSelect)
+    {
+        <div class=""></div>
+    }
 </div>
 
 <script>
@@ -61,8 +69,8 @@
         return '?' + key + '=' + arr.join('&' + key + '=')
     }
 
-    const searchProducts = () => {
-        var url = `/KnowChildAgesProducts${parameterizeArray('ageIds', agesSelected)}`;
+    const searchProducts = (groupId) => {
+        var url = `/KnowChildAgesProducts/${groupId}${parameterizeArray('ageIds', agesSelected)}`;
 
         window.location = url;
     }
@@ -83,8 +91,9 @@
         width: 80%;
         background-color: #f2787b;
     }
-    .button-search:hover {
-        cursor: pointer;
-        opacity: 0.7;
-    }
+
+        .button-search:hover {
+            cursor: pointer;
+            opacity: 0.7;
+        }
 </style>

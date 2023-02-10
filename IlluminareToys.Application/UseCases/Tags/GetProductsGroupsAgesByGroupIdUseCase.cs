@@ -21,13 +21,13 @@ namespace IlluminareToys.Application.UseCases.Tags
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<GetProductGroupAgeOutput>> ExecuteAsync(Guid groupId, CancellationToken cancellationToken)
+        public async Task<GetProductGroupAgeOutput> ExecuteAsync(Guid groupId, CancellationToken cancellationToken)
         {
             var productsGroups = await _productGroupRepository.ListAsync(x => x.GroupId.Equals(groupId), cancellationToken);
 
             if (!productsGroups.Any())
             {
-                return Enumerable.Empty<GetProductGroupAgeOutput>();
+                return new();
             }
 
             var productsGroupsIds = productsGroups.Select(x => x.Id);
@@ -36,12 +36,14 @@ namespace IlluminareToys.Application.UseCases.Tags
 
             if (!productsGroupsAges.Any())
             {
-                return Enumerable.Empty<GetProductGroupAgeOutput>();
+                return new();
             }
 
-            var output = _mapper.Map<IEnumerable<GetProductGroupAgeOutput>>(productsGroupsAges);
-
-            return output.ToOrderedByAge();
+            return new GetProductGroupAgeOutput
+            {
+                ItemsToShow = _mapper.Map<IEnumerable<GetProductGroupAgeOutputItem>>(productsGroupsAges.DistinctBy(x => x.AgeId)).ToOrderedByAge(),
+                ItemsToSelect = _mapper.Map<IEnumerable<GetProductGroupAgeOutputItem>>(productsGroupsAges.DistinctBy(x => x.AgeId))
+            };
         }
     }
 }

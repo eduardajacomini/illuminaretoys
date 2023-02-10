@@ -51,7 +51,7 @@ namespace IlluminareToys.Application.Mappers
 
             CreateMap<ProductGroup, GetProductGroupOutput>();
 
-            CreateMap<ProductGroupAge, GetProductGroupAgeOutput>();
+            CreateMap<ProductGroupAge, GetProductGroupAgeOutputItem>();
         }
     }
 }
