@@ -4,13 +4,6 @@ namespace IlluminareToys.Domain.Outputs.Product
 {
     public record GetProductGroupAgeOutput
     {
-        public IEnumerable<GetProductGroupAgeOutputItem> ItemsToShow { get; set; }
-
-        public IEnumerable<GetProductGroupAgeOutputItem> ItemsToSelect { get; set; }
-    }
-
-    public record GetProductGroupAgeOutputItem
-    {
         public Guid ProductGroupId { get; set; }
 
         public Guid AgeId { get; set; }

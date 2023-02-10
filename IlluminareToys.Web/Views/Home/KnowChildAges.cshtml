@@ -1,4 +1,4 @@
-﻿@model GetProductGroupAgeOutput
+﻿@model IEnumerable<GetProductGroupAgeOutput>
 
 @{
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
@@ -14,7 +14,7 @@
     }
 
     <h3 class="display-5 text-bold">@group.Name</h3>
-    @foreach (var item in Model.ItemsToShow)
+    @foreach (var item in Model)
     {
         prevClass = currentClass;
 
@@ -35,13 +35,6 @@
             onclick="searchProducts('@group.Id')">
         BUSCAR
     </button>
-</div>
-
-<div hidden>
-    @foreach (var item in Model.ItemsToSelect)
-    {
-        <div class=""></div>
-    }
 </div>
 
 <script>

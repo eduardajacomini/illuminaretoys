@@ -5,7 +5,7 @@ namespace IlluminareToys.Application.Extensions
 {
     public static class EnumerableExtensions
     {
-        public static IEnumerable<GetProductGroupAgeOutputItem> ToOrderedByAge(this IEnumerable<GetProductGroupAgeOutputItem> list)
+        public static IEnumerable<GetProductGroupAgeOutput> ToOrderedByAge(this IEnumerable<GetProductGroupAgeOutput> list)
         {
             var byYear = list.Where(x => x.Age.Type is Domain.Enums.AgeType.YEARS);
             var byMonth = list.Where(x => x.Age.Type is Domain.Enums.AgeType.MONTHS);
@@ -13,7 +13,7 @@ namespace IlluminareToys.Application.Extensions
             var orderedByYear = byYear.OrderBy(x => x.Age.Quantity);
             var orderedByMonth = byMonth.OrderBy(x => x.Age.Quantity);
 
-            var finalList = new List<GetProductGroupAgeOutputItem>();
+            var finalList = new List<GetProductGroupAgeOutput>();
 
             finalList.AddRange(orderedByMonth);
             finalList.AddRange(orderedByYear);

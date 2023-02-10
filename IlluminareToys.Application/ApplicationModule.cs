@@ -63,11 +63,6 @@ namespace IlluminareToys.Application
              .InstancePerLifetimeScope();
 
             builder
-            .RegisterType<CreateTagsGroupsInputValidator>()
-            .As<IValidator<CreateTagsGroupsInput>>()
-            .InstancePerLifetimeScope();
-
-            builder
             .RegisterType<UpdateGroupInputValidator>()
             .As<IValidator<UpdateGroupInput>>()
             .InstancePerLifetimeScope();

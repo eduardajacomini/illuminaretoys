@@ -59,7 +59,7 @@ namespace IlluminareToys.Web.Controllers
             return View(output);
         }
 
-        [HttpGet("KnowChildAgesProducts/{groupId}/{}")]
+        [HttpGet("KnowChildAgesProducts/{groupId}")]
         public async Task<IActionResult> KnowChildAgesProducts([FromRoute] Guid groupId,
                                                                [FromQuery] IEnumerable<Guid> ageIds,
                                                                [FromServices] IGetProductsByAgeIdsUseCase getProductsByGroupIdUseCase,

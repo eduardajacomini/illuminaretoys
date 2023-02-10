@@ -4,6 +4,6 @@ namespace IlluminareToys.Domain.UseCases.Product
 {
     public interface IGetProductsGroupsAgesByGroupIdUseCase
     {
-        Task<GetProductGroupAgeOutput> ExecuteAsync(Guid groupId, CancellationToken cancellationToken);
+        Task<IEnumerable<GetProductGroupAgeOutput>> ExecuteAsync(Guid groupId, CancellationToken cancellationToken);
     }
 }
