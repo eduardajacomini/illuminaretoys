@@ -1,15 +1,24 @@
 ﻿using IlluminareToys.Application.ViewModels;
 using IlluminareToys.Domain.Inputs.Products;
+using IlluminareToys.Domain.UseCases.Age;
 using IlluminareToys.Domain.UseCases.Group;
 using IlluminareToys.Domain.UseCases.Product;
 using IlluminareToys.Domain.UseCases.Tag;
 using Microsoft.AspNetCore.Mvc;
+using NToastNotify;
 using System.Diagnostics;
 
 namespace IlluminareToys.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IToastNotification _toastNotification;
+
+        public HomeController(IToastNotification toastNotification)
+        {
+            _toastNotification = toastNotification;
+        }
+
         public async Task<IActionResult> Index([FromServices] IGetProductsByTagsUseCase getProductsByTagsUseCase,
                                                [FromServices] IGetTagsUseCase getTagsUseCase,
                                                CancellationToken cancellationToken)
@@ -62,29 +71,42 @@ namespace IlluminareToys.Web.Controllers
         [HttpGet("KnowChildAgesProducts/{groupId}")]
         public async Task<IActionResult> KnowChildAgesProducts([FromRoute] Guid groupId,
                                                                [FromQuery] IEnumerable<Guid> ageIds,
-                                                               [FromServices] IGetProductsByAgeIdsUseCase getProductsByGroupIdUseCase,
+                                                               [FromServices] IGetProductsByGroupIdAgeIdsUseCase getProductsByAgeIdsUseCase,
+                                                               [FromServices] IGetGroupByIdUseCase getGroupByIdUseCase,
+                                                               [FromServices] IGetProductsGroupsAgesByGroupIdUseCase getProductsGroupsAgesByGroupIdUseCase,
                                                                CancellationToken cancellationToken)
         {
-            var output = await getProductsByGroupIdUseCase.ExecuteAsync(groupId, ageIds, false, cancellationToken);
+            if (!ageIds.Any())
+            {
+                var errorOutput = await getProductsGroupsAgesByGroupIdUseCase.ExecuteAsync(groupId, cancellationToken);
+
+                ViewBag.Group = await getGroupByIdUseCase.ExecuteAsync(groupId, cancellationToken);
+
+                _toastNotification.AddErrorToastMessage("Selecione ao menos um grupo!");
+
+                return View(nameof(KnowChildAges), errorOutput);
+            }
+
+            var output = await getProductsByAgeIdsUseCase.ExecuteAsync(groupId, ageIds, false, cancellationToken);
 
             return View(nameof(ProductsBook), output);
         }
 
         [HttpGet]
-        public async Task<IActionResult> DontKnowChild([FromServices] IGetProductCategoriesUseCase getProductCategoriesUseCase,
+        public async Task<IActionResult> DontKnowChild([FromServices] IGetAgesUseCase getAgesUseCase,
                                                        CancellationToken cancellationToken)
         {
-            var output = await getProductCategoriesUseCase.ExecuteAsync(cancellationToken);
+            var output = await getAgesUseCase.ExecuteAsync(cancellationToken);
 
             return View(output);
         }
 
-        [HttpGet("DontKnowChildCategoryProducts/{category}")]
-        public async Task<IActionResult> DontKnowChildCategoryProducts([FromRoute] string category,
-                                                                       [FromServices] IGetProductsByCategoryUseCase getProductsByCategoryUseCase,
-                                                                       CancellationToken cancellationToken)
+        [HttpGet("DontKnowChildProducts")]
+        public async Task<IActionResult> DontKnowChildProducts([FromQuery] IEnumerable<Guid> ageIds,
+                                                               [FromServices] IGetProdutsByAgeIdsUseCase getProductsByAgeIdsUseCase,
+                                                               CancellationToken cancellationToken)
         {
-            var output = await getProductsByCategoryUseCase.ExecuteAsync(category, cancellationToken);
+            var output = await getProductsByAgeIdsUseCase.ExecuteAsync(ageIds, true, cancellationToken);
 
             return View(nameof(ProductsBook), output);
         }

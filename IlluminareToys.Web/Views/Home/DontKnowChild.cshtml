@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GetProductCategoryOutput>
+﻿@model IEnumerable<GetAgeOutput>
 
 @{
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
@@ -18,8 +18,71 @@
 
         currentClass = CardColorHelper.GetCurrentClass(prevClass, currentClass);
 
-        <a class="button-menu @currentClass" asp-action="DontKnowChildCategoryProducts" asp-route-category="@item.Description">
-            <h3 class="button-menu-label">@item.Description</h3>
+        <a id="@item.Id"
+           class="button-menu @currentClass"
+           onclick="onSelectAge('@item.Id')">
+            <h3 class="button-menu-label">@item.QuantityNormalized</h3>
         </a>
     }
+
+    <button type="button"
+            class="btn btn-primary button-search"
+            style="margin-top: 60px;"
+            onclick="searchProducts()">
+        BUSCAR
+    </button>
 </div>
+
+<script>
+    let agesSelected = [];
+
+    const onSelectAge = (ageId) => {
+        if (agesSelected.some(x => x === ageId)) {
+            const newSelection = agesSelected.filter(x => x !== ageId);
+
+            agesSelected = newSelection;
+
+            $(`#${ageId}`).removeClass('selected-age');
+
+            return;
+        }
+
+        $(`#${ageId}`).addClass('selected-age');
+
+        agesSelected.push(ageId);
+
+    }
+
+    const parameterizeArray = (key, arr) => {
+        arr = arr.map(encodeURIComponent)
+        return '?' + key + '=' + arr.join('&' + key + '=')
+    }
+
+    const searchProducts = () => {
+        var url = `/DontKnowChildProducts${parameterizeArray('ageIds', agesSelected)}`;
+
+        window.location = url;
+    }
+</script>
+
+<style>
+    .selected-age {
+        border: solid;
+        border-color: black;
+    }
+
+    .button-search {
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 2px #888;
+        text-align: center;
+        margin-bottom: 24px;
+        width: 80%;
+        background-color: #f2787b;
+    }
+
+        .button-search:hover {
+            cursor: pointer;
+            opacity: 0.7;
+        }
+</style>
