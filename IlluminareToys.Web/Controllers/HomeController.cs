@@ -1,5 +1,4 @@
 ﻿using IlluminareToys.Application.ViewModels;
-using IlluminareToys.Domain.Inputs.Products;
 using IlluminareToys.Domain.UseCases.Age;
 using IlluminareToys.Domain.UseCases.Group;
 using IlluminareToys.Domain.UseCases.Product;
@@ -19,32 +18,9 @@ namespace IlluminareToys.Web.Controllers
             _toastNotification = toastNotification;
         }
 
-        public async Task<IActionResult> Index([FromServices] IGetProductsByTagsUseCase getProductsByTagsUseCase,
-                                               [FromServices] IGetTagsUseCase getTagsUseCase,
-                                               CancellationToken cancellationToken)
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            var output = await getProductsByTagsUseCase.ExecuteAsync(new(), cancellationToken);
-            var tags = await getTagsUseCase.ExecuteAsync(cancellationToken);
-
-            ViewBag.Tags = tags;
-
-            return View(output);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Index([Bind("Tags")] GetProductsByTagsInput input,
-                                               [FromServices] IGetProductsByTagsUseCase getProductsByTagsUseCase,
-                                               [FromServices] IGetTagsUseCase getTagsUseCase,
-                                               CancellationToken cancellationToken)
-        {
-            var output = await getProductsByTagsUseCase.ExecuteAsync(input, cancellationToken);
-
-            var tags = await getTagsUseCase.ExecuteAsync(cancellationToken);
-
-            ViewBag.Tags = tags;
-            ViewBag.SelectedTags = input.Tags;
-
-            return View(output);
+            return View();
         }
 
         [HttpGet]
@@ -113,31 +89,21 @@ namespace IlluminareToys.Web.Controllers
 
         [HttpGet]
         public async Task<IActionResult> ByTag([FromServices] IGetTagsUseCase getTagsUseCase,
-                                               [FromServices] IGetProductsByTagsUseCase getProductsByTagsUseCase,
                                                CancellationToken cancellationToken)
         {
-            var output = await getProductsByTagsUseCase.ExecuteAsync(new(), cancellationToken);
-            var tags = await getTagsUseCase.ExecuteAsync(cancellationToken);
-
-            ViewBag.Tags = tags;
+            var output = await getTagsUseCase.ExecuteAsync(cancellationToken);
 
             return View(output);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ByTag([Bind("Tags")] GetProductsByTagsInput input,
+        [HttpGet("ByTagProducts")]
+        public async Task<IActionResult> ByTagProduts([FromQuery] IEnumerable<Guid> tagIds,
                                                [FromServices] IGetProductsByTagsUseCase getProductsByTagsUseCase,
-                                               [FromServices] IGetTagsUseCase getTagsUseCase,
                                                CancellationToken cancellationToken)
         {
-            var output = await getProductsByTagsUseCase.ExecuteAsync(input, cancellationToken);
+            var output = await getProductsByTagsUseCase.ExecuteAsync(tagIds, cancellationToken);
 
-            var tags = await getTagsUseCase.ExecuteAsync(cancellationToken);
-
-            ViewBag.Tags = tags;
-            ViewBag.SelectedTags = input.Tags;
-
-            return View(output);
+            return View(nameof(ProductsBook), output);
         }
 
         [HttpGet]

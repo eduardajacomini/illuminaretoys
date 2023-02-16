@@ -1,5 +1,4 @@
 ﻿using IlluminareToys.Application.Extensions;
-using IlluminareToys.Domain.Inputs.Products;
 using IlluminareToys.Domain.Inputs.Tags;
 using IlluminareToys.Domain.UseCases.Group;
 using IlluminareToys.Domain.UseCases.Product;
@@ -92,10 +91,7 @@ namespace IlluminareToys.Web.Controllers
             }
 
             ViewBag.Groups = await getGroupsUseCase.ExecuteAsync(cancellationToken);
-            ViewBag.Products = await getProductsByTagsUseCase.ExecuteAsync(new GetProductsByTagsInput
-            {
-                Tags = new List<Guid> { id }
-            }, cancellationToken);
+            ViewBag.Products = await getProductsByTagsUseCase.ExecuteAsync(new List<Guid> { id }, cancellationToken);
 
             return View(output);
         }
