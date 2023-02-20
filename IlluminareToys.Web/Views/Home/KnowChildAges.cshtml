@@ -14,27 +14,34 @@
     }
 
     <h3 class="display-5 text-bold">@group.Name</h3>
-    @foreach (var item in Model)
+    @if (Model.Any())
     {
-        prevClass = currentClass;
+        @foreach (var item in Model)
+        {
+            prevClass = currentClass;
 
 
-        currentClass = CardColorHelper.GetCurrentClass(prevClass, currentClass);
+            currentClass = CardColorHelper.GetCurrentClass(prevClass, currentClass);
 
-        <a id="@item.AgeId" class="button-menu @currentClass" onclick="onSelectAge('@item.AgeId')"
-           @*asp-action="KnowChildAgesProducts"
+            <a id="@item.AgeId" class="button-menu @currentClass" onclick="onSelectAge('@item.AgeId')"
+               @*asp-action="KnowChildAgesProducts"
            asp-route-groupId="@item.ProductGroup.GroupId"
            asp-route-age="@item.Age.Id"*@>
-            <h3 class="button-menu-label">@item.Age.QuantityNormalized</h3>
-        </a>
-    }
+                <h3 class="button-menu-label">@item.Age.QuantityNormalized</h3>
+            </a>
+        }
 
-    <button type="button"
-            class="btn btn-primary button-search"
-            style="margin-top: 60px;"
-            onclick="searchProducts('@group.Id')">
-        BUSCAR
-    </button>
+        <button type="button"
+                class="btn btn-primary button-search"
+                style="margin-top: 60px;"
+                onclick="searchProducts('@group.Id')">
+            BUSCAR
+        </button>
+    }
+    else
+    {
+        <h3 class="display-5 text-bold">Não foram encontradas idades para o @group.Name</h3>
+    }
 </div>
 
 <script>
