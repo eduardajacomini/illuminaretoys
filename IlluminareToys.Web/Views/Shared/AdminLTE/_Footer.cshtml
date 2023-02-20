@@ -1,7 +1,9 @@
-﻿<footer class="main-footer">
+﻿@using System.Reflection;
+
+<footer class="main-footer">
     <!-- To the right -->
     <div class="float-right d-none d-sm-inline">
-        <span>v1.0.0</span>
+        <span>@Assembly.GetEntryAssembly().GetName().Version</span>
         <img src="~/img/logomarca.png" width="40" height="40"  style="margin-left: 15px"/>
     </div>
     <!-- Default to the left -->

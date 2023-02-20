@@ -97,18 +97,39 @@ namespace IlluminareToys.Application.UseCases.Products
                                                         CancellationToken cancellationToken)
         {
             var productsInDbToDelete = await context
-                    .Products
-                    .Where(x => !resultItemsIds.Contains(x.BlingId))
-                    .ToListAsync(cancellationToken);
+                                                .Products
+                                                .Where(x => !resultItemsIds.Contains(x.BlingId))
+                                                .ToListAsync(cancellationToken);
+
+            var productsIds = productsInDbToDelete.Select(x => x.Id);
 
             var tagsProductsToDelete = await context
-                .TagsProducts
-                .Where(x => productsInDbToDelete.Select(x => x.Id).Contains(x.ProductId))
-                .ToListAsync(cancellationToken);
+                                                .TagsProducts
+                                                .Where(x => productsIds.Contains(x.ProductId))
+                                                .ToListAsync(cancellationToken);
+
+            var productsGroupsToDelete = await context
+                                                .ProductsGroups
+                                                .Where(x => productsIds.Contains(x.ProductId))
+                                                .ToListAsync(cancellationToken);
+            var productsGroupsIds = productsGroupsToDelete.Select(x => x.Id);
+
+            var productsGroupsAgesToDelete = await context
+                                                    .ProductsGroupsAges
+                                                    .Where(x => productsGroupsIds.Contains(x.ProductGroupId))
+                                                    .ToListAsync(cancellationToken);
+
+            var productsAgesToDelete = await context
+                                                .ProductsAges
+                                                .Where(x => productsIds.Contains(x.ProductId))
+                                                .ToListAsync(cancellationToken);
 
 
             context.TagsProducts.RemoveRange(tagsProductsToDelete);
             context.Products.RemoveRange(productsInDbToDelete);
+            context.ProductsGroupsAges.RemoveRange(productsGroupsAgesToDelete);
+            context.ProductsGroups.RemoveRange(productsGroupsToDelete);
+            context.ProductsAges.RemoveRange(productsAgesToDelete);
         }
     }
 }
