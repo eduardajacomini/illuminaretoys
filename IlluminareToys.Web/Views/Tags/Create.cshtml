@@ -58,14 +58,6 @@
 
         const body = {
             description: $('#input-description').val(),
-            tagsGroups: []
-        }
-
-        for (let i = 0; i < inputsGroups.length; i++) {
-            body.tagsGroups.push({
-                groupId: inputsGroups[i].id,
-                age: inputsGroups[i].value
-            });
         }
 
         axios.post('/Tags/Create', body)

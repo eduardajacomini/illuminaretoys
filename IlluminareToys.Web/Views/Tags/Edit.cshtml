@@ -4,8 +4,7 @@
     ViewData["Title"] = "Illuminare Toys - Editar Tag";
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
     var groups = ViewBag.Groups as IEnumerable<GetGroupOutput>;
-    var existingTagsGroups = ViewBag.ExistingTagsGroups as IEnumerable<GetTagGroupOutput>;
-    var products = ViewBag.Products as IEnumerable<GetProductsByTagsOutput>;
+    var products = ViewBag.Products as IEnumerable<GetProductOutput>;
 }
 
 <div class="col-md-12">
@@ -34,45 +33,6 @@
         <div class="card-footer">
         </div>
     </div>
-
-    <div class="card card-fuchsia">
-        <div class="card-header">
-            <h3 class="card-title">Grupos da Tag</h3>
-            <div class="card-tools">
-                <button class="btn btn-secondary" onclick="saveGroupAges('@Model.Id')">Salvar Grupos</button>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="col-md-12">
-                <div class="row">
-                    @foreach (var group in groups)
-                    {
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                                <label class="control-label">@group.Name</label>
-                                @if (existingTagsGroups.Any(x => x.GroupId.Equals(group.Id)))
-                                {
-                                    <input type="text"
-                                           id="@group.Id"
-                                           class="form-control group-age"
-                                           value="@existingTagsGroups.FirstOrDefault(x => x.GroupId.Equals(group.Id)).Age" />
-                                }
-                                else
-                                {
-                                    <input type="text"
-                                           id="@group.Id"
-                                           class="form-control group-age"
-                                           placeholder="Informe a idade" />
-
-                                }
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="card card-fuchsia">
         <div class="card-header">
             <h3 class="card-title">Produtos relacionados</h3>
@@ -164,30 +124,6 @@
             locale: 'pt-BR'
         })
     });
-
-    const saveGroupAges = (tagId) => {
-        showLoading();
-
-        const inputsGroups = $('.group-age');
-
-        const body = {
-            tagsGroups: []
-        };
-
-        for (let i = 0; i < inputsGroups.length; i++) {
-            body.tagsGroups.push({
-                tagId,
-                groupId: inputsGroups[i].id,
-                age: inputsGroups[i].value
-            });
-        }
-
-        axios.post('/TagsGroups', body)
-            .then(_ => {
-                location.reload()
-            })
-    }
-
 </script>
 
 <style>

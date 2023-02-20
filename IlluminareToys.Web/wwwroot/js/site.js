@@ -16,6 +16,23 @@ const hideLoading = () => {
 
 }
 
+const showDialogWithInput = (title, inputLabel, inputValidator, callbackHandleResult) => {
+    // inputValidator exemplo
+    //(value) => {
+    //    if (!value) {
+    //        return 'You need to write something!'
+    //    }
+    //}
+
+    Swal.fire({
+        title: title,
+        input: 'text',
+        inputLabel: inputLabel,
+        showCancelButton: true,
+        inputValidator: inputValidator
+    }).then(result => callbackHandleResult(result))
+}
+
 const showConfirmDialog = (title, text, callbackConfirm) => {
     Swal.fire({
         title: title,
@@ -30,5 +47,13 @@ const showConfirmDialog = (title, text, callbackConfirm) => {
         if (result.isConfirmed) {
             callbackConfirm()
         }
+    })
+}
+
+const showMessage = (title, message, icon) => {
+    Swal.fire({
+        icon: icon,
+        title: title,
+        text: message,
     })
 }

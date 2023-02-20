@@ -11,8 +11,6 @@
 
         public IEnumerable<TagProduct> TagsProducts { get; private set; }
 
-        public IEnumerable<TagGroup> TagsGroups { get; private set; }
-
         public void SetDescription(string description) => Description = description;
     }
 }

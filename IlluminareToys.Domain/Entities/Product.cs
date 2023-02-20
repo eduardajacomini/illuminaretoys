@@ -24,7 +24,6 @@
 
         public string Brand { get; private set; }
 
-
         public string BlingCreatedAt { get; private set; }
 
         public string BlingUpdatedAt { get; private set; }
@@ -32,7 +31,9 @@
         public DateTime SynchronizedAt { get; private set; }
 
         public IEnumerable<TagProduct> TagsProducts { get; private set; }
+        public IEnumerable<ProductAge> ProductsAges { get; private set; }
 
+        public IEnumerable<ProductGroup> ProductsGroups { get; private set; }
         public void SetBrand(string value)
         {
             if (Brand != value)

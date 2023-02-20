@@ -1,0 +1,81 @@
+﻿@model IEnumerable<GetAgeOutput>
+
+@{
+    ViewData["Title"] = "Illuminare Toys - Idades";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+}
+<script src="~/js/site.js"></script>
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Idades</h3>
+            <div class="card-tools">
+                <a class="btn btn-primary" asp-action="Create">Nova Idade</a>
+            </div>
+        </div>
+        <div class="card-body table-responsive p-0">
+            <table id="table-ages">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.QuantityNormalized)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreatedAt)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UpdatedAt)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.QuantityNormalized)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreatedAt)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UpdatedAt)
+                            </td>
+                            <td>
+                                <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id">
+                                    <i class="icon fas fa-pen"></i>
+                                </a>
+                                <button type="button" class="btn btn-danger" onclick="deleteAge('@item.Id')">
+                                    <i class="icon fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#table-ages').bootstrapTable({
+            pagination: true,
+            search: true,
+            sortable: true,
+            locale: 'pt-BR'
+        })
+    });
+
+    function deleteAge(ageId) {
+        showConfirmDialog('Você tem certeza?', "Esta ação irá excluir a idade selecionada e suas relações com os produtos.", () => {
+            showLoading();
+            $.post(`/Ages/Delete/${ageId}`)
+                .then(r => {
+                    location.reload()
+                });
+        })
+    }
+</script>

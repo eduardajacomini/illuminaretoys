@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GetTagGroupOutput>
+﻿@model IEnumerable<GetProductGroupAgeOutput>
 
 @{
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
@@ -21,8 +21,72 @@
 
         currentClass = CardColorHelper.GetCurrentClass(prevClass, currentClass);
 
-        <a class="button-menu @currentClass" asp-action="KnowChildAgesProducts" asp-route-groupId="@item.GroupId" asp-route-age="@item.Age">
-            <h3 class="button-menu-label">@item.Age</h3>
+        <a id="@item.AgeId" class="button-menu @currentClass" onclick="onSelectAge('@item.AgeId')"
+           @*asp-action="KnowChildAgesProducts"
+           asp-route-groupId="@item.ProductGroup.GroupId"
+           asp-route-age="@item.Age.Id"*@>
+            <h3 class="button-menu-label">@item.Age.QuantityNormalized</h3>
         </a>
     }
+
+    <button type="button"
+            class="btn btn-primary button-search"
+            style="margin-top: 60px;"
+            onclick="searchProducts('@group.Id')">
+        BUSCAR
+    </button>
 </div>
+
+<script>
+    let agesSelected = [];
+
+    const onSelectAge = (ageId) => {
+        if (agesSelected.some(x => x === ageId)) {
+            const newSelection = agesSelected.filter(x => x !== ageId);
+
+            agesSelected = newSelection;
+
+            $(`#${ageId}`).removeClass('selected-age');
+
+            return;
+        }
+
+        $(`#${ageId}`).addClass('selected-age');
+
+        agesSelected.push(ageId);
+
+    }
+
+    const parameterizeArray = (key, arr) => {
+        arr = arr.map(encodeURIComponent)
+        return '?' + key + '=' + arr.join('&' + key + '=')
+    }
+
+    const searchProducts = (groupId) => {
+        var url = `/KnowChildAgesProducts/${groupId}${parameterizeArray('ageIds', agesSelected)}`;
+
+        window.location = url;
+    }
+</script>
+
+<style>
+    .selected-age {
+        border: solid;
+        border-color: black;
+    }
+
+    .button-search {
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 2px #888;
+        text-align: center;
+        margin-bottom: 24px;
+        width: 80%;
+        background-color: #f2787b;
+    }
+
+        .button-search:hover {
+            cursor: pointer;
+            opacity: 0.7;
+        }
+</style>

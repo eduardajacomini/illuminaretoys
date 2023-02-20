@@ -20,6 +20,8 @@ namespace IlluminareToys.Infrastructure.Data.Repositories
                         .Products
                         .Include(x => x.TagsProducts)
                         .ThenInclude(x => x.Tag)
+                        .Include(x => x.ProductsGroups)
+                        .ThenInclude(x => x.Group)
                         .SingleOrDefaultAsync(e => e.Id == id, cancellationToken);
 
         public override async Task<IEnumerable<Product>> ListAsync(Expression<Func<Product, bool>> expression,

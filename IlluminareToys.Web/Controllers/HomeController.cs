@@ -1,41 +1,26 @@
 ﻿using IlluminareToys.Application.ViewModels;
-using IlluminareToys.Domain.Inputs.Products;
+using IlluminareToys.Domain.UseCases.Age;
 using IlluminareToys.Domain.UseCases.Group;
 using IlluminareToys.Domain.UseCases.Product;
 using IlluminareToys.Domain.UseCases.Tag;
 using Microsoft.AspNetCore.Mvc;
+using NToastNotify;
 using System.Diagnostics;
 
 namespace IlluminareToys.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public async Task<IActionResult> Index([FromServices] IGetProductsByTagsUseCase getProductsByTagsUseCase,
-                                               [FromServices] IGetTagsUseCase getTagsUseCase,
-                                               CancellationToken cancellationToken)
+        private readonly IToastNotification _toastNotification;
+
+        public HomeController(IToastNotification toastNotification)
         {
-            var output = await getProductsByTagsUseCase.ExecuteAsync(new(), cancellationToken);
-            var tags = await getTagsUseCase.ExecuteAsync(cancellationToken);
-
-            ViewBag.Tags = tags;
-
-            return View(output);
+            _toastNotification = toastNotification;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Index([Bind("Tags")] GetProductsByTagsInput input,
-                                               [FromServices] IGetProductsByTagsUseCase getProductsByTagsUseCase,
-                                               [FromServices] IGetTagsUseCase getTagsUseCase,
-                                               CancellationToken cancellationToken)
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            var output = await getProductsByTagsUseCase.ExecuteAsync(input, cancellationToken);
-
-            var tags = await getTagsUseCase.ExecuteAsync(cancellationToken);
-
-            ViewBag.Tags = tags;
-            ViewBag.SelectedTags = input.Tags;
-
-            return View(output);
+            return View();
         }
 
         [HttpGet]
@@ -48,74 +33,77 @@ namespace IlluminareToys.Web.Controllers
 
         [HttpGet("KnowChildAges/{groupId:guid}")]
         public async Task<IActionResult> KnowChildAges([FromRoute] Guid groupId,
-                                                      [FromServices] IGetTagsGroupsByGroupIdUseCase getTagsGroupsByGroupIdUseCase,
+                                                      [FromServices] IGetProductsGroupsAgesByGroupIdUseCase getProductsGroupsAgesByGroupIdUseCase,
                                                       [FromServices] IGetGroupByIdUseCase getGroupByIdUseCase,
                                                       CancellationToken cancellationToken)
         {
-            var output = await getTagsGroupsByGroupIdUseCase.ExecuteAsync(groupId, cancellationToken);
+            var output = await getProductsGroupsAgesByGroupIdUseCase.ExecuteAsync(groupId, cancellationToken);
 
             ViewBag.Group = await getGroupByIdUseCase.ExecuteAsync(groupId, cancellationToken);
 
-            return View(output.DistinctBy(x => x.Age));
+            return View(output);
         }
 
-        [HttpGet("KnowChildAgesProducts/{groupId:guid}/{age}")]
+        [HttpGet("KnowChildAgesProducts/{groupId}")]
         public async Task<IActionResult> KnowChildAgesProducts([FromRoute] Guid groupId,
-                                                               [FromRoute] string age,
-                                                               [FromServices] IGetProductsByGroupIdUseCase getProductsByGroupIdUseCase,
+                                                               [FromQuery] IEnumerable<Guid> ageIds,
+                                                               [FromServices] IGetProductsByGroupIdAgeIdsUseCase getProductsByAgeIdsUseCase,
+                                                               [FromServices] IGetGroupByIdUseCase getGroupByIdUseCase,
+                                                               [FromServices] IGetProductsGroupsAgesByGroupIdUseCase getProductsGroupsAgesByGroupIdUseCase,
                                                                CancellationToken cancellationToken)
         {
-            var output = await getProductsByGroupIdUseCase.ExecuteAsync(groupId, age, cancellationToken);
+            if (!ageIds.Any())
+            {
+                var errorOutput = await getProductsGroupsAgesByGroupIdUseCase.ExecuteAsync(groupId, cancellationToken);
+
+                ViewBag.Group = await getGroupByIdUseCase.ExecuteAsync(groupId, cancellationToken);
+
+                _toastNotification.AddErrorToastMessage("Selecione ao menos um grupo!");
+
+                return View(nameof(KnowChildAges), errorOutput);
+            }
+
+            var output = await getProductsByAgeIdsUseCase.ExecuteAsync(groupId, ageIds, false, cancellationToken);
 
             return View(nameof(ProductsBook), output);
         }
 
         [HttpGet]
-        public async Task<IActionResult> DontKnowChild([FromServices] IGetProductCategoriesUseCase getProductCategoriesUseCase,
+        public async Task<IActionResult> DontKnowChild([FromServices] IGetAgesUseCase getAgesUseCase,
                                                        CancellationToken cancellationToken)
         {
-            var output = await getProductCategoriesUseCase.ExecuteAsync(cancellationToken);
+            var output = await getAgesUseCase.ExecuteAsync(cancellationToken);
 
             return View(output);
         }
 
-        [HttpGet("DontKnowChildCategoryProducts/{category}")]
-        public async Task<IActionResult> DontKnowChildCategoryProducts([FromRoute] string category,
-                                                                       [FromServices] IGetProductsByCategoryUseCase getProductsByCategoryUseCase,
-                                                                       CancellationToken cancellationToken)
+        [HttpGet("DontKnowChildProducts")]
+        public async Task<IActionResult> DontKnowChildProducts([FromQuery] IEnumerable<Guid> ageIds,
+                                                               [FromServices] IGetProdutsByAgeIdsUseCase getProductsByAgeIdsUseCase,
+                                                               CancellationToken cancellationToken)
         {
-            var output = await getProductsByCategoryUseCase.ExecuteAsync(category, cancellationToken);
+            var output = await getProductsByAgeIdsUseCase.ExecuteAsync(ageIds, true, cancellationToken);
 
             return View(nameof(ProductsBook), output);
         }
 
         [HttpGet]
         public async Task<IActionResult> ByTag([FromServices] IGetTagsUseCase getTagsUseCase,
-                                               [FromServices] IGetProductsByTagsUseCase getProductsByTagsUseCase,
                                                CancellationToken cancellationToken)
         {
-            var output = await getProductsByTagsUseCase.ExecuteAsync(new(), cancellationToken);
-            var tags = await getTagsUseCase.ExecuteAsync(cancellationToken);
-
-            ViewBag.Tags = tags;
+            var output = await getTagsUseCase.ExecuteAsync(cancellationToken);
 
             return View(output);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ByTag([Bind("Tags")] GetProductsByTagsInput input,
+        [HttpGet("ByTagProducts")]
+        public async Task<IActionResult> ByTagProduts([FromQuery] IEnumerable<Guid> tagIds,
                                                [FromServices] IGetProductsByTagsUseCase getProductsByTagsUseCase,
-                                               [FromServices] IGetTagsUseCase getTagsUseCase,
                                                CancellationToken cancellationToken)
         {
-            var output = await getProductsByTagsUseCase.ExecuteAsync(input, cancellationToken);
+            var output = await getProductsByTagsUseCase.ExecuteAsync(tagIds, cancellationToken);
 
-            var tags = await getTagsUseCase.ExecuteAsync(cancellationToken);
-
-            ViewBag.Tags = tags;
-            ViewBag.SelectedTags = input.Tags;
-
-            return View(output);
+            return View(nameof(ProductsBook), output);
         }
 
         [HttpGet]

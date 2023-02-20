@@ -17,10 +17,49 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "6.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("IlluminareToys.Domain.Entities.Age", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<bool>("Active")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("active");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer")
+                        .HasColumnName("quantity");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
+
+                    b.HasKey("Id")
+                        .HasName("pk_ages");
+
+                    b.ToTable("ages");
+                });
 
             modelBuilder.Entity("IlluminareToys.Domain.Entities.Group", b =>
                 {
@@ -153,6 +192,135 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
                     b.ToTable("products");
                 });
 
+            modelBuilder.Entity("IlluminareToys.Domain.Entities.ProductAge", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<bool>("Active")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("active");
+
+                    b.Property<Guid>("AgeId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("age_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_id");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
+
+                    b.HasKey("Id")
+                        .HasName("pk_products_ages");
+
+                    b.HasIndex("AgeId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("products_ages");
+                });
+
+            modelBuilder.Entity("IlluminareToys.Domain.Entities.ProductGroup", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<bool>("Active")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("active");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<Guid>("GroupId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("group_id");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_id");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
+
+                    b.HasKey("Id")
+                        .HasName("pk_products_groups");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("products_groups");
+                });
+
+            modelBuilder.Entity("IlluminareToys.Domain.Entities.ProductGroupAge", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<bool>("Active")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("active");
+
+                    b.Property<Guid>("AgeId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("age_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<Guid>("ProductGroupId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("product_group_id");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at")
+                        .HasDefaultValueSql("now()");
+
+                    b.HasKey("Id")
+                        .HasName("pk_products_groups_ages");
+
+                    b.HasIndex("AgeId");
+
+                    b.HasIndex("ProductGroupId");
+
+                    b.ToTable("products_groups_ages");
+                });
+
             modelBuilder.Entity("IlluminareToys.Domain.Entities.Tag", b =>
                 {
                     b.Property<Guid>("Id")
@@ -186,53 +354,6 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
                         .HasName("pk_tags");
 
                     b.ToTable("tags");
-                });
-
-            modelBuilder.Entity("IlluminareToys.Domain.Entities.TagGroup", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<bool>("Active")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true)
-                        .HasColumnName("active");
-
-                    b.Property<string>("Age")
-                        .HasColumnType("text")
-                        .HasColumnName("age");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<Guid>("GroupId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("group_id");
-
-                    b.Property<Guid>("TagId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("tag_id");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("updated_at")
-                        .HasDefaultValueSql("now()");
-
-                    b.HasKey("Id")
-                        .HasName("pk_tags_groups");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("tags_groups");
                 });
 
             modelBuilder.Entity("IlluminareToys.Domain.Entities.TagProduct", b =>
@@ -533,25 +654,67 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
                     b.ToTable("user_tokens", (string)null);
                 });
 
-            modelBuilder.Entity("IlluminareToys.Domain.Entities.TagGroup", b =>
+            modelBuilder.Entity("IlluminareToys.Domain.Entities.ProductAge", b =>
+                {
+                    b.HasOne("IlluminareToys.Domain.Entities.Age", "Age")
+                        .WithMany("ProductsAges")
+                        .HasForeignKey("AgeId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired()
+                        .HasConstraintName("fk_products_ages_ages_age_id");
+
+                    b.HasOne("IlluminareToys.Domain.Entities.Product", "Product")
+                        .WithMany("ProductsAges")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired()
+                        .HasConstraintName("fk_products_ages_products_product_id");
+
+                    b.Navigation("Age");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("IlluminareToys.Domain.Entities.ProductGroup", b =>
                 {
                     b.HasOne("IlluminareToys.Domain.Entities.Group", "Group")
-                        .WithMany("TagsGroups")
+                        .WithMany("ProductsGroups")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
-                        .HasConstraintName("fk_tags_groups_groups_group_id");
+                        .HasConstraintName("fk_products_groups_groups_group_id");
 
-                    b.HasOne("IlluminareToys.Domain.Entities.Tag", "Tag")
-                        .WithMany("TagsGroups")
-                        .HasForeignKey("TagId")
+                    b.HasOne("IlluminareToys.Domain.Entities.Product", "Product")
+                        .WithMany("ProductsGroups")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
-                        .HasConstraintName("fk_tags_groups_tags_tag_id");
+                        .HasConstraintName("fk_products_groups_products_product_id");
 
                     b.Navigation("Group");
 
-                    b.Navigation("Tag");
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("IlluminareToys.Domain.Entities.ProductGroupAge", b =>
+                {
+                    b.HasOne("IlluminareToys.Domain.Entities.Age", "Age")
+                        .WithMany("ProductsGroupsAges")
+                        .HasForeignKey("AgeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_products_groups_ages_ages_age_id");
+
+                    b.HasOne("IlluminareToys.Domain.Entities.ProductGroup", "ProductGroup")
+                        .WithMany("ProductsGroupsAges")
+                        .HasForeignKey("ProductGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_products_groups_ages_products_groups_product_group_id");
+
+                    b.Navigation("Age");
+
+                    b.Navigation("ProductGroup");
                 });
 
             modelBuilder.Entity("IlluminareToys.Domain.Entities.TagProduct", b =>
@@ -632,20 +795,34 @@ namespace IlluminareToys.Infrastructure.Data.Migrations
                         .HasConstraintName("fk_asp_net_user_tokens_asp_net_users_user_id");
                 });
 
+            modelBuilder.Entity("IlluminareToys.Domain.Entities.Age", b =>
+                {
+                    b.Navigation("ProductsAges");
+
+                    b.Navigation("ProductsGroupsAges");
+                });
+
             modelBuilder.Entity("IlluminareToys.Domain.Entities.Group", b =>
                 {
-                    b.Navigation("TagsGroups");
+                    b.Navigation("ProductsGroups");
                 });
 
             modelBuilder.Entity("IlluminareToys.Domain.Entities.Product", b =>
                 {
+                    b.Navigation("ProductsAges");
+
+                    b.Navigation("ProductsGroups");
+
                     b.Navigation("TagsProducts");
+                });
+
+            modelBuilder.Entity("IlluminareToys.Domain.Entities.ProductGroup", b =>
+                {
+                    b.Navigation("ProductsGroupsAges");
                 });
 
             modelBuilder.Entity("IlluminareToys.Domain.Entities.Tag", b =>
                 {
-                    b.Navigation("TagsGroups");
-
                     b.Navigation("TagsProducts");
                 });
 #pragma warning restore 612, 618

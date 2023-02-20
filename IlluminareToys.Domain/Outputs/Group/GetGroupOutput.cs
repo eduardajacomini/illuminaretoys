@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using IlluminareToys.Domain.Outputs.Product;
 using System.ComponentModel.DataAnnotations;
 
 namespace IlluminareToys.Domain.Outputs.Group
@@ -21,5 +22,7 @@ namespace IlluminareToys.Domain.Outputs.Group
 
         [Display(Name = "Atualizado em")]
         public DateTime UpdatedAt { get; set; }
+
+        public IEnumerable<GetProductGroupOutput> ProductsGroups { get; set; }
     }
 }

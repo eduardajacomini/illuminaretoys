@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using IlluminareToys.Domain.Inputs.Products;
 using IlluminareToys.Domain.Outputs.Product;
 using IlluminareToys.Domain.Repositories;
 using IlluminareToys.Domain.UseCases.Product;
@@ -19,18 +18,18 @@ namespace IlluminareToys.Application.UseCases.Products
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<GetProductsByTagsOutput>> ExecuteAsync(GetProductsByTagsInput input, CancellationToken cancellationToken)
+        public async Task<IEnumerable<GetProductOutput>> ExecuteAsync(IEnumerable<Guid> tagIds, CancellationToken cancellationToken)
         {
-            if (!input.Tags.Any())
-                return Enumerable.Empty<GetProductsByTagsOutput>();
+            if (!tagIds.Any())
+                return Enumerable.Empty<GetProductOutput>();
 
-            var tagsProduct = await _tagProductRepository.ListAsync(x => input.Tags.Contains(x.TagId), cancellationToken);
+            var tagsProduct = await _tagProductRepository.ListAsync(x => tagIds.Contains(x.TagId), cancellationToken);
 
             var productIds = tagsProduct.Select(x => x.ProductId);
 
             var products = await _productRepository.ListAsync(x => productIds.Contains(x.Id), x => x.Description, cancellationToken);
 
-            var mapped = _mapper.Map<IEnumerable<GetProductsByTagsOutput>>(products);
+            var mapped = _mapper.Map<IEnumerable<GetProductOutput>>(products);
 
             return mapped;
         }

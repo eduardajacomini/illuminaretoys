@@ -1,0 +1,82 @@
+﻿@model AssociateGroupsOutput
+
+@{
+    ViewData["Title"] = "Illuminare Toys - Associar Grupos";
+    Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+
+    var ages = ViewBag.Ages as IEnumerable<GetAgeOutput>;
+}
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Associar grupos ao produto @Model.Product.Description</h3>
+            <div class="card-tools">
+                <button class="btn btn-secondary" onclick="saveGroupAges('@Model.Product.Id')">Salvar Grupos</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="col-md-12">
+                <div class="row">
+                    @foreach (var group in Model.Groups)
+                    {
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="control-label">@group.Name</label>
+                                <select class="form-control select-ages" id="@group.Id" multiple>
+                                    @foreach (var age in ages)
+                                    {
+                                        if (group.ProductsGroups.Any(x => x.ProductsGroupsAges.Any(y => y.AgeId.Equals(age.Id)) && x.ProductId.Equals(Model.Product.Id)))
+                                        {
+                                            <option value="@age.Id" selected>@age.QuantityNormalized</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@age.Id">@age.QuantityNormalized</option>
+
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.select-ages').select2();
+    });
+
+    const saveGroupAges = (productId) => {
+        showLoading();
+
+        const body = {
+            ProductGroups: []
+        };
+
+        $('.select-ages').each((index, el) => {
+            const ageIds = $(`#${el.id}`).val();
+
+            body.ProductGroups.push({
+                ProductId: productId,
+                GroupId: el.id,
+                AgeIds: ageIds
+            });
+        })
+
+        axios.post('/Products/AssociateGroups', body)
+            .then(_ => {
+                location.reload()
+            })
+    }
+</script>
+
+<style>
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        color: black;
+    }
+</style>
