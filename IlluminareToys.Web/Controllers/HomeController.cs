@@ -58,7 +58,7 @@ namespace IlluminareToys.Web.Controllers
 
                 ViewBag.Group = await getGroupByIdUseCase.ExecuteAsync(groupId, cancellationToken);
 
-                _toastNotification.AddErrorToastMessage("Selecione ao menos um grupo!");
+                _toastNotification.AddErrorToastMessage("Selecione ao menos uma idade!");
 
                 return View(nameof(KnowChildAges), errorOutput);
             }

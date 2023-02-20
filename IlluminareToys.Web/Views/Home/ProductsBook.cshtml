@@ -48,6 +48,10 @@
                                     <h3><span class="badge bg-primary m-1">@tag.Tag.Description</span></h3>
                                 }
                             </div>
+                            <div class="share-button" onclick="onClickShareWhatsapp('@product.ImageUrl', '@product.Description', '@product.PriceFormatted')">
+                                <img src="~/img/whatsapp.svg" width="30" style="margin-right: 5px;" />
+                                <span>Compartilhar no WhatsApp</span>
+                            </div>
                         </div>
                     </div>
                 }
@@ -69,6 +73,25 @@
 </div>
 
 <style>
+    .share-options {
+        flex-direction: column;
+    }
+
+    .share-button {
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 0 2px #888;
+        text-align: center;
+        margin-top: 24px;
+        width: 60%;
+        background-color: #24cc63;
+    }
+
+        .share-button:hover {
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
     .bg-primary {
         background-color: #f012be !important;
     }
@@ -145,4 +168,49 @@
     $(document).ready(function () {
         $('#select-tags').select2();
     });
+
+    const onClickShareWhatsapp = (imageUrl, productDescription, productPrice) => {
+        const title = "Compartilhar o produto pelo WhatsApp";
+        const inputLabel = "Informe o WhatsApp do cliente. Ex: 66 9999-9999";
+        const inputValidator = (value) => {
+            if (!value) {
+                return 'Você precisa informar um número de telefone!'
+            }
+            const phoneNumber = formatPhone(`${value}`);
+            const finalPhoneNumber = `+55 ${phoneNumber}`
+
+            var regExp = /\+\d{2}\s\(\d{2}\)\s\d{4,5}-?\d{4}/g;
+            var isValid = regExp.test(finalPhoneNumber);
+
+            if (!isValid) {
+                return 'Informe o número de telefone corretamente.'
+            }
+        };
+        const handleResult = (result) => {
+            if (!result.isConfirmed) {
+                return;
+            }
+
+            const phoneNumber = formatPhone(`${result.value}`);
+            const finalPhoneNumber = `+55 ${phoneNumber}`
+            const phoneOnlyNumbers = onlyNumbers(finalPhoneNumber);
+
+
+            const whatsappMessage = `Olá! Estou te enviando mais informações sobre o produto *${productDescription}*. Preço: ${productPrice} | Foto: ${imageUrl}`;
+            const whatsappLink = `https://api.whatsapp.com/send?phone=${phoneOnlyNumbers}&text=${whatsappMessage}`;
+
+            window.open(encodeURI(whatsappLink), '_blank');
+        }
+
+        showDialogWithInput(title, inputLabel, inputValidator, handleResult);
+    }
+
+    const formatPhone = (v) => {
+        v = v.replace(/\D/g, "");             //Remove tudo o que não é dígito
+        v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); //Coloca parênteses em volta dos dois primeiros dígitos
+        v = v.replace(/(\d)(\d{4})$/, "$1-$2");    //Coloca hífen entre o quarto e o quinto dígitos
+        return v;
+    }
+
+    const onlyNumbers = (value) => value.replace(/\D/g, "");
 </script>
