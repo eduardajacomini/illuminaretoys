@@ -10,55 +10,62 @@
 
 
 <div class="col-md-12">
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        @*<ol class="carousel-indicators">
-                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-            </ol>*@
-        <div class="carousel-inner">
-            @foreach (var product in Model)
-            {
-                <div class="carousel-item @(Model.FirstOrDefault().Equals(product) ? "active" : "")">
+    @if (Model.Any())
+    {
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            @*<ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                </ol>*@
+            <div class="carousel-inner">
+                @foreach (var product in Model)
+                {
+                    <div class="carousel-item @(Model.FirstOrDefault().Equals(product) ? "active" : "")">
 
-                    <a href="@product.ImageUrl"
-                       data-toggle="lightbox"
-                       data-title="@product.Description"
-                       data-footer="@product.PriceFormatted">
-                        @if (product.ImageUrl is not null)
-                        {
-                            <img class="d-block w-100 product-image"
-                                 src="@product.ImageUrl">
-                        }
-                        else
-                        {
-                            <img class="d-block w-100 product-image"
-                                 src="~/img/no-image-available.jpg">
-                        }
-                    </a>
-                    <div class="product-container">
-                        <h5 class="product-description">@product.Description</h5>
-                        <p class="product-info"><b>@product.PriceFormatted</b> - @product.CategoryDescription</p>
-                        <div class="badges-product-tags">
-                            @foreach (var tag in product.Tags)
+                        <a href="@product.ImageUrl"
+                           data-toggle="lightbox"
+                           data-title="@product.Description"
+                           data-footer="@product.PriceFormatted">
+                            @if (product.ImageUrl is not null)
                             {
-                                @*<span class="badge bg-primary">@tag.Tag.Description</span>*@
-                                <h3><span class="badge bg-primary m-1">@tag.Tag.Description</span></h3>
+                                <img class="d-block w-100 product-image"
+                                     src="@product.ImageUrl">
                             }
+                            else
+                            {
+                                <img class="d-block w-100 product-image"
+                                     src="~/img/no-image-available.jpg">
+                            }
+                        </a>
+                        <div class="product-container">
+                            <h5 class="product-description">@product.Description</h5>
+                            <p class="product-info"><b>@product.PriceFormatted</b> - @product.CategoryDescription</p>
+                            <div class="badges-product-tags">
+                                @foreach (var tag in product.Tags)
+                                {
+                                    @*<span class="badge bg-primary">@tag.Tag.Description</span>*@
+                                    <h3><span class="badge bg-primary m-1">@tag.Tag.Description</span></h3>
+                                }
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Anterior</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Próximo</span>
+            </a>
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Anterior</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Próximo</span>
-        </a>
-    </div>
+    }
+    else
+    {
+        <h3 class="display-5 text-bold">Nenhum produto encontrado para os critérios informados.</h3>
+    }
 </div>
 
 <style>

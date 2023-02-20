@@ -79,9 +79,20 @@ namespace IlluminareToys.Web.Controllers
 
         [HttpGet("DontKnowChildProducts")]
         public async Task<IActionResult> DontKnowChildProducts([FromQuery] IEnumerable<Guid> ageIds,
+                                                               [FromServices] IGetAgesUseCase getAgesUseCase,
                                                                [FromServices] IGetProdutsByAgeIdsUseCase getProductsByAgeIdsUseCase,
                                                                CancellationToken cancellationToken)
         {
+            if (!ageIds.Any())
+            {
+                _toastNotification.AddErrorToastMessage("Selecione ao menos um grupo!");
+
+                var errorOutput = await getAgesUseCase.ExecuteAsync(cancellationToken);
+
+                return View(nameof(DontKnowChild), errorOutput);
+
+            }
+
             var output = await getProductsByAgeIdsUseCase.ExecuteAsync(ageIds, true, cancellationToken);
 
             return View(nameof(ProductsBook), output);
@@ -98,9 +109,19 @@ namespace IlluminareToys.Web.Controllers
 
         [HttpGet("ByTagProducts")]
         public async Task<IActionResult> ByTagProduts([FromQuery] IEnumerable<Guid> tagIds,
-                                               [FromServices] IGetProductsByTagsUseCase getProductsByTagsUseCase,
-                                               CancellationToken cancellationToken)
+                                                      [FromServices] IGetProductsByTagsUseCase getProductsByTagsUseCase,
+                                                      [FromServices] IGetTagsUseCase getTagsUseCase,
+                                                      CancellationToken cancellationToken)
         {
+            if (!tagIds.Any())
+            {
+                _toastNotification.AddErrorToastMessage("Selecione ao menos uma tag!");
+
+                var byTagOutput = await getTagsUseCase.ExecuteAsync(cancellationToken);
+
+                return View(nameof(ByTag), byTagOutput);
+            }
+
             var output = await getProductsByTagsUseCase.ExecuteAsync(tagIds, cancellationToken);
 
             return View(nameof(ProductsBook), output);
