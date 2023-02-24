@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IlluminareToys.Web.Areas.Identity.Pages.Account
 {
-    [Authorize(Roles = "SuperAdmin")]
+    [Authorize(Roles = "Admin")]
     public class UsersModel : PageModel
     {
         private readonly UserManager<User> _userManager;
