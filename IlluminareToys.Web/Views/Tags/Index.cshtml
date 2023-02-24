@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="card-body table-responsive p-0">
-            <table class="table table-hover text-nowrap">
+            <table class="table table-hover text-nowrap" id="table-tags">
                 <thead>
                     <tr>
                         <th>
@@ -60,6 +60,15 @@
 </div>
 
 <script>
+    $(document).ready(function () {
+        $('#table-tags').bootstrapTable({
+            pagination: true,
+            search: true,
+            sortable: true,
+            locale: 'pt-BR'
+        })
+    });
+
     function deleteTag(tagId) {
         showConfirmDialog('Você tem certeza?', "Esta ação irá excluir a tag selecionada e desassociar os produtos relacionados a ela.", () => {
             showLoading();
