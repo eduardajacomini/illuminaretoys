@@ -47,7 +47,7 @@ namespace IlluminareToys.Web.Controllers
         [HttpGet("KnowChildAgesProducts/{groupId}")]
         public async Task<IActionResult> KnowChildAgesProducts([FromRoute] Guid groupId,
                                                                [FromQuery] IEnumerable<Guid> ageIds,
-                                                               [FromServices] IGetProductsByGroupIdAgeIdsUseCase getProductsByAgeIdsUseCase,
+                                                               [FromServices] IGetProductsByGroupIdAgeIdsUseCase getProductsByGroupIdAgeIdsUseCase,
                                                                [FromServices] IGetGroupByIdUseCase getGroupByIdUseCase,
                                                                [FromServices] IGetProductsGroupsAgesByGroupIdUseCase getProductsGroupsAgesByGroupIdUseCase,
                                                                CancellationToken cancellationToken)
@@ -63,7 +63,7 @@ namespace IlluminareToys.Web.Controllers
                 return View(nameof(KnowChildAges), errorOutput);
             }
 
-            var output = await getProductsByAgeIdsUseCase.ExecuteAsync(groupId, ageIds, false, cancellationToken);
+            var output = await getProductsByGroupIdAgeIdsUseCase.ExecuteAsync(groupId, ageIds, cancellationToken);
 
             return View(nameof(ProductsBook), output);
         }
