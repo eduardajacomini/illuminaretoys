@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using IlluminareToys.Domain.Entities;
 using IlluminareToys.Domain.Outputs.Product;
 using IlluminareToys.Domain.Repositories;
 using IlluminareToys.Domain.UseCases.Product;
@@ -30,7 +29,7 @@ namespace IlluminareToys.Application.UseCases.Products
             _productGroupRepository = productGroupRepository;
         }
 
-        public async Task<IEnumerable<GetProductOutput>> ExecuteAsync(Guid groupId, IEnumerable<Guid> ageIds, bool useOnlyProductAgeRelation, CancellationToken cancellationToken)
+        public async Task<IEnumerable<GetProductOutput>> ExecuteAsync(Guid groupId, IEnumerable<Guid> ageIds, CancellationToken cancellationToken)
         {
             var ages = await _ageRepository.ListAsync(x => ageIds.Contains(x.Id), cancellationToken);
             var finalAgeIds = ages.Select(x => x.Id);
@@ -41,26 +40,15 @@ namespace IlluminareToys.Application.UseCases.Products
                                                               x => x.Description,
                                                               cancellationToken);
 
-            if (useOnlyProductAgeRelation)
-            {
-                return _mapper.Map<IEnumerable<GetProductOutput>>(productsFoundByProductAge);
-            }
-
-            var productsResult = new List<Product>();
-
-            productsResult.AddRange(productsFoundByProductAge);
-
             var productsGroupsAges = await _productGroupAgeRepository.ListAsync(x => finalAgeIds.Contains(x.AgeId), cancellationToken);
             var productsGroupsIds = productsGroupsAges.Select(x => x.ProductGroupId);
 
             var productsGroups = await _productGroupRepository.ListAsync(x => productsGroupsIds.Contains(x.Id), cancellationToken);
             var productIds = productsGroups.Where(x => x.GroupId.Equals(groupId)).Select(x => x.ProductId);
 
-            var productsFoundByProductGroupAge = await _productRepository.ListAsync(x => productIds.Contains(x.Id), x => x.Description, cancellationToken);
+            var products = await _productRepository.ListAsync(x => productIds.Contains(x.Id), x => x.Description, cancellationToken);
 
-            productsResult.AddRange(productsFoundByProductGroupAge);
-
-            return _mapper.Map<IEnumerable<GetProductOutput>>(productsResult.DistinctBy(x => x.Id));
+            return _mapper.Map<IEnumerable<GetProductOutput>>(products.DistinctBy(x => x.Id));
         }
     }
 }
