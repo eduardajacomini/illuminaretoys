@@ -61,7 +61,7 @@ namespace IlluminareToys.Infrastructure.Bling.Contracts
         public Category Category { get; set; }
 
         [JsonProperty("estoqueAtual")]
-        public int? EstoqueAtual { get; set; }
+        public int? CurrentStock { get; set; }
     }
 
     public partial class Category
