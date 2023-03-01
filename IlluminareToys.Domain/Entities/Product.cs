@@ -30,10 +30,22 @@
 
         public DateTime SynchronizedAt { get; private set; }
 
+        public int? CurrentStock { get; private set; }
+
         public IEnumerable<TagProduct> TagsProducts { get; private set; }
         public IEnumerable<ProductAge> ProductsAges { get; private set; }
 
         public IEnumerable<ProductGroup> ProductsGroups { get; private set; }
+
+        public void SetCurrentStock(int? value)
+        {
+            if (CurrentStock != value)
+            {
+                SynchronizedAt = DateTime.Now;
+                CurrentStock = value;
+            }
+        }
+
         public void SetBrand(string value)
         {
             if (Brand != value)
