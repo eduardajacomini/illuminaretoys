@@ -18,9 +18,6 @@
             <table id="table-products">
                 <thead>
                     <tr>
-                        <th data-align="center">
-                            @Html.DisplayNameFor(model => model.ImageUrl)
-                        </th>
                         <th data-sortable="true">
                             @Html.DisplayNameFor(model => model.BlingId)
                         </th>
@@ -51,16 +48,6 @@
                     @foreach (var item in Model)
                     {
                         <tr data-id="@item.Id">
-                            <td>
-                                @if (item.ImageUrl is not null)
-                                {
-                                    <img src="@item.ImageUrl" class="img-product" />
-                                }
-                                else
-                                {
-                                    <img src="~/img/no-image-available.jpg" class="img-product" />
-                                }
-                            </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.BlingId)
                             </td>

@@ -25,8 +25,8 @@ namespace IlluminareToys.Application.Mappers
             CreateMap<Tag, DeleteTagOutput>();
 
             CreateMap<ProductData, Product>()
-                .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Categoria.CategoryId))
-                .ForMember(dest => dest.CategoryDescription, opt => opt.MapFrom(src => src.Categoria.CategoryDescription));
+                .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Category.CategoryId))
+                .ForMember(dest => dest.CategoryDescription, opt => opt.MapFrom(src => src.Category.CategoryDescription));
 
             CreateMap<Product, GetProductOutput>()
                 .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.TagsProducts))

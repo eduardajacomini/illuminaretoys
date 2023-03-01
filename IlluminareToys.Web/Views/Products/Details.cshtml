@@ -16,7 +16,15 @@
         </div>
         <div class="card-body">
             <div id="product-container">
-                <img class="card-img-top" src="@Model.ImageUrl" id="img-product">
+                @if (Model.ImageUrl is not null)
+                {
+                    <img class="card-img-top" src="@Model.ImageUrl" id="img-product" />
+                }
+                else
+                {
+                    <img id="img-product" src="~/img/no-image-available.jpg" class="card-img-top"/>
+                }
+
                 @if (User.IsInRole(Roles.Admin.ToString()))
                 {
                     <form>

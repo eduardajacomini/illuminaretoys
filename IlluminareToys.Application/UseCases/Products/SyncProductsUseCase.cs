@@ -65,6 +65,7 @@ namespace IlluminareToys.Application.UseCases.Products
                             product.SetUnity(item.Unity);
                             product.SetPrice(item.Price);
                             product.SetPriceCost(item.PriceCost);
+                            product.SetCurrentStock(item.CurrentStock);
 
                             entities.Remove(item);
                         }

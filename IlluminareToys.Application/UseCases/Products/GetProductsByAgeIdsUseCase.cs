@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using IlluminareToys.Domain.Entities;
 using IlluminareToys.Domain.Outputs.Product;
 using IlluminareToys.Domain.Repositories;
 using IlluminareToys.Domain.UseCases.Product;
@@ -40,31 +39,13 @@ namespace IlluminareToys.Application.UseCases.Products
             var finalAgeIds = ages.Select(x => x.Id);
 
             var productAges = await _productAgeRepository.ListAsync(x => finalAgeIds.Contains(x.AgeId), cancellationToken);
+            var productAgesIds = productAges.Select(x => x.ProductId);
 
-            var productsFoundByProductAge = await _productRepository.ListAsync(x => productAges.Select(x => x.ProductId).Contains(x.Id),
+            var productsFoundByProductAge = await _productRepository.ListAsync(x => productAgesIds.Contains(x.Id) && x.CurrentStock > 0,
                                                               x => x.Description,
                                                               cancellationToken);
 
-            if (useOnlyProductAgeRelation)
-            {
-                return _mapper.Map<IEnumerable<GetProductOutput>>(productsFoundByProductAge);
-            }
-
-            var productsResult = new List<Product>();
-
-            productsResult.AddRange(productsFoundByProductAge);
-
-            var productsGroupsAges = await _productGroupAgeRepository.ListAsync(x => finalAgeIds.Contains(x.AgeId), cancellationToken);
-            var productsGroupsIds = productsGroupsAges.Select(x => x.ProductGroupId);
-
-            var productsGroups = await _productGroupRepository.ListAsync(x => productsGroupsIds.Contains(x.Id), cancellationToken);
-            var productIds = productsGroups.Select(x => x.ProductId);
-
-            var productsFoundByProductGroupAge = await _productRepository.ListAsync(x => productIds.Contains(x.Id), x => x.Description, cancellationToken);
-
-            productsResult.AddRange(productsFoundByProductGroupAge);
-
-            return _mapper.Map<IEnumerable<GetProductOutput>>(productsResult.DistinctBy(x => x.Id));
+            return _mapper.Map<IEnumerable<GetProductOutput>>(productsFoundByProductAge);
         }
     }
 }

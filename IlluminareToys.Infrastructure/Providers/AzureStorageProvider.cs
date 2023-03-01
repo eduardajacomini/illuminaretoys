@@ -1,4 +1,5 @@
 ﻿using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using IlluminareToys.Domain.Providers;
 using Microsoft.Extensions.Configuration;
 using System.Text.RegularExpressions;
@@ -29,7 +30,15 @@ namespace IlluminareToys.Infrastructure.Providers
             // Envia a imagem
             using var stream = new MemoryStream(imageBytes);
 
-            await blobClient.UploadAsync(stream, true, cancellationToken);
+            //await blobClient.UploadAsync(stream, true, cancellationToken);
+            await blobClient.UploadAsync(stream, new BlobUploadOptions
+            {
+                Conditions = null,
+                HttpHeaders = new BlobHttpHeaders
+                {
+                    ContentType = "image/jpeg"
+                }
+            }, cancellationToken);
 
             // Retorna a URL da imagem
             return blobClient.Uri.AbsoluteUri;

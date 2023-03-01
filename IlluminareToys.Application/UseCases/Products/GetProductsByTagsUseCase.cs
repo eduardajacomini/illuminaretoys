@@ -27,7 +27,7 @@ namespace IlluminareToys.Application.UseCases.Products
 
             var productIds = tagsProduct.Select(x => x.ProductId);
 
-            var products = await _productRepository.ListAsync(x => productIds.Contains(x.Id), x => x.Description, cancellationToken);
+            var products = await _productRepository.ListAsync(x => productIds.Contains(x.Id) && x.CurrentStock > 0, x => x.Description, cancellationToken);
 
             var mapped = _mapper.Map<IEnumerable<GetProductOutput>>(products);
 
