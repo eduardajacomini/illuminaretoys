@@ -20,7 +20,7 @@ namespace IlluminareToys.Infrastructure.Bling
         public async Task<GetProductsResponse> GetProductsAsync(CancellationToken cancellationToken)
         {
             var apiKey = _configuration["BlingApiKey"];
-            var url = $"/Api/v2/produtos/page=@page/json?apikey={apiKey}";
+            var url = $"/Api/v2/produtos/page=@page/json?apikey={apiKey}&estoque=S";
             var pageToSearch = 1;
             GetProductsResponse finalResponse = new();
 
