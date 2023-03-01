@@ -127,15 +127,6 @@ namespace IlluminareToys.Web.Controllers
             return View(nameof(ProductsBook), output);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Books([FromServices] IGetProductsBooksUseCase getProductsBooksUseCase,
-                                               CancellationToken cancellationToken)
-        {
-            var output = await getProductsBooksUseCase.ExecuteAsync(cancellationToken);
-
-            return View(nameof(ProductsBook), output);
-        }
-
         public IActionResult ProductsBook()
         {
             return View();

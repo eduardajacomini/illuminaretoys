@@ -36,17 +36,16 @@ namespace IlluminareToys.Application.UseCases.Products
 
             var productAges = await _productAgeRepository.ListAsync(x => finalAgeIds.Contains(x.AgeId), cancellationToken);
 
-            var productsFoundByProductAge = await _productRepository.ListAsync(x => productAges.Select(x => x.ProductId).Contains(x.Id),
-                                                              x => x.Description,
-                                                              cancellationToken);
-
             var productsGroupsAges = await _productGroupAgeRepository.ListAsync(x => finalAgeIds.Contains(x.AgeId), cancellationToken);
             var productsGroupsIds = productsGroupsAges.Select(x => x.ProductGroupId);
 
             var productsGroups = await _productGroupRepository.ListAsync(x => productsGroupsIds.Contains(x.Id), cancellationToken);
             var productIds = productsGroups.Where(x => x.GroupId.Equals(groupId)).Select(x => x.ProductId);
 
-            var products = await _productRepository.ListAsync(x => productIds.Contains(x.Id), x => x.Description, cancellationToken);
+            var products = await _productRepository.ListAsync(x => productIds.Contains(x.Id) &&
+                                                                   x.CurrentStock > 0,
+                                                              x => x.Description,
+                                                              cancellationToken);
 
             return _mapper.Map<IEnumerable<GetProductOutput>>(products.DistinctBy(x => x.Id));
         }

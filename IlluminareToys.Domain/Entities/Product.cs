@@ -32,6 +32,8 @@
 
         public int? CurrentStock { get; private set; }
 
+        public bool HasStock => CurrentStock.HasValue && CurrentStock > 0;
+
         public IEnumerable<TagProduct> TagsProducts { get; private set; }
         public IEnumerable<ProductAge> ProductsAges { get; private set; }
 
