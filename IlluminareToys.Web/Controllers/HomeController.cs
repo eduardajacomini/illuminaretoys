@@ -18,9 +18,18 @@ namespace IlluminareToys.Web.Controllers
             _toastNotification = toastNotification;
         }
 
-        public async Task<IActionResult> Index(CancellationToken cancellationToken)
+        public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Books([FromServices] IGetProductsBooksUseCase getProductsBooksUseCase,
+                                              CancellationToken cancellationToken)
+        {
+            var output = await getProductsBooksUseCase.ExecuteAsync(cancellationToken);
+
+            return View(nameof(ProductsBook), output);
         }
 
         [HttpGet]
