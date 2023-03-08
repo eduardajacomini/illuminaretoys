@@ -4,6 +4,7 @@
     ViewData["Title"] = "Illuminare Toys - Produtos";
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
     int page = Convert.ToInt32(TempData["page"]);
+    string searchTerm = TempData["searchTerm"] as string;
 }
 
 <div class="col-md-12">
@@ -94,9 +95,12 @@
 
 <script>
     let page = 1;
+    let searchTerm = '';
 
     $(document).ready(function () {
         page = Number('@(page)');
+
+        searchTerm = '@(searchTerm)';
 
         $('#table-products').bootstrapTable({
             pagination: true,
@@ -108,34 +112,46 @@
         $("#table-products").on("click-row.bs.table", function (editable, columns, row) {
             const productId = row.attr('data-id')
 
-            window.location = `/Products/Details/${productId}?page=${page}`;
+            window.location = `/Products/Details/${productId}?page=${page}&searchTerm=${searchTerm}`;
         });
 
         $("#table-products").on("page-change.bs.table", function (event, pageNumber, pageSize) {
             page = Number(pageNumber);
         });
 
+        $("#table-products").on("search.bs.table", function (event, text) {
+            searchTerm = text;
+        });
+
         goToPageInTable();
+
+        setSearchTerm();
     });
 
     const goToPageInTable = () => {
         $('#table-products').bootstrapTable('selectPage', page)
     }
 
+    const setSearchTerm = () => {
+        if (searchTerm.length > 0) {
+            $('#table-products').bootstrapTable('resetSearch', searchTerm);
+        }
+    }
+
     const goToDetails = id => {
-        window.location = `/Produts/Details/${id}?page=${page}`
+        window.location = `/Produts/Details/${id}?page=${page}&searchTerm=${searchTerm}`
     }
 
     const goToAssociateTags = id => {
-        window.location = `/Produts/AssociateTags/${id}?page=${page}`
+        window.location = `/Produts/AssociateTags/${id}?page=${page}&searchTerm=${searchTerm}`
     }
 
     const goToAssociateAges = id => {
-        window.location = `/Produts/AssociateAges/${id}?page=${page}`
+        window.location = `/Produts/AssociateAges/${id}?page=${page}&searchTerm=${searchTerm}`
     }
 
     const goToAssociateGroups = id => {
-        window.location = `/Produts/AssociateGroups/${id}?page=${page}`
+        window.location = `/Produts/AssociateGroups/${id}?page=${page}&searchTerm=${searchTerm}`
     }
 </script>
 

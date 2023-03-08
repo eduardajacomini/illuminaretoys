@@ -22,11 +22,13 @@ namespace IlluminareToys.Web.Controllers
 
         [HttpGet]
         public async Task<ActionResult> Index([FromQuery] int? page,
+                                              [FromQuery] string searchTerm,
                                               [FromServices] IGetProductsUseCase getProductsUseCase,
                                               CancellationToken cancellationToken)
         {
 
             TempData["page"] = page ?? 1;
+            TempData["searchTerm"] = searchTerm;
 
             var output = await getProductsUseCase.ExecuteAsync(cancellationToken);
 
@@ -36,10 +38,12 @@ namespace IlluminareToys.Web.Controllers
         [HttpGet("Details/{id:guid}")]
         public async Task<ActionResult> Details([FromRoute] Guid id,
                                                 [FromQuery] int? page,
+                                                [FromQuery] string searchTerm,
                                                 [FromServices] IGetProductByIdUseCase _getProductByIdUseCase,
                                                 CancellationToken cancellationToken)
         {
             TempData["page"] = page ?? 1;
+            TempData["searchTerm"] = searchTerm;
 
             var output = await _getProductByIdUseCase.ExecuteAsync(id, cancellationToken);
 
@@ -56,10 +60,12 @@ namespace IlluminareToys.Web.Controllers
         [HttpGet("AssociateTags/{productId:guid}")]
         public async Task<ActionResult> AssociateTags([FromRoute] Guid productId,
                                                       [FromQuery] int? page,
+                                                      [FromQuery] string searchTerm,
                                                       [FromServices] IAssociateTagUseCase associateTagUseCase,
                                                       CancellationToken cancellationToken)
         {
             TempData["page"] = page ?? 1;
+            TempData["searchTerm"] = searchTerm;
 
             var output = await associateTagUseCase.ExecuteAsync(productId, cancellationToken);
 
@@ -120,11 +126,13 @@ namespace IlluminareToys.Web.Controllers
         [HttpGet("AssociateAges/{productId:guid}")]
         public async Task<IActionResult> AssociateAges([FromRoute] Guid productId,
                                                        [FromQuery] int? page,
+                                                       [FromQuery] string searchTerm,
                                                        [FromServices] IAssociateAgesUseCase associateAgesUseCase,
                                                        [FromServices] IGetProductsAgesByProductIdUseCase getProductsAgesByProductIdUseCase,
                                                        CancellationToken cancellationToken)
         {
             TempData["page"] = page ?? 1;
+            TempData["searchTerm"] = searchTerm;
 
             var output = await associateAgesUseCase.ExecuteAsync(productId, cancellationToken);
 
@@ -154,11 +162,13 @@ namespace IlluminareToys.Web.Controllers
         [HttpGet("AssociateGroups/{productId:guid}")]
         public async Task<ActionResult> AssociateGroups([FromRoute] Guid productId,
                                                         [FromQuery] int? page,
+                                                        [FromQuery] string searchTerm,
                                                         [FromServices] IAssociateGroupsUseCase associateGroupsUseCase,
                                                         [FromServices] IGetAgesUseCase getAgesUseCase,
                                                         CancellationToken cancellationToken)
         {
             TempData["page"] = page ?? 1;
+            TempData["searchTerm"] = searchTerm;
 
             var output = await associateGroupsUseCase.ExecuteAsync(productId, cancellationToken);
 

@@ -7,6 +7,7 @@
     var groups = ViewBag.Groups as IEnumerable<GetGroupOutput>;
 
     int pageNumber = Convert.ToInt32(TempData["page"]);
+    string searchTerm = TempData["searchTerm"] as string;
 }
 
 <div class="col-md-12">
@@ -14,7 +15,10 @@
         <div class="card-header">
             <h3 class="card-title">Criar Tag</h3>
             <div class="card-tools">
-                <a class="btn btn-primary" asp-action="Index" asp-route-page="@pageNumber">Voltar</a>
+                <a class="btn btn-primary" 
+                   asp-action="Index" 
+                   asp-route-page="@pageNumber"
+                   asp-route-searchTerm="@searchTerm">Voltar</a>
             </div>
         </div>
         <div class="card-body">
@@ -55,8 +59,6 @@
 <script>
     const saveTag = () => {
         showLoading();
-
-        const inputsGroups = $('.group-age');
 
         const body = {
             description: $('#input-description').val(),

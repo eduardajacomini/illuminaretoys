@@ -4,6 +4,7 @@
     ViewData["Title"] = "Illuminare Toys - Idades";
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
     int page = Convert.ToInt32(TempData["page"]);
+    string searchTerm = TempData["searchTerm"] as string;
 }
 <script src="~/js/site.js"></script>
 
@@ -19,13 +20,13 @@
             <table id="table-ages">
                 <thead>
                     <tr>
-                        <th>
+                        <th data-sortable="true">
                             @Html.DisplayNameFor(model => model.QuantityNormalized)
                         </th>
-                        <th>
+                        <th data-sortable="true">
                             @Html.DisplayNameFor(model => model.CreatedAt)
                         </th>
-                        <th>
+                        <th data-sortable="true">
                             @Html.DisplayNameFor(model => model.UpdatedAt)
                         </th>
                         <th></th>
@@ -64,9 +65,12 @@
 
 <script>
     let page = 1;
+    let searchTerm = '';
 
     $(document).ready(function () {
         page = Number('@(page)');
+
+        searchTerm = '@(searchTerm)';
 
         $('#table-ages').bootstrapTable({
             pagination: true,
@@ -79,7 +83,13 @@
             page = Number(pageNumber);
         });
 
+        $("#table-ages").on("search.bs.table", function (event, text) {
+            searchTerm = text;
+        });
+
         goToPageInTable();
+
+        setSearchTerm();
     });
 
     function deleteAge(ageId) {
@@ -93,14 +103,20 @@
     }
 
     const goToEdit = (id) => {
-        window.location = `/Ages/Edit/${id}?page=${page}`;
+        window.location = `/Ages/Edit/${id}?page=${page}&searchTerm=${searchTerm}`;
     }
 
     const goToCreate = () => {
-        window.location = `/Ages/Create?page=${page}`;
+        window.location = `/Ages/Create?page=${page}&searchTerm=${searchTerm}`;
     }
 
     const goToPageInTable = () => {
-        $('#table-ages').bootstrapTable('selectPage', page)
+        $('#table-ages').bootstrapTable('selectPage', page);
+    }
+
+    const setSearchTerm = () => {
+        if (searchTerm.length > 0) {
+            $('#table-ages').bootstrapTable('resetSearch', searchTerm);
+        }
     }
 </script>

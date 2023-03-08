@@ -5,6 +5,7 @@
     ViewData["Title"] = "Illuminare Toys - Detalhes";
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
     int pageNumber = Convert.ToInt32(TempData["page"]);
+    string searchTerm = TempData["searchTerm"] as string;
 }
 
 <div class="col-md-12">
@@ -13,7 +14,10 @@
             <h3 class="card-title">@Model.Description</h3>
             <div class="card-tools">
                 <a class="btn btn-primary" asp-action="AssociateTags" asp-route-productId="@Model.Id">Associar Tag</a>
-                <a class="btn btn-primary" asp-action="Index" asp-route-page="@pageNumber">Voltar</a>
+                <a class="btn btn-primary" 
+                   asp-action="Index" 
+                   asp-route-page="@pageNumber" 
+                   asp-route-searchTerm="@searchTerm">Voltar</a>
             </div>
         </div>
         <div class="card-body">

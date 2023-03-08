@@ -4,6 +4,7 @@
     ViewData["Title"] = "Illuminare Toys - Tags";
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
     int page = Convert.ToInt32(TempData["page"]);
+    string searchTerm = TempData["searchTerm"] as string;
 }
 <script src="~/js/site.js"></script>
 
@@ -19,13 +20,13 @@
             <table class="table table-hover text-nowrap" id="table-tags">
                 <thead>
                     <tr>
-                        <th>
+                        <th data-sortable="true">
                             @Html.DisplayNameFor(model => model.Description)
                         </th>
-                        <th>
+                        <th data-sortable="true">
                             @Html.DisplayNameFor(model => model.CreatedAt)
                         </th>
-                        <th>
+                        <th data-sortable="true">
                             @Html.DisplayNameFor(model => model.UpdatedAt)
                         </th>
                         <th></th>
@@ -62,9 +63,11 @@
 
 <script>
     let page = 1;
+    let searchTerm = '';
 
     $(document).ready(function () {
         page = Number('@(page)');
+        searchTerm = '@(searchTerm)';
 
         $('#table-tags').bootstrapTable({
             pagination: true,
@@ -77,7 +80,13 @@
             page = Number(pageNumber);
         });
 
+        $("#table-tags").on("search.bs.table", function (event, text) {
+            searchTerm = text;
+        });
+
         goToPageInTable();
+
+        setSearchTerm();
     });
 
     function deleteTag(tagId) {
@@ -91,14 +100,20 @@
     }
 
     const goToEdit = (id) => {
-        window.location = `/Tags/Edit/${id}?page=${page}`;
+        window.location = `/Tags/Edit/${id}?page=${page}&searchTerm=${searchTerm}`;
     }
 
     const goToCreate = () => {
-        window.location = `/Tags/Create?page=${page}`;
+        window.location = `/Tags/Create?page=${page}&searchTerm=${searchTerm}`;
     }
 
     const goToPageInTable = () => {
         $('#table-tags').bootstrapTable('selectPage', page)
+    }
+
+    const setSearchTerm = () => {
+        if (searchTerm.length > 0) {
+            $('#table-tags').bootstrapTable('resetSearch', searchTerm);
+        }
     }
 </script>
