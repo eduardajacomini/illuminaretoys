@@ -40,9 +40,9 @@
                         </a>
                         <div class="product-container">
                             <h5 class="product-description">@product.Description</h5>
-                            <p class="product-info"><b>@product.PriceFormatted</b> - @product.CategoryDescription</p>
+                            <p class="product-info"><b>@product.PriceFormatted</b></p>
                             <p class="product-info">Estoque: <b>@product.CurrentStock</b></p>
-                            <div class="badges-product-tags">
+                            <div class="badges-product-tags row">
                                 @foreach (var tag in product.Tags)
                                 {
                                     <h3><span class="badge bg-primary m-1">@tag.Tag.Description</span></h3>
@@ -97,8 +97,8 @@
     }
 
     .badges-product-tags {
-        display: flex;
-        flex-direction: row;
+        align-items: center;
+        justify-content: center;
     }
 
     .product-description {
