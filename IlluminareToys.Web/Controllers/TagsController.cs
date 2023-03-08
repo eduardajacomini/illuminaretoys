@@ -20,8 +20,11 @@ namespace IlluminareToys.Web.Controllers
 
         // GET: TagsController
         [HttpGet]
-        public async Task<ActionResult> Index([FromServices] IGetTagsUseCase listTagsUseCase, CancellationToken cancellationToken)
+        public async Task<ActionResult> Index([FromServices] IGetTagsUseCase listTagsUseCase,
+                                              [FromQuery] int? page,
+                                              CancellationToken cancellationToken)
         {
+            TempData["page"] = page ?? 1;
 
             var output = await listTagsUseCase.ExecuteAsync(cancellationToken);
 
@@ -30,8 +33,13 @@ namespace IlluminareToys.Web.Controllers
 
         // GET: TagsController/Details/5
         [HttpGet("Details/{id:guid}")]
-        public async Task<ActionResult> Details([FromRoute] Guid id, [FromServices] IGetTagByIdUseCase _getTagByIdUseCase, CancellationToken cancellationToken)
+        public async Task<ActionResult> Details([FromRoute] Guid id,
+                                                [FromQuery] int? page,
+                                                [FromServices] IGetTagByIdUseCase _getTagByIdUseCase,
+                                                CancellationToken cancellationToken)
         {
+            TempData["page"] = page ?? 1;
+
             var output = await _getTagByIdUseCase.ExecuteAsync(id, cancellationToken);
 
             if (output is null)
@@ -47,8 +55,11 @@ namespace IlluminareToys.Web.Controllers
         [HttpGet("Create")]
         // GET: TagsController/Create
         public async Task<ActionResult> Create([FromServices] IGetGroupsUseCase getGroupsUseCase,
+                                               [FromQuery] int? page,
                                                CancellationToken cancellationToken)
         {
+            TempData["page"] = page ?? 1;
+
             ViewBag.Groups = await getGroupsUseCase.ExecuteAsync(cancellationToken);
 
             return View();
@@ -76,11 +87,14 @@ namespace IlluminareToys.Web.Controllers
         // GET: TagsController/Edit/5
         [HttpGet("Edit/{id:guid}")]
         public async Task<ActionResult> Edit([FromRoute] Guid id,
+                                             [FromQuery] int? page,
                                              [FromServices] IGetTagByIdUseCase getTagByIdUseCase,
                                              [FromServices] IGetGroupsUseCase getGroupsUseCase,
                                              [FromServices] IGetProductsByTagsUseCase getProductsByTagsUseCase,
                                              CancellationToken cancellationToken)
         {
+            TempData["page"] = page ?? 1;
+
             var output = await getTagByIdUseCase.ExecuteAsync(id, cancellationToken);
 
             if (output is null)

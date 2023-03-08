@@ -5,6 +5,8 @@
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
 
     var ageTypes = ViewBag.AgeTypes as List<SelectListItem>;
+
+    int pageNumber = Convert.ToInt32(TempData["page"]);
 }
 
 <div class="col-md-12">
@@ -12,7 +14,7 @@
         <div class="card-header">
             <h3 class="card-title">Criar Idade</h3>
             <div class="card-tools">
-                <a class="btn btn-primary" asp-action="Index">Voltar</a>
+                <a class="btn btn-primary" asp-action="Index" asp-route-page="@pageNumber">Voltar</a>
             </div>
         </div>
         <div class="card-body">

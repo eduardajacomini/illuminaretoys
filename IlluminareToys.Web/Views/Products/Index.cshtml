@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Illuminare Toys - Produtos";
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+    int page = Convert.ToInt32(TempData["page"]);
 }
 
 <div class="col-md-12">
@@ -70,16 +71,16 @@
                                 @Html.DisplayFor(modelItem => item.SynchronizedAt)
                             </td>
                             <td>
-                                <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Detalhes">
+                                <a class="btn btn-primary" onclick="goToDetails('@item.Id')" data-toggle="tooltip" data-placement="top" title="Detalhes">
                                     <i class="icon fas fa-eye"></i>
                                 </a>
-                                <a class="btn btn-secondary" asp-action="AssociateTags" asp-route-productId="@item.Id" data-toggle="tooltip" data-placement="top" title="Associar Tags">
+                                <a class="btn btn-secondary" onclick="goToAssociateTags('@item.Id')" data-toggle="tooltip" data-placement="top" title="Associar Tags">
                                     <i class="icon fas fa-project-diagram"></i>
                                 </a>
-                                <a class="btn btn-tertiary" asp-action="AssociateAges" asp-route-productId="@item.Id" data-toggle="tooltip" data-placement="top" title="Associar Idades">
+                                <a class="btn btn-tertiary" onclick="goToAssociateAges('@item.Id')" data-toggle="tooltip" data-placement="top" title="Associar Idades">
                                     <i class="icon fas fa-user-clock"></i>
                                 </a>
-                                <a class="btn btn-primary" asp-action="AssociateGroups" asp-route-productId="@item.Id" data-toggle="tooltip" data-placement="top" title="Associar Grupos">
+                                <a class="btn btn-primary" onclick="goToAssociateGroups('@item.Id')" data-toggle="tooltip" data-placement="top" title="Associar Grupos">
                                     <i class="icon fas fa-object-group"></i>
                                 </a>
                             </td>
@@ -92,7 +93,11 @@
 </div>
 
 <script>
+    let page = 1;
+
     $(document).ready(function () {
+        page = Number('@(page)');
+
         $('#table-products').bootstrapTable({
             pagination: true,
             search: true,
@@ -103,9 +108,35 @@
         $("#table-products").on("click-row.bs.table", function (editable, columns, row) {
             const productId = row.attr('data-id')
 
-            window.location = `/Products/Details/${productId}`
+            window.location = `/Products/Details/${productId}?page=${page}`;
         });
+
+        $("#table-products").on("page-change.bs.table", function (event, pageNumber, pageSize) {
+            page = Number(pageNumber);
+        });
+
+        goToPageInTable();
     });
+
+    const goToPageInTable = () => {
+        $('#table-products').bootstrapTable('selectPage', page)
+    }
+
+    const goToDetails = id => {
+        window.location = `/Produts/Details/${id}?page=${page}`
+    }
+
+    const goToAssociateTags = id => {
+        window.location = `/Produts/AssociateTags/${id}?page=${page}`
+    }
+
+    const goToAssociateAges = id => {
+        window.location = `/Produts/AssociateAges/${id}?page=${page}`
+    }
+
+    const goToAssociateGroups = id => {
+        window.location = `/Produts/AssociateGroups/${id}?page=${page}`
+    }
 </script>
 
 <style>

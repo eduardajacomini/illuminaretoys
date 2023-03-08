@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Illuminare Toys - Idades";
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+    int page = Convert.ToInt32(TempData["page"]);
 }
 <script src="~/js/site.js"></script>
 
@@ -11,7 +12,7 @@
         <div class="card-header">
             <h3 class="card-title">Idades</h3>
             <div class="card-tools">
-                <a class="btn btn-primary" asp-action="Create">Nova Idade</a>
+                <a class="btn btn-primary" onclick="goToCreate()">Nova Idade</a>
             </div>
         </div>
         <div class="card-body table-responsive p-0">
@@ -44,10 +45,12 @@
                                 @Html.DisplayFor(modelItem => item.UpdatedAt)
                             </td>
                             <td>
-                                <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id">
+                                <a class="btn btn-secondary" onclick="goToEdit('@item.Id')">
                                     <i class="icon fas fa-pen"></i>
                                 </a>
-                                <button type="button" class="btn btn-danger" onclick="deleteAge('@item.Id')">
+                                <button type="button" 
+                                        class="btn btn-danger" 
+                                        onclick="deleteAge('@item.Id')">
                                     <i class="icon fas fa-trash"></i>
                                 </button>
                             </td>
@@ -60,13 +63,23 @@
 </div>
 
 <script>
+    let page = 1;
+
     $(document).ready(function () {
+        page = Number('@(page)');
+
         $('#table-ages').bootstrapTable({
             pagination: true,
             search: true,
             sortable: true,
             locale: 'pt-BR'
-        })
+        });
+
+        $("#table-ages").on("page-change.bs.table", function (event, pageNumber, pageSize) {
+            page = Number(pageNumber);
+        });
+
+        goToPageInTable();
     });
 
     function deleteAge(ageId) {
@@ -77,5 +90,17 @@
                     location.reload()
                 });
         })
+    }
+
+    const goToEdit = (id) => {
+        window.location = `/Ages/Edit/${id}?page=${page}`;
+    }
+
+    const goToCreate = () => {
+        window.location = `/Ages/Create?page=${page}`;
+    }
+
+    const goToPageInTable = () => {
+        $('#table-ages').bootstrapTable('selectPage', page)
     }
 </script>

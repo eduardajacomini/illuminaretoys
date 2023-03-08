@@ -10,6 +10,7 @@ using NToastNotify;
 namespace IlluminareToys.Web.Controllers
 {
     [Route("[controller]")]
+    [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public class ProductsController : Controller
     {
         private readonly IToastNotification _toastNotification;
@@ -20,8 +21,12 @@ namespace IlluminareToys.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Index([FromServices] IGetProductsUseCase getProductsUseCase, CancellationToken cancellationToken)
+        public async Task<ActionResult> Index([FromQuery] int? page,
+                                              [FromServices] IGetProductsUseCase getProductsUseCase,
+                                              CancellationToken cancellationToken)
         {
+
+            TempData["page"] = page ?? 1;
 
             var output = await getProductsUseCase.ExecuteAsync(cancellationToken);
 
@@ -29,8 +34,13 @@ namespace IlluminareToys.Web.Controllers
         }
 
         [HttpGet("Details/{id:guid}")]
-        public async Task<ActionResult> Details([FromRoute] Guid id, [FromServices] IGetProductByIdUseCase _getProductByIdUseCase, CancellationToken cancellationToken)
+        public async Task<ActionResult> Details([FromRoute] Guid id,
+                                                [FromQuery] int? page,
+                                                [FromServices] IGetProductByIdUseCase _getProductByIdUseCase,
+                                                CancellationToken cancellationToken)
         {
+            TempData["page"] = page ?? 1;
+
             var output = await _getProductByIdUseCase.ExecuteAsync(id, cancellationToken);
 
             if (output is null)
@@ -45,9 +55,12 @@ namespace IlluminareToys.Web.Controllers
 
         [HttpGet("AssociateTags/{productId:guid}")]
         public async Task<ActionResult> AssociateTags([FromRoute] Guid productId,
-                                                     [FromServices] IAssociateTagUseCase associateTagUseCase,
-                                                     CancellationToken cancellationToken)
+                                                      [FromQuery] int? page,
+                                                      [FromServices] IAssociateTagUseCase associateTagUseCase,
+                                                      CancellationToken cancellationToken)
         {
+            TempData["page"] = page ?? 1;
+
             var output = await associateTagUseCase.ExecuteAsync(productId, cancellationToken);
 
             return View(output);
@@ -106,10 +119,13 @@ namespace IlluminareToys.Web.Controllers
 
         [HttpGet("AssociateAges/{productId:guid}")]
         public async Task<IActionResult> AssociateAges([FromRoute] Guid productId,
+                                                       [FromQuery] int? page,
                                                        [FromServices] IAssociateAgesUseCase associateAgesUseCase,
                                                        [FromServices] IGetProductsAgesByProductIdUseCase getProductsAgesByProductIdUseCase,
                                                        CancellationToken cancellationToken)
         {
+            TempData["page"] = page ?? 1;
+
             var output = await associateAgesUseCase.ExecuteAsync(productId, cancellationToken);
 
             ViewBag.SelectedAges = await getProductsAgesByProductIdUseCase.ExecuteAsync(productId, cancellationToken);
@@ -137,10 +153,13 @@ namespace IlluminareToys.Web.Controllers
 
         [HttpGet("AssociateGroups/{productId:guid}")]
         public async Task<ActionResult> AssociateGroups([FromRoute] Guid productId,
-                                                       [FromServices] IAssociateGroupsUseCase associateGroupsUseCase,
-                                                       [FromServices] IGetAgesUseCase getAgesUseCase,
-                                                       CancellationToken cancellationToken)
+                                                        [FromQuery] int? page,
+                                                        [FromServices] IAssociateGroupsUseCase associateGroupsUseCase,
+                                                        [FromServices] IGetAgesUseCase getAgesUseCase,
+                                                        CancellationToken cancellationToken)
         {
+            TempData["page"] = page ?? 1;
+
             var output = await associateGroupsUseCase.ExecuteAsync(productId, cancellationToken);
 
             ViewBag.Ages = await getAgesUseCase.ExecuteAsync(cancellationToken);
