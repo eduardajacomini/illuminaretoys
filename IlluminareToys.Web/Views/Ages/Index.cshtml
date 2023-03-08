@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Illuminare Toys - Idades";
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
+    int page = Convert.ToInt32(TempData["page"]);
+    string searchTerm = TempData["searchTerm"] as string;
 }
 <script src="~/js/site.js"></script>
 
@@ -11,20 +13,20 @@
         <div class="card-header">
             <h3 class="card-title">Idades</h3>
             <div class="card-tools">
-                <a class="btn btn-primary" asp-action="Create">Nova Idade</a>
+                <a class="btn btn-primary" onclick="goToCreate()">Nova Idade</a>
             </div>
         </div>
         <div class="card-body table-responsive p-0">
             <table id="table-ages">
                 <thead>
                     <tr>
-                        <th>
+                        <th data-sortable="true">
                             @Html.DisplayNameFor(model => model.QuantityNormalized)
                         </th>
-                        <th>
+                        <th data-sortable="true">
                             @Html.DisplayNameFor(model => model.CreatedAt)
                         </th>
-                        <th>
+                        <th data-sortable="true">
                             @Html.DisplayNameFor(model => model.UpdatedAt)
                         </th>
                         <th></th>
@@ -44,10 +46,12 @@
                                 @Html.DisplayFor(modelItem => item.UpdatedAt)
                             </td>
                             <td>
-                                <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id">
+                                <a class="btn btn-secondary" onclick="goToEdit('@item.Id')">
                                     <i class="icon fas fa-pen"></i>
                                 </a>
-                                <button type="button" class="btn btn-danger" onclick="deleteAge('@item.Id')">
+                                <button type="button" 
+                                        class="btn btn-danger" 
+                                        onclick="deleteAge('@item.Id')">
                                     <i class="icon fas fa-trash"></i>
                                 </button>
                             </td>
@@ -60,13 +64,32 @@
 </div>
 
 <script>
+    let page = 1;
+    let searchTerm = '';
+
     $(document).ready(function () {
+        page = Number('@(page)');
+
+        searchTerm = '@(searchTerm)';
+
         $('#table-ages').bootstrapTable({
             pagination: true,
             search: true,
             sortable: true,
             locale: 'pt-BR'
-        })
+        });
+
+        $("#table-ages").on("page-change.bs.table", function (event, pageNumber, pageSize) {
+            page = Number(pageNumber);
+        });
+
+        $("#table-ages").on("search.bs.table", function (event, text) {
+            searchTerm = text;
+        });
+
+        goToPageInTable();
+
+        setSearchTerm();
     });
 
     function deleteAge(ageId) {
@@ -77,5 +100,23 @@
                     location.reload()
                 });
         })
+    }
+
+    const goToEdit = (id) => {
+        window.location = `/Ages/Edit/${id}?page=${page}&searchTerm=${searchTerm}`;
+    }
+
+    const goToCreate = () => {
+        window.location = `/Ages/Create?page=${page}&searchTerm=${searchTerm}`;
+    }
+
+    const goToPageInTable = () => {
+        $('#table-ages').bootstrapTable('selectPage', page);
+    }
+
+    const setSearchTerm = () => {
+        if (searchTerm.length > 0) {
+            $('#table-ages').bootstrapTable('resetSearch', searchTerm);
+        }
     }
 </script>

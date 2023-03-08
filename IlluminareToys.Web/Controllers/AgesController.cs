@@ -20,8 +20,13 @@ namespace IlluminareToys.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Index([FromServices] IGetAgesUseCase getAgesUseCase, CancellationToken cancellationToken)
+        public async Task<ActionResult> Index([FromQuery] int? page,
+                                              [FromQuery] string searchTerm,
+                                              [FromServices] IGetAgesUseCase getAgesUseCase,
+                                              CancellationToken cancellationToken)
         {
+            TempData["page"] = page ?? 1;
+            TempData["searchTerm"] = searchTerm;
 
             var output = await getAgesUseCase.ExecuteAsync(cancellationToken);
 
@@ -29,8 +34,12 @@ namespace IlluminareToys.Web.Controllers
         }
 
         [HttpGet("Create")]
-        public ActionResult Create()
+        public ActionResult Create([FromQuery] int? page,
+                                  [FromQuery] string searchTerm)
         {
+            TempData["page"] = page ?? 1;
+            TempData["searchTerm"] = searchTerm;
+
             var ageTypes = new List<SelectListItem>
             {
                 new SelectListItem("ANOS", AgeType.YEARS.ToInt().ToString()),
@@ -92,9 +101,14 @@ namespace IlluminareToys.Web.Controllers
 
         [HttpGet("Edit/{id:guid}")]
         public async Task<ActionResult> Edit([FromRoute] Guid id,
+                                             [FromQuery] int? page,
+                                             [FromQuery] string searchTerm,
                                              [FromServices] IGetAgeByIdUseCase getAgeByIdUseCase,
                                              CancellationToken cancellationToken)
         {
+            TempData["page"] = page ?? 1;
+            TempData["searchTerm"] = searchTerm;
+
             var output = await getAgeByIdUseCase.ExecuteAsync(id, cancellationToken);
 
             if (output is null)

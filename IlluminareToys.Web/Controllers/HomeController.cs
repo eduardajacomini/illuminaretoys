@@ -9,6 +9,7 @@ using System.Diagnostics;
 
 namespace IlluminareToys.Web.Controllers
 {
+    [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
     public class HomeController : Controller
     {
         private readonly IToastNotification _toastNotification;

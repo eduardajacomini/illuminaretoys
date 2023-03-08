@@ -5,6 +5,8 @@
     Layout = "~/Views/Shared/AdminLTE/_Layout.cshtml";
 
     var ages = ViewBag.Ages as IEnumerable<GetAgeOutput>;
+    int pageNumber = Convert.ToInt32(TempData["page"]);
+    string searchTerm = TempData["searchTerm"] as string;
 }
 
 <div class="col-md-12">
@@ -13,6 +15,10 @@
             <h3 class="card-title">Associar grupos ao produto @Model.Product.Description</h3>
             <div class="card-tools">
                 <button class="btn btn-secondary" onclick="saveGroupAges('@Model.Product.Id')">Salvar Grupos</button>
+                <a class="btn btn-primary" 
+                   asp-action="Index" 
+                   asp-route-page="@pageNumber"
+                   asp-route-searchTerm="@searchTerm">Voltar</a>
             </div>
         </div>
         <div class="card-body">
