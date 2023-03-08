@@ -28,7 +28,7 @@
                 }
                 else
                 {
-                    <img id="img-product" src="~/img/no-image-available.jpg" class="card-img-top"/>
+                    <img id="img-product" src="~/img/no-image-available.jpg" class="card-img-top" />
                 }
 
                 @if (User.IsInRole(Roles.Admin.ToString()))
@@ -48,6 +48,7 @@
                     </form>
                 }
                 <h3>@Model.Code | @Model.Description | @Model.PriceFormatted</h3>
+                <h4>Estoque: @Model.CurrentStock</h4>
                 <div class="badges-product-info">
                     @*<span class="badge bg-yellow">@Model.CategoryDescription</span>*@
 

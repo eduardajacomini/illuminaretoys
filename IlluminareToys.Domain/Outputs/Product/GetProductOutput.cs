@@ -51,6 +51,7 @@ namespace IlluminareToys.Domain.Outputs.Product
         [Display(Name = "Sincronizado em")]
         public DateTime? SynchronizedAt { get; private set; }
 
+        [Display(Name = "Estoque")]
         public int? CurrentStock { get; set; }
 
         public IEnumerable<GetTagProductOutput> Tags { get; private set; }
