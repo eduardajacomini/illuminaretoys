@@ -1,9 +1,9 @@
 .nav-pills .nav-link.active {
-    background-color: #f012be !important;
+    background-color: #f2787b !important;
 }
 
 .btn-primary {
-    background-color: #f012be !important;
+    background-color: #f2787b !important;
     border: none !important;
 }
 
@@ -17,12 +17,12 @@
 }
 
 .page-item.active {
-    background-color: #f012be !important;
+    background-color: #f2787b !important;
     border: none !important;
 }
 
     .page-item.active .page-link {
-        background-color: #f012be !important;
+        background-color: #f2787b !important;
         border: none !important;
         color: black !important;
     }
